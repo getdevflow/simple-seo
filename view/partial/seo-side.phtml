@@ -1,0 +1,10 @@
+<?php /** @var array $seo */
+use function Qubus\Security\Helpers\esc_html__; ?>
+<div class="box box-info devflow-seo-side">
+    <div class="box-header with-border"><h3 class="box-title"><i class="fa fa-line-chart"></i> <?=esc_html__('SEO Score', 'simple-seo');?></h3></div>
+    <div class="box-body">
+        <div class="devflow-seo-score" id="devflow-seo-score">—</div>
+        <p class="help-block"><?=esc_html__('Score updates after analysis. Save the page to persist SEO fields into the attribute JSON field.', 'simple-seo');?></p>
+        <button type="button" class="btn btn-default btn-block" id="devflow-seo-side-analysis"><?=esc_html__('Run SEO Analysis', 'simple-seo');?></button>
+    </div>
+</div>

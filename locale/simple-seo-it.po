@@ -1,0 +1,1573 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple SEO\n"
+"POT-Creation-Date: 2026-06-11 14:03-0600\n"
+"PO-Revision-Date: 2026-06-11 14:03-0600\n"
+"Last-Translator: \n"
+"Language-Team: Joshua Parker\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: simple-seo\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: t__;esc_html__;trans;trans_html;trans_attr;esc_attr__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: Controller\n"
+"X-Poedit-SearchPath-1: Repository\n"
+"X-Poedit-SearchPath-2: Routing\n"
+"X-Poedit-SearchPath-3: Service\n"
+"X-Poedit-SearchPath-4: Support\n"
+"X-Poedit-SearchPath-5: view\n"
+"X-Poedit-SearchPath-6: SimpleSeoPlugin.php\n"
+
+#: Controller/IndexingController.php:54
+#, fuzzy
+msgid "Indexing"
+msgstr "Indicizzazione"
+
+#: Controller/IndexingController.php:69 Controller/ManualIndexingController.php:47
+#, fuzzy
+msgid "Missing URL."
+msgstr "URL mancante."
+
+#: Controller/IndexingController.php:79
+#, fuzzy
+msgid "URL submitted."
+msgstr "URL inviato."
+
+#: Controller/IndexingController.php:109
+#, fuzzy
+msgid "Meta title exists and is <= 70 characters."
+msgstr "Esiste un meta titolo ed è <= 70 caratteri."
+
+#: Controller/IndexingController.php:115
+#, fuzzy
+msgid "Meta description is 120–180 characters."
+msgstr "La meta descrizione è composta da 120–180 caratteri."
+
+#: Controller/IndexingController.php:121
+#, fuzzy
+msgid "Body has at least 300 words."
+msgstr "Il corpo ha almeno 300 parole."
+
+#: Controller/IndexingController.php:129
+#, fuzzy
+msgid "Focus keyphrase appears in title, description, or body."
+msgstr "La frase chiave del focus appare nel titolo, nella descrizione o nel corpo."
+
+#: Controller/IndexingController.php:143
+#, fuzzy
+msgid "Canonical URL is set or will be generated."
+msgstr "L'URL canonico è impostato o verrà generato."
+
+#: Controller/IndexingController.php:156
+#, fuzzy
+msgid "Social image is set."
+msgstr "L'immagine sociale è già fissata."
+
+#: Controller/ManualIndexingController.php:71
+#, fuzzy
+msgid "No URLs were provided."
+msgstr "Non sono stati forniti URL."
+
+#: Controller/ManualIndexingController.php:101
+#, fuzzy
+msgid "Submitted sitemap to IndexNow."
+msgstr "Inviato la mappa del sito a IndexNow."
+
+#: Controller/ManualIndexingController.php:111
+#, fuzzy
+msgid "Submitted sitemap to Google Search Console."
+msgstr "Inviato la sitemap a Google Search Console."
+
+#: Controller/NotFoundController.php:59
+msgid "404 Monitor"
+msgstr "404 Monitoraggio"
+
+#: Controller/RedirectController.php:73
+#, fuzzy
+msgid "Redirect Manager"
+msgstr "Responsabile del reindirizzamento"
+
+#: Controller/RedirectController.php:114 Repository/RedirectRepository.php:227
+#, fuzzy
+msgid ""
+"Redirect loop detected. Source and target cannot redirect back to each other or "
+"to themselves."
+msgstr ""
+"Loop di reindirizzamento rilevato. Sorgente e bersaglio non possono "
+"reindirizzarsi indietro l'uno verso l'altro o verso se stessi."
+
+#: Controller/RedirectController.php:124 Repository/RedirectRepository.php:236
+#, fuzzy
+msgid "A redirect already exists for this source URL."
+msgstr "Esiste già un redirect per questo URL di origine."
+
+#: Controller/RouteSeoController.php:33
+#, fuzzy
+msgid "Custom Route SEO"
+msgstr "SEO personalizzato per percorsi"
+
+#: Controller/RouteSeoController.php:64
+msgid "Not found"
+msgstr "Non trovato"
+
+#: Controller/RouteSeoController.php:127
+#, fuzzy
+msgid "Error occurred."
+msgstr "Si è verificato un errore."
+
+#: Controller/SearchConsoleController.php:60
+#, fuzzy
+msgid "Search Statistics"
+msgstr "Statistiche di ricerca"
+
+#: Controller/SearchConsoleController.php:82
+#, fuzzy
+msgid "Google Search Console connected successfully."
+msgstr "Google Search Console si è connessa con successo."
+
+#: Controller/SettingsController.php:34
+#, fuzzy
+msgid "Simple SEO"
+msgstr "SEO semplice"
+
+#: Controller/SitemapController.php:136
+#, fuzzy
+msgid "Wrong key."
+msgstr "Chiave sbagliata."
+
+#: Controller/SitemapController.php:170
+#, fuzzy
+msgid "No sitemap."
+msgstr "Nessuna mappa del sito."
+
+#: Service/CrawlDiagnosticsService.php:56
+#, fuzzy
+msgid "robots.txt is reachable."
+msgstr "robots.txt è raggiungibile."
+
+#: Service/CrawlDiagnosticsService.php:63
+#, fuzzy
+msgid "sitemap.xml is reachable."
+msgstr "sitemap.xml è raggiungibile."
+
+#: Service/CrawlDiagnosticsService.php:75
+#, fuzzy
+msgid "IndexNow is configured."
+msgstr "IndexNow è configurato."
+
+#: Service/CrawlDiagnosticsService.php:82
+#, fuzzy
+msgid "Google OAuth is connected."
+msgstr "Google OAuth è collegato."
+
+#: Service/CrawlDiagnosticsService.php:88
+#, fuzzy
+msgid "Search Console Site URL is configured."
+msgstr "L'URL del sito della Search Console è configurato."
+
+#: Service/CrawlDiagnosticsService.php:94
+#, fuzzy
+msgid "Active sitemap count"
+msgstr "Conteggio attivo della sitemap"
+
+#: Service/CrawlDiagnosticsService.php:99
+#, fuzzy
+msgid "Published content count"
+msgstr "Conteggio dei contenuti pubblicati"
+
+#: Service/CrawlDiagnosticsService.php:104
+#, fuzzy
+msgid "Published page count"
+msgstr "Numero di pagine pubblicate"
+
+#: Service/CrawlDiagnosticsService.php:109
+#, fuzzy
+msgid "Published product count"
+msgstr "Numero di prodotti pubblicati"
+
+#: Service/CrawlDiagnosticsService.php:112
+#, fuzzy
+msgid "Redirect hit count"
+msgstr "Conteggio dei colpi di reindirizzamento"
+
+#: Service/CrawlDiagnosticsService.php:113
+#, fuzzy
+msgid "404 count"
+msgstr "404 conteggi"
+
+#: Service/CrawlDiagnosticsService.php:114
+#, fuzzy
+msgid "Redirects total"
+msgstr "Totali reindirizzamenti"
+
+#: Service/CrawlDiagnosticsService.php:115
+#, fuzzy
+msgid "Active redirects"
+msgstr "Reindirizzamenti attivi"
+
+#: Service/CrawlDiagnosticsService.php:125
+#, fuzzy
+msgid "Needs attention"
+msgstr "Ha bisogno di attenzione"
+
+#: Service/GoogleIndexingService.php:31
+#, fuzzy
+msgid "No URL provided."
+msgstr "Non è stato fornito alcun URL."
+
+#: Service/GoogleIndexingService.php:35
+#, fuzzy
+msgid "Google Indexing API is disabled."
+msgstr "L'API di indicizzazione di Google è disabilitata."
+
+#: Service/GoogleIndexingService.php:43
+#, fuzzy
+msgid ""
+"Missing Google Indexing API access token. Configure google_indexing_access_token "
+"or GOOGLE_INDEXING_ACCESS_TOKEN."
+msgstr ""
+"Manca il token di accesso all'API di indicizzazione di Google. Configura "
+"google_indexing_access_token o GOOGLE_INDEXING_ACCESS_TOKEN."
+
+#: Service/GoogleIndexingService.php:90
+#, fuzzy
+msgid "Google token verification failed"
+msgstr "Verifica dei token Google fallita"
+
+#: Service/GoogleIndexingService.php:116
+#, fuzzy
+msgid "Google Indexing request failed with HTTP "
+msgstr "Richiesta di indicizzazione di Google fallita con HTTP "
+
+#: Service/GoogleOAuthService.php:60
+#, fuzzy
+msgid "Google did not return a refresh token."
+msgstr "Google non ha restituito alcun token di aggiornamento."
+
+#: Service/GoogleOAuthService.php:103
+#, fuzzy
+msgid "Google account is not connected."
+msgstr "L'account Google non è collegato."
+
+#: Service/GoogleOAuthService.php:116
+#, fuzzy
+msgid "Google did not return an access token."
+msgstr "Google non ha restituito un token di accesso."
+
+#: Service/GoogleOAuthService.php:176
+#, fuzzy
+msgid "Missing Google Client ID."
+msgstr "Manca l'ID client Google."
+
+#: Service/GoogleOAuthService.php:193
+#, fuzzy
+msgid "Missing Google Client Secret."
+msgstr "Manca il segreto client di Google."
+
+#: Service/GoogleOAuthService.php:218
+#, fuzzy
+msgid "Google OAuth request failed with HTTP "
+msgstr "La richiesta OAuth di Google è fallita con HTTP "
+
+#: Service/IndexNowService.php:52
+#, fuzzy
+msgid "IndexNow is disabled."
+msgstr "IndexNow è disabilitato."
+
+#: Service/IndexNowService.php:58
+#, fuzzy
+msgid "Missing IndexNow key."
+msgstr "Manca la chiave IndexNow."
+
+#: Service/IndexNowService.php:67
+msgid "No URLs provided."
+msgstr "Nessun URL fornito."
+
+#: Service/IndexNowService.php:79
+#, fuzzy
+msgid "Unable to determine IndexNow host."
+msgstr "Impossibile determinare l'host di IndexNow."
+
+#: Service/IndexNowService.php:126
+#, fuzzy
+msgid "IndexNow request failed with HTTP "
+msgstr "Richiesta IndexNow fallita con HTTP "
+
+#: Service/SearchConsoleService.php:99
+#, fuzzy
+msgid "Missing Search Console site URL."
+msgstr "Manca l'URL del sito della Search Console."
+
+#: Service/SearchConsoleService.php:163
+#, fuzzy
+msgid "Search Console request failed with HTTP "
+msgstr "Richiesta della Search Console fallita con HTTP "
+
+#: Service/SearchConsoleService.php:186
+#, fuzzy
+msgid "Search Console site URL is not configured."
+msgstr "L'URL del sito della Search Console non è configurato."
+
+#: Service/SearchConsoleService.php:192
+#, fuzzy
+msgid "Missing sitemap URL."
+msgstr "URL della sitemap mancante."
+
+#: Service/SearchConsoleService.php:219
+#, fuzzy
+msgid "Google sitemap submission failed with HTTP "
+msgstr "L'invio di sitemap di Google è fallito con HTTP "
+
+#: Service/SettingsImportExportService.php:54
+#, fuzzy
+msgid "Invalid JSON file."
+msgstr "File JSON non valido."
+
+#: Service/SettingsImportExportService.php:60
+#, fuzzy
+msgid "Import file does not contain settings."
+msgstr "Il file di importazione non contiene impostazioni."
+
+#: SimpleSeoPlugin.php:79
+#, fuzzy
+msgid "Simple Seo"
+msgstr "SEO semplice"
+
+#: SimpleSeoPlugin.php:84
+#, fuzzy
+msgid ""
+"Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
+"technical SEO, indexing, crawl management, 404 monitoring, and so much more."
+msgstr ""
+"Simple SEO è una suite di gestione SEO per Devflow CMS che copre SEO on-page, SEO "
+"tecnica, indicizzazione, gestione del crawl, monitoraggio 404 e molto altro."
+
+#: SimpleSeoPlugin.php:145
+#, fuzzy
+#| msgid "SEO Score"
+msgid "SEO Routes"
+msgstr "Rotte SEO"
+
+#: SimpleSeoPlugin.php:164
+#, fuzzy
+msgid ""
+"You must upgrade your system to at least v2.3 in order to use the Simple SEO "
+"plugin."
+msgstr ""
+"Devi aggiornare il tuo sistema almeno alla v2.3 per poter usare il plugin Simple "
+"SEO."
+
+#: view/404-monitor.phtml:31 view/indexing.phtml:26 view/redirects.phtml:32
+#: view/settings.phtml:100
+msgid "Search Console"
+msgstr "Console di ricerca"
+
+#: view/404-monitor.phtml:32 view/indexing.phtml:27 view/redirects.phtml:33
+#: view/search-console.phtml:28 view/settings.phtml:97
+#, fuzzy
+msgid "Seo Settings"
+msgstr "Impostazioni SEO"
+
+#: view/404-monitor.phtml:33 view/indexing.phtml:28 view/partial/seo-tabs.phtml:138
+#: view/redirects.phtml:100 view/search-console.phtml:29 view/settings.phtml:101
+msgid "Redirects"
+msgstr "Reindirizzamenti"
+
+#: view/404-monitor.phtml:81
+#, fuzzy
+msgid "Search URL, referrer, user agent"
+msgstr "URL di ricerca, referrer, user agent"
+
+#: view/404-monitor.phtml:115 view/redirects.phtml:196
+msgid "Bulk Actions"
+msgstr "Azioni in blocco"
+
+#: view/404-monitor.phtml:116 view/404-monitor.phtml:189
+msgid "Ignore"
+msgstr "Ignora"
+
+#: view/404-monitor.phtml:117 view/404-monitor.phtml:182
+msgid "Restore"
+msgstr "Ripristina"
+
+#: view/404-monitor.phtml:118 view/404-monitor.phtml:199 view/404-monitor.phtml:284
+#: view/redirects.phtml:199 view/redirects.phtml:315 view/route-form.phtml:40
+msgid "Delete"
+msgstr "Elimina"
+
+#: view/404-monitor.phtml:126 view/redirects.phtml:207
+msgid "Apply"
+msgstr "Applica"
+
+#: view/404-monitor.phtml:138 view/indexing.phtml:48
+msgid "URL"
+msgstr "URL"
+
+#: view/404-monitor.phtml:139 view/redirects.phtml:224
+msgid "Hits"
+msgstr "Visite"
+
+#: view/404-monitor.phtml:140
+msgid "Referrer"
+msgstr "Riferimento"
+
+#: view/404-monitor.phtml:141
+#, fuzzy
+msgid "First Seen"
+msgstr "Prima Vista"
+
+#: view/404-monitor.phtml:142
+msgid "Last Seen"
+msgstr "Ultima visualizzazione"
+
+#: view/404-monitor.phtml:143 view/redirects.phtml:227
+msgid "Actions"
+msgstr "Azioni"
+
+#: view/404-monitor.phtml:149
+#, fuzzy
+msgid "No 404s recorded."
+msgstr "Nessun 404 registrato."
+
+#: view/404-monitor.phtml:173 view/404-monitor.phtml:216 view/404-monitor.phtml:255
+#, fuzzy
+msgid "Create Redirect"
+msgstr "Crea Reindirizzamento"
+
+#: view/404-monitor.phtml:221 view/redirects.phtml:51 view/redirects.phtml:359
+msgid "Source URL"
+msgstr "Sorgente URL"
+
+#: view/404-monitor.phtml:232 view/redirects.phtml:62 view/redirects.phtml:370
+msgid "Target URL"
+msgstr "URL di destinazione"
+
+#: view/404-monitor.phtml:243 view/redirects.phtml:73 view/redirects.phtml:381
+msgid "Status Code"
+msgstr "Codice di status"
+
+#: view/404-monitor.phtml:245 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:75
+#, fuzzy
+msgid "301 Permanent"
+msgstr "301 Permanente"
+
+#: view/404-monitor.phtml:246 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:76
+#, fuzzy
+msgid "302 Temporary"
+msgstr "302 Temporaneo"
+
+#: view/404-monitor.phtml:247 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:77
+#, fuzzy
+msgid "307 Temporary"
+msgstr "307 Temporaneo"
+
+#: view/404-monitor.phtml:248 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:78
+#, fuzzy
+msgid "308 Permanent"
+msgstr "308 Permanente"
+
+#: view/404-monitor.phtml:254 view/404-monitor.phtml:283 view/404-monitor.phtml:365
+#: view/redirects.phtml:414 view/redirects.phtml:461 view/redirects.phtml:546
+#: view/route-form.phtml:41 view/route-form.phtml:44
+msgid "Cancel"
+msgstr "Annulla"
+
+#: view/404-monitor.phtml:274
+#, fuzzy
+msgid "Delete 404 Entry"
+msgstr "Elimina voce 404"
+
+#: view/404-monitor.phtml:278
+#, fuzzy
+msgid "Delete this 404 entry?"
+msgstr "Eliminare questa voce 404?"
+
+#: view/404-monitor.phtml:307 view/redirects.phtml:488
+msgid "Showing page"
+msgstr "Pagina"
+
+#: view/404-monitor.phtml:353 view/redirects.phtml:534
+msgid "Bulk Action"
+msgstr "Azione Multipla"
+
+#: view/404-monitor.phtml:371 view/redirects.phtml:552
+msgid "Continue"
+msgstr "Continua"
+
+#: view/indexing.phtml:23
+#, fuzzy
+msgid "Manual URL & Sitemap Submission"
+msgstr "URL del manuale & Invio della Sitemap"
+
+#: view/indexing.phtml:45
+#, fuzzy
+msgid "Submit Single URL"
+msgstr "Invia URL singolo"
+
+#: view/indexing.phtml:56 view/indexing.phtml:87 view/indexing.phtml:125
+#, fuzzy
+msgid "Submit To"
+msgstr "Invia a"
+
+#: view/indexing.phtml:60 view/indexing.phtml:91
+#, fuzzy
+msgid "Google Indexing API"
+msgstr "API di indicizzazione di Google"
+
+#: view/indexing.phtml:64 view/settings.phtml:871
+#, fuzzy
+msgid "Submit URL"
+msgstr "Invia URL"
+
+#: view/indexing.phtml:75
+#, fuzzy
+msgid "Submit Multiple URLs"
+msgstr "Invia più URL"
+
+#: view/indexing.phtml:78
+msgid "URLs"
+msgstr "URL"
+
+#: view/indexing.phtml:83
+#, fuzzy
+msgid "Enter one URL per line."
+msgstr "Inserisci un URL per riga."
+
+#: view/indexing.phtml:95
+msgid "Submit URLs"
+msgstr "Inviare URL"
+
+#: view/indexing.phtml:106
+#, fuzzy
+msgid "Manual Sitemap Submission"
+msgstr "Invio manuale della mappa del sito"
+
+#: view/indexing.phtml:114 view/indexing.phtml:133
+#, fuzzy
+msgid "Submit Sitemap"
+msgstr "Invia la mappa del sito"
+
+#: view/indexing.phtml:117
+msgid "Sitemap URL"
+msgstr "URL della sitemap"
+
+#: view/indexing.phtml:127
+#, fuzzy
+msgid "IndexNow + Google Search Console"
+msgstr "IndexNow + Google Search Console"
+
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+msgid "Google Search Console"
+msgstr "Console di ricerca Google"
+
+#: view/partial/seo-side.phtml:4
+msgid "SEO Score"
+msgstr "Punteggio SEO"
+
+#: view/partial/seo-side.phtml:7
+#, fuzzy
+msgid ""
+"Score updates after analysis. Save the page to persist SEO fields into the "
+"attribute JSON field."
+msgstr ""
+"Aggiornamenti del punteggio dopo l'analisi. Salva la pagina per far persistere i "
+"campi SEO nel campo JSON degli attributi."
+
+#: view/partial/seo-side.phtml:8
+#, fuzzy
+msgid "Run SEO Analysis"
+msgstr "Esegui un'analisi SEO"
+
+#: view/partial/seo-tabs.phtml:127
+msgid "SEO"
+msgstr "SEO"
+
+#: view/partial/seo-tabs.phtml:133
+msgid "Analysis"
+msgstr "Analisi"
+
+#: view/partial/seo-tabs.phtml:134 view/partial/seo-tabs.phtml:194
+#: view/partial/seo-tabs.phtml:250
+msgid "Title"
+msgstr "Titolo"
+
+#: view/partial/seo-tabs.phtml:135
+msgid "Social"
+msgstr "Social"
+
+#: view/partial/seo-tabs.phtml:136 view/settings.phtml:122
+msgid "Schema"
+msgstr "Schema"
+
+#: view/partial/seo-tabs.phtml:137
+msgid "Advanced"
+msgstr "Avanzate"
+
+#: view/partial/seo-tabs.phtml:144
+msgid "Focus keyphrase"
+msgstr "Frase chiave"
+
+#: view/partial/seo-tabs.phtml:147
+#, fuzzy
+msgid "Analyze Content"
+msgstr "Analizza i contenuti"
+
+#: view/partial/seo-tabs.phtml:150
+#, fuzzy
+msgid "Analysis Check"
+msgstr "Controllo dell'analisi"
+
+#: view/partial/seo-tabs.phtml:151
+#, fuzzy
+msgid ""
+"Checks title, description, body length, focus phrase usage, headings, canonical, "
+"social image, and indexability."
+msgstr ""
+"Controlla titolo, descrizione, lunghezza del corpo, uso delle frasi focali, "
+"intestazioni, canonico, immagine sociale e indicizzabilità."
+
+#: view/partial/seo-tabs.phtml:158
+#, fuzzy
+msgid "Search Preview"
+msgstr "Anteprima della ricerca"
+
+#: view/partial/seo-tabs.phtml:179
+msgid "Meta title"
+msgstr "Meta titolo"
+
+#: view/partial/seo-tabs.phtml:181 view/partial/seo-tabs.phtml:186
+msgid "characters"
+msgstr "caratteri"
+
+#: view/partial/seo-tabs.phtml:184
+msgid "Meta description"
+msgstr "Meta descrizione"
+
+#: view/partial/seo-tabs.phtml:192
+#, fuzzy
+msgid "Facebook / Open Graph"
+msgstr "Facebook / Open Graph"
+
+#: view/partial/seo-tabs.phtml:199 view/partial/seo-tabs.phtml:255
+msgid "Description"
+msgstr "Descrizione"
+
+#: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
+#: view/settings.phtml:172 view/settings.phtml:572
+msgid "Browse"
+msgstr "Sfoglia"
+
+#: view/partial/seo-tabs.phtml:226 view/partial/seo-tabs.phtml:282
+#: view/settings.phtml:178
+#, fuzzy
+msgid "Enter an image URL manually or choose one from the media manager."
+msgstr ""
+"Inserisci manualmente un URL dell'immagine o scegline uno dal media manager."
+
+#: view/partial/seo-tabs.phtml:242
+msgid "Card"
+msgstr "Carta"
+
+#: view/partial/seo-tabs.phtml:244
+#, fuzzy
+msgid "Summary large image"
+msgstr "Riassunto immagine grande"
+
+#: view/partial/seo-tabs.phtml:245
+msgid "Summary"
+msgstr "Sommario"
+
+#: view/partial/seo-tabs.phtml:298
+#, fuzzy
+msgid "Schema type"
+msgstr "Tipo di schema"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid "Custom schema JSON object or @graph"
+msgstr "Oggetto JSON o @graph schema personalizzato"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid ""
+"Optional. Leave blank to let Simple SEO generate schema from the content/product."
+msgstr ""
+"Opzionale. Lascia spazio vuoto per permettere a Simple SEO di generare schema dal "
+"contenuto/prodotto."
+
+#: view/partial/seo-tabs.phtml:302
+#, fuzzy
+msgid "Allow indexing"
+msgstr "Consentire indicizzazione"
+
+#: view/partial/seo-tabs.phtml:303
+#, fuzzy
+msgid "Follow links"
+msgstr "Segui i link"
+
+#: view/partial/seo-tabs.phtml:304
+msgid "No archive"
+msgstr "No archive"
+
+#: view/partial/seo-tabs.phtml:305
+#, fuzzy
+msgid "No snippet"
+msgstr "Nessun frammento"
+
+#: view/partial/seo-tabs.phtml:307
+msgid "Canonical URL"
+msgstr "URL canonico"
+
+#: view/partial/seo-tabs.phtml:318
+#, fuzzy
+msgid ""
+"Leave empty to let Simple SEO generate the canonical URL automatically from the "
+"slug."
+msgstr ""
+"Lascia vuoto per permettere a Simple SEO di generare automaticamente l'URL "
+"canonico dallo slug."
+
+#: view/partial/seo-tabs.phtml:321
+#, fuzzy
+msgid "Include in sitemap"
+msgstr "Includere nella mappa del sito"
+
+#: view/partial/seo-tabs.phtml:322
+msgid "Priority"
+msgstr "Priorità"
+
+#: view/partial/seo-tabs.phtml:322
+#, fuzzy
+msgid "Change frequency"
+msgstr "Cambia frequenza"
+
+#: view/partial/seo-tabs.phtml:323
+#, fuzzy
+msgid "Include in news sitemap"
+msgstr "Includere nella mappa del sito delle notizie"
+
+#: view/partial/seo-tabs.phtml:324
+#, fuzzy
+msgid "News keywords"
+msgstr "Parole chiave di notizie"
+
+#: view/partial/seo-tabs.phtml:325
+#, fuzzy
+msgid "Image URLs, one per line"
+msgstr "URL immagini, uno per riga"
+
+#: view/partial/seo-tabs.phtml:326
+#, fuzzy
+msgid "Video URLs, one per line"
+msgstr "URL video, uno per riga"
+
+#: view/partial/seo-tabs.phtml:329
+#, fuzzy
+msgid "Enable redirect"
+msgstr "Abilita il reindirizzamento"
+
+#: view/partial/seo-tabs.phtml:330
+#, fuzzy
+msgid "Redirect from URI"
+msgstr "Reindirizzamento da URI"
+
+#: view/partial/seo-tabs.phtml:331
+#, fuzzy
+msgid "Redirect to URI"
+msgstr "Reindirizza all'URI"
+
+#: view/partial/seo-tabs.phtml:332 view/redirects.phtml:222
+msgid "Status"
+msgstr "Stato"
+
+#: view/partial/seo-tabs.phtml:342
+msgid "Untitled"
+msgstr "Senza titolo"
+
+#: view/partial/seo-tabs.phtml:343
+#, fuzzy
+msgid "No meta description has been set."
+msgstr "Non è stata definita alcuna descrizione meta."
+
+#: view/redirects.phtml:45
+#, fuzzy
+msgid "Add Redirect"
+msgstr "Aggiungi reindirizzamento"
+
+#: view/redirects.phtml:87 view/redirects.phtml:114 view/redirects.phtml:225
+#: view/redirects.phtml:284 view/redirects.phtml:399
+msgid "Enabled"
+msgstr "Abilitato"
+
+#: view/redirects.phtml:93 view/redirects.phtml:415
+#, fuzzy
+msgid "Save Redirect"
+msgstr "Salva il reindirizzamento"
+
+#: view/redirects.phtml:108
+msgid "All"
+msgstr "Tutti"
+
+#: view/redirects.phtml:120 view/redirects.phtml:286
+msgid "Disabled"
+msgstr "Disabilitato"
+
+#: view/redirects.phtml:126 view/redirects.phtml:278
+msgid "Manual"
+msgstr "Manuale"
+
+#: view/redirects.phtml:132
+msgid "Content"
+msgstr "Contenuto"
+
+#: view/redirects.phtml:138
+msgid "Products"
+msgstr "Prodotti"
+
+#: view/redirects.phtml:144
+msgid "Pages"
+msgstr "Pagine"
+
+#: view/redirects.phtml:169
+msgid "per page"
+msgstr "per pagina"
+
+#: view/redirects.phtml:175
+msgid "Filter"
+msgstr "Filtro"
+
+#: view/redirects.phtml:180
+msgid "Clear"
+msgstr "Cancella"
+
+#: view/redirects.phtml:197 view/redirects.phtml:305
+msgid "Enable"
+msgstr "Abilita"
+
+#: view/redirects.phtml:198 view/redirects.phtml:305
+msgid "Disable"
+msgstr "Disabilita"
+
+#: view/redirects.phtml:219
+msgid "Warnings"
+msgstr "Avvertenze"
+
+#: view/redirects.phtml:220
+msgid "Source"
+msgstr "Sorgente"
+
+#: view/redirects.phtml:221
+msgid "Target"
+msgstr "Target"
+
+#: view/redirects.phtml:226
+msgid "Updated"
+msgstr "Aggiornato"
+
+#: view/redirects.phtml:233
+#, fuzzy
+msgid "No redirects found."
+msgstr "Nessun reindirizzamento trovato."
+
+#: view/redirects.phtml:253
+msgid "Chain"
+msgstr "Chain"
+
+#: view/redirects.phtml:297
+msgid "Edit"
+msgstr "Modifica"
+
+#: view/redirects.phtml:330
+#, fuzzy
+msgid "Edit Redirect"
+msgstr "Modifica reindirizzamento"
+
+#: view/redirects.phtml:336
+#, fuzzy
+msgid "Redirect chain detected."
+msgstr "Catena di reindirizzamento rilevata."
+
+#: view/redirects.phtml:338
+#, fuzzy, php-format
+msgid ""
+" Current target:\n"
+"                                                                    <code>%s</"
+"code><br>\n"
+"                                                                    That target "
+"redirects to:\n"
+"                                                                    <code>%s</"
+"code>\n"
+"                                                                    %s\n"
+"                                                                        Consider "
+"changing this redirect target directly to:\n"
+"                                                                        <code>%s</"
+"code>\n"
+"                                                                    %s"
+msgstr ""
+" Obiettivo "
+"attuale:                                                                    "
+"<code><0></0></code><br>Quel target reindirizza a:\n"
+"                                                                    <code><1></"
+"1></code>\n"
+"                                                                    %s\n"
+"                                                                        Considera "
+"di cambiare direttamente questo target di reindirizzamento "
+"in:                                                                        "
+"<code><3></3></code>\n"
+"                                                                    %s"
+
+#: view/redirects.phtml:405
+#, fuzzy
+msgid "This redirect is linked to"
+msgstr "Questo reindirizzamento è collegato a"
+
+#: view/redirects.phtml:408
+#, fuzzy
+msgid "Saving changes will also update that entity's SEO Redirect tab."
+msgstr ""
+"Salvare le modifiche aggiornerà anche la scheda SEO Redirect di quell'entità."
+
+#: view/redirects.phtml:432 view/redirects.phtml:462
+#, fuzzy
+msgid "Delete Redirect"
+msgstr "Elimina reindirizzamento"
+
+#: view/redirects.phtml:436
+#, fuzzy
+msgid "Are you sure you want to delete this redirect?"
+msgstr "Sei sicuro di voler eliminare questo reindirizzamento?"
+
+#: view/route-form.phtml:34
+#, fuzzy
+msgid "Custom SEO Route"
+msgstr "Percorso SEO personalizzato"
+
+#: view/route-form.phtml:38 view/routes.phtml:28
+#, fuzzy
+msgid "New SEO Route"
+msgstr "Nuova via SEO"
+
+#: view/route-form.phtml:39
+msgid "Update"
+msgstr "Aggiorna"
+
+#: view/route-form.phtml:43
+#, fuzzy
+msgid "Save"
+msgstr "Salva"
+
+#: view/routes.phtml:25
+#, fuzzy
+msgid "Custom SEO Routes"
+msgstr "Rotte SEO personalizzate"
+
+#: view/search-console.phtml:47
+#, fuzzy
+msgid ""
+"Google Search Console is not connected.\n"
+"                Add your Google Client ID and Client Secret in SEO Settings, then "
+"connect your account."
+msgstr ""
+"Google Search Console non è connessa.\n"
+"                Aggiungi il tuo ID Client Google e il Client Secret nelle "
+"Impostazioni SEO, poi collega il tuo account."
+
+#: view/search-console.phtml:52
+#, fuzzy
+msgid "Go to SEO Settings"
+msgstr "Vai a Impostazioni SEO"
+
+#: view/search-console.phtml:57
+#, fuzzy
+msgid "Google is connected, but no Search Console Site URL has been configured."
+msgstr ""
+"Google è collegato, ma non è stato configurato alcun URL del sito Search Console."
+
+#: view/search-console.phtml:61
+#, fuzzy
+msgid "Configure Site URL"
+msgstr "Configura URL del sito"
+
+#: view/search-console.phtml:70 view/search-console.phtml:139
+#: view/search-console.phtml:178
+msgid "Clicks"
+msgstr "Clic"
+
+#: view/search-console.phtml:79 view/search-console.phtml:140
+#: view/search-console.phtml:179
+msgid "Impressions"
+msgstr "Impressioni"
+
+#: view/search-console.phtml:97
+#, fuzzy
+msgid "Avg Position"
+msgstr "Posizione Media"
+
+#: view/search-console.phtml:110
+#, fuzzy
+msgid "Connected property:"
+msgstr "Proprietà collegate:"
+
+#: view/search-console.phtml:120
+msgid "Test Connection"
+msgstr "Test connessione"
+
+#: view/search-console.phtml:131
+#, fuzzy
+msgid "Top Queries"
+msgstr "Principali Query"
+
+#: view/search-console.phtml:138
+msgid "Query"
+msgstr "Query"
+
+#: view/search-console.phtml:142 view/search-console.phtml:181
+msgid "Position"
+msgstr "Posizione"
+
+#: view/search-console.phtml:148
+#, fuzzy
+msgid "No query data available."
+msgstr "Nessun dato di query disponibile."
+
+#: view/search-console.phtml:170
+msgid "Top Pages"
+msgstr "Pagine più visitate"
+
+#: view/search-console.phtml:177
+msgid "Page"
+msgstr "Pagina"
+
+#: view/search-console.phtml:187
+#, fuzzy
+msgid "No page data available."
+msgstr "Nessun dato di pagina disponibile."
+
+#: view/settings.phtml:118
+msgid "Global"
+msgstr "Globale"
+
+#: view/settings.phtml:119
+msgid "Homepage"
+msgstr "Homepage"
+
+#: view/settings.phtml:120
+msgid "Webmaster"
+msgstr "Webmaster"
+
+#: view/settings.phtml:123
+msgid "Sitemaps"
+msgstr "Sitemap"
+
+#: view/settings.phtml:135
+#, fuzzy
+msgid "Theme/View Instructions"
+msgstr "Istruzioni per tema/visualizzazione"
+
+#: view/settings.phtml:140
+msgid "Site name"
+msgstr "Nome del sito"
+
+#: view/settings.phtml:145
+#, fuzzy
+msgid "Title template"
+msgstr "Modello del titolo"
+
+#: view/settings.phtml:150
+msgid "Default description"
+msgstr "Descrizione di default"
+
+#: view/settings.phtml:155
+#, fuzzy
+msgid "Default social image"
+msgstr "Immagine sociale predefinita"
+
+#: view/settings.phtml:192
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: view/settings.phtml:204
+msgid "Enable Google Analytics"
+msgstr "Abilita Google Analytics"
+
+#: view/settings.phtml:209
+#, fuzzy
+msgid "Measurement ID"
+msgstr "ID misurazione"
+
+#: view/settings.phtml:219
+msgid "Google Tag Manager"
+msgstr "Google Tag Manager"
+
+#: view/settings.phtml:231
+msgid "Enable Google Tag Manager"
+msgstr "Abilita Google Tag Manager"
+
+#: view/settings.phtml:236
+msgid "Container ID"
+msgstr "Container ID"
+
+#: view/settings.phtml:245
+msgid "Uninstall"
+msgstr "Disinstalla"
+
+#: view/settings.phtml:255
+#, fuzzy
+msgid "Remove all data on Deactivation"
+msgstr "Rimuovere tutti i dati sulla Disattivazione"
+
+#: view/settings.phtml:271
+#, fuzzy
+msgid "Google Analytics / Tag Manager Theme Instructions"
+msgstr "Istruzioni per il tema di Google Analytics / Tag Manager"
+
+#: view/settings.phtml:276
+#, fuzzy
+msgid ""
+"For Simple SEO tracking to work correctly, your theme/layout should include these "
+"action helpers."
+msgstr ""
+"Affinché il semplice tracciamento SEO funzioni correttamente, il tuo tema/layout "
+"dovrebbe includere questi aiuti all'azione."
+
+#: view/settings.phtml:279
+#, fuzzy
+msgid "1. Head Helper"
+msgstr "1. Capo Aiutante"
+
+#: view/settings.phtml:280 view/settings.phtml:303
+#, fuzzy
+msgid "Place this before the closing"
+msgstr "Metti questo prima della chiusura"
+
+#: view/settings.phtml:284 view/settings.phtml:296 view/settings.phtml:308
+#, fuzzy
+msgid "This is used for:"
+msgstr "Questo viene utilizzato per:"
+
+#: view/settings.phtml:286
+#, fuzzy
+msgid "Google Tag Manager script loader"
+msgstr "Caricatore di script Google Tag Manager"
+
+#: view/settings.phtml:287
+#, fuzzy
+msgid "SEO meta tags if your theme outputs them through the head hook"
+msgstr "Meta tag SEO se il tuo tema li genera attraverso il gancio principale"
+
+#: view/settings.phtml:290
+#, fuzzy
+msgid "2. Body Open Helper"
+msgstr "2. Aiutante Corpo Aperto"
+
+#: view/settings.phtml:291
+#, fuzzy
+msgid "Place this immediately after the opening"
+msgstr "Posiziona questo subito dopo l'apertura"
+
+#: view/settings.phtml:298
+#, fuzzy
+msgid "Google Tag Manager body placement support"
+msgstr "Supporto per la posizione del corpo di Google Tag Manager"
+
+#: view/settings.phtml:299
+#, fuzzy
+msgid "Frontend integrations that must load near the top of the body"
+msgstr ""
+"Integrazioni frontend che devono caricare vicino alla parte superiore del corpo"
+
+#: view/settings.phtml:302
+#, fuzzy
+msgid "3. Footer Helper"
+msgstr "3. Aiutante al Footer"
+
+#: view/settings.phtml:310
+#, fuzzy
+msgid "Google Analytics footer loader"
+msgstr "Caricatore di footer di Google Analytics"
+
+#: view/settings.phtml:311
+#, fuzzy
+msgid "Footer scripts registered by plugins"
+msgstr "Script a piè di pagina registrati dai plugin"
+
+#: view/settings.phtml:314
+#, fuzzy
+msgid "Recommended Theme Layout"
+msgstr "Layout del tema consigliato"
+
+#: view/settings.phtml:332
+#, fuzzy
+msgid "Tracking Behavior"
+msgstr "Tracciamento del comportamento"
+
+#: view/settings.phtml:334
+#, fuzzy
+msgid "Google Tag Manager loads from"
+msgstr "Google Tag Manager si carica da"
+
+#: view/settings.phtml:335
+#, fuzzy
+msgid "Google Analytics loads from"
+msgstr "Google Analytics carica da"
+
+#: view/settings.phtml:336
+#, fuzzy
+msgid "No tracking IDs are hardcoded into the theme or layout."
+msgstr "Nessun ID di tracciamento è codificato direttamente nel tema o nel layout."
+
+#: view/settings.phtml:344
+msgid "Got it"
+msgstr "Capito"
+
+#: view/settings.phtml:354
+#, fuzzy
+msgid "Homepage SEO title"
+msgstr "Titolo SEO della homepage"
+
+#: view/settings.phtml:359
+#, fuzzy
+msgid "Homepage description"
+msgstr "Descrizione della homepage"
+
+#: view/settings.phtml:364
+#, fuzzy
+msgid "Homepage schema type"
+msgstr "Tipo di schema della homepage"
+
+#: view/settings.phtml:387
+#, fuzzy
+msgid "Allow search engines to index the homepage"
+msgstr "Permettere ai motori di ricerca di indicizzare la homepage"
+
+#: view/settings.phtml:395
+#, fuzzy
+msgid "Allow search engines to follow homepage links"
+msgstr "Consentire ai motori di ricerca di seguire i link alla homepage"
+
+#: view/settings.phtml:403
+#, fuzzy
+msgid "Prevent cached homepage copies"
+msgstr "Impedire le copie della homepage nella cache"
+
+#: view/settings.phtml:411
+#, fuzzy
+msgid "Prevent homepage snippets in search results"
+msgstr "Prevenire frammenti della homepage nei risultati di ricerca"
+
+#: view/settings.phtml:418
+msgid "Google site verification"
+msgstr "Verifica sito con Google"
+
+#: view/settings.phtml:423
+#, fuzzy
+msgid "Bing verification"
+msgstr "Verifica Bing"
+
+#: view/settings.phtml:428
+#, fuzzy
+msgid "Yandex verification"
+msgstr "Verifica Yandex"
+
+#: view/settings.phtml:433
+#, fuzzy
+msgid "Baidu verification"
+msgstr "Verifica Baidu"
+
+#: view/settings.phtml:450
+#, fuzzy
+msgid "Enable IndexNow"
+msgstr "Abilita IndexNow"
+
+#: view/settings.phtml:462
+#, fuzzy
+msgid "Enable Google Indexing API"
+msgstr "Abilita l'API di indicizzazione di Google"
+
+#: view/settings.phtml:466
+msgid "Google Client ID"
+msgstr "Google Client ID"
+
+#: view/settings.phtml:476
+msgid "Google Client Secret"
+msgstr "Client Google Secret"
+
+#: view/settings.phtml:486
+#, fuzzy
+msgid "Search Console Site URL"
+msgstr "URL del sito della Search Console"
+
+#: view/settings.phtml:504
+#, fuzzy
+msgid "Missing Credentials"
+msgstr "Credenziali mancanti"
+
+#: view/settings.phtml:505
+#, fuzzy
+msgid ""
+"Enter your Google Client ID and Client Secret, then save settings before "
+"connecting."
+msgstr ""
+"Inserisci il tuo ID client Google e il segreto cliente, poi salva le impostazioni "
+"prima di connetterti."
+
+#: view/settings.phtml:515
+#, fuzzy
+msgid "Google Search Console is connected."
+msgstr "Google Search Console è collegata."
+
+#: view/settings.phtml:521
+#, fuzzy
+msgid "Disconnect Google"
+msgstr "Disconnetti Google"
+
+#: view/settings.phtml:528
+msgid "No Connection"
+msgstr "无连接"
+
+#: view/settings.phtml:529
+#, fuzzy
+msgid "Connect your Google account to access Search Console statistics."
+msgstr ""
+"Collega il tuo account Google per accedere alle statistiche della Search Console."
+
+#: view/settings.phtml:534
+#, fuzzy
+msgid "Connect Google"
+msgstr "Connettiti Google"
+
+#: view/settings.phtml:544
+#, fuzzy
+msgid "Auto submit sitemap URLs"
+msgstr "Invia automaticamente gli URL della sitemap"
+
+#: view/settings.phtml:550
+msgid "Organization name"
+msgstr "Nome organizzazione"
+
+#: view/settings.phtml:555
+msgid "Organization logo"
+msgstr "Logo organizzazione"
+
+#: view/settings.phtml:578
+#, fuzzy
+msgid "Enter a logo URL manually or choose one from the media manager."
+msgstr "Inserisci manualmente un URL del logo o scegline uno dal media manager."
+
+#: view/settings.phtml:592
+#, fuzzy
+msgid "Organization phone"
+msgstr "Telefono dell'organizzazione"
+
+#: view/settings.phtml:597
+#, fuzzy
+msgid "Default schema type"
+msgstr "Tipo di schema predefinito"
+
+#: view/settings.phtml:617
+#, fuzzy
+msgid "Enable styling for sitemaps."
+msgstr "Abilita lo stile per le sitemap."
+
+#: view/settings.phtml:625
+#, fuzzy
+msgid "Sitemap XSL"
+msgstr "Sitemap XSL"
+
+#: view/settings.phtml:629
+#, fuzzy
+msgid "Enable the sitemaps you would like to use for your site."
+msgstr "Abilita le sitemap che desideri utilizzare per il tuo sito."
+
+#: view/settings.phtml:637
+#, fuzzy
+msgid "Content Sitemap"
+msgstr "Mappa del sito dei contenuti"
+
+#: view/settings.phtml:644
+#, fuzzy
+msgid "Product Sitemap"
+msgstr "Mappa del sito del prodotto"
+
+#: view/settings.phtml:651
+#, fuzzy
+msgid "News Sitemap"
+msgstr "Notizie Mappa del sito"
+
+#: view/settings.phtml:658
+#, fuzzy
+msgid "Image Sitemap"
+msgstr "Immagine Mappa del sito"
+
+#: view/settings.phtml:665
+msgid "Video Sitemap"
+msgstr "Video Sitemap"
+
+#: view/settings.phtml:672
+#, fuzzy
+msgid "Content Types Sitemap"
+msgstr "Tipi di contenuto Mappa del sito"
+
+#: view/settings.phtml:679
+#, fuzzy
+msgid "Pages Sitemap"
+msgstr "Pagine Mappa del sito"
+
+#: view/settings.phtml:693
+#, fuzzy
+msgid "Enable runtime robots.txt"
+msgstr "Abilita il tempo di esecuzione robots.txt"
+
+#: view/settings.phtml:706
+#, fuzzy
+msgid "Allow search engines to crawl this site"
+msgstr "Permette ai motori di ricerca di scansionare questo sito"
+
+#: view/settings.phtml:719
+#, fuzzy
+msgid "Include sitemap URL"
+msgstr "Includi URL della sitemap"
+
+#: view/settings.phtml:724
+#, fuzzy
+msgid "Custom Robots Rules"
+msgstr "Regole dei Robot Personalizzati"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "Leave empty to use the default"
+msgstr "Lascia vuoto per usare il predefinito"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "These rules apply only to the current site."
+msgstr "Queste regole si applicano solo al sito attuale."
+
+#: view/settings.phtml:738
+#, fuzzy
+msgid "Runtime URL:"
+msgstr "URL runtime:"
+
+#: view/settings.phtml:749
+#, fuzzy
+msgid "Save SEO Settings"
+msgstr "Salva le impostazioni SEO"
+
+#: view/settings.phtml:762
+#, fuzzy
+msgid "Crawl Diagnostics"
+msgstr "Diagnostica del Crawl"
+
+#: view/settings.phtml:788
+#, fuzzy
+msgid "No diagnostics available."
+msgstr "Nessuna diagnostica disponibile."
+
+#: view/settings.phtml:798
+msgid "Import/Export"
+msgstr "Importa/Esporta"
+
+#: view/settings.phtml:803
+#, fuzzy
+msgid ""
+"Export SEO settings as JSON or import settings from another Devflow site.\n"
+"                            OAuth connection tokens are not exported."
+msgstr ""
+"Esporta le impostazioni SEO come JSON o importa le impostazioni da un altro sito "
+"Devflow.\n"
+"                            I token di connessione OAuth non vengono esportati."
+
+#: view/settings.phtml:810
+msgid "Export Settings"
+msgstr "Esporta Impostazioni"
+
+#: view/settings.phtml:821
+#, fuzzy
+msgid "Import Settings JSON"
+msgstr "Impostazioni di importazione JSON"
+
+#: view/settings.phtml:830
+msgid "Import Settings"
+msgstr "Impostazioni di importazione"
+
+#: view/settings.phtml:838
+#, fuzzy
+msgid "Submit URL for Indexing"
+msgstr "Invia URL per indicizzazione"
+
+#~ msgid "Warning:"
+#~ msgstr "Attenzione:"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "                                                                The Analytics "
+#~ "and Tag Manager feature is considered \n"
+#~ "                                                                experimental "
+#~ "and may not work 100% under some \n"
+#~ "                                                                circumstances. "
+#~ "Make sure to do extensive testing \n"
+#~ "                                                                before "
+#~ "enabling on a production site. Nevertheless, \n"
+#~ "                                                                by following "
+#~ "the instructions below, you will enable \n"
+#~ "                                                                your theme/"
+#~ "layout to load the meta tags generated by \n"
+#~ "                                                                the plugin.\n"
+#~ "                                                            "
+#~ msgstr ""
+#~ "\n"
+#~ "Viene considerata la funzione Analytics e Tag Manager \n"
+#~ "                                                                sperimentale e "
+#~ "potrebbe non funzionare al 100% % u alcuni \n"
+#~ "                                                                circostanze. "
+#~ "Assicurati di fare test approfonditi \n"
+#~ "                                                                prima di "
+#~ "abilitare su un sito di produzione. Tuttavia, \n"
+#~ "                                                                seguendo le "
+#~ "istruzioni sottostanti, abiliterai \n"
+#~ "                                                                Il tuo tema/"
+#~ "layout per caricare i meta tag generati da \n"
+#~ "                                                                Il plugin.\n"
+#~ "                                                            "
+
+#~ msgid "Note:"
+#~ msgstr "Nota:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Because Devflow loads tracking through the asset system, the GTM body script "
+#~ "is not a true\n"
+#~ "                                                            no-JavaScript "
+#~ "fallback. A true GTM <code>&lt;noscript&gt;</code> fallback requires direct "
+#~ "HTML output\n"
+#~ "                                                            immediately after "
+#~ "the opening <code>&lt;body&gt;</code>"
+#~ msgstr ""
+#~ "Poiché Devflow carica il tracking attraverso il sistema di asset, lo script "
+#~ "corpo GTM non è vero\n"
+#~ "                                                            Alternativa senza "
+#~ "JavaScript. Un vero fallback GTM <code>&lt;noscript&gt;</code> richiede output "
+#~ "HTML diretto\n"
+#~ "                                                            Immediatamente "
+#~ "dopo l'apertura <code>&lt;body&gt;</code>"
+
+#, fuzzy
+#~ msgid "Tracking settings are fetched from a Simple SEO JSON config route."
+#~ msgstr ""
+#~ "Le impostazioni di tracciamento vengono ottenute da una via di configurazione "
+#~ "Simple SEO JSON."
+
+#, fuzzy
+#~ msgid "Remove Settings"
+#~ msgstr "Rimuovi le impostazioni"

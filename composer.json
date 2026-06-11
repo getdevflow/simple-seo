@@ -1,0 +1,29 @@
+{
+  "name": "getdevflow/simple-seo",
+  "description": "An SEO management suite for any Devflow CMS website.",
+  "type": "devflow-plugin",
+  "keywords": ["devflow","devflow-cms","seo","opengraph","xml-sitemap"],
+  "license": "GPL-2.0-only",
+  "authors": [
+    {
+      "name": "Joshua Parker",
+      "email": "joshua@joshuaparker.dev"
+    }
+  ],
+  "require": {
+    "php": ">=8.4",
+    "oomphinc/composer-installers-extender": "^2.0"
+  },
+  "extra": {
+    "installer-name": "SimpleSeo",
+    "installer-types": ["devflow-plugin"]
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "oomphinc/composer-installers-extender": true
+    }
+  }
+}

@@ -1,0 +1,353 @@
+<?php /** @var array $seo */
+
+use Plugin\SimpleSeo\Support\SimpleSeoHelper;
+
+use function App\Shared\Helpers\admin_url;
+use function App\Shared\Helpers\help_block;
+use function App\Shared\Helpers\site_url;
+use function Qubus\Security\Helpers\esc_attr;
+use function Qubus\Security\Helpers\esc_html;
+use function Qubus\Security\Helpers\esc_html__;
+use function Qubus\Security\Helpers\t__;
+
+$uid = uniqid('seo_', false);
+$idFacebook = $uid . '_facebook_image';
+$idTwitter = $uid . '_twitter_image';
+$previewUrl = $seo['canonical_url'] ?? '';
+
+if ($previewUrl === '' && $entity !== false) {
+    if ($type === 'content') {
+        $previewUrl = !empty($entity->relativeUrl)
+            ? site_url($entity->relativeUrl)
+            : site_url();
+    }
+
+    if ($type === 'product') {
+        $previewUrl = !empty($entity->relativeUrl)
+            ? site_url($entity->relativeUrl)
+            : site_url('/product/' . trim((string) $entity->slug, '/') . '/');
+    }
+
+    if ($type === 'page') {
+        $previewUrl = !empty($entity->relativeUrl)
+            ? site_url($entity->relativeUrl)
+            : site_url($entity->route);
+    }
+}
+
+if ($previewUrl === '') {
+    $previewUrl = site_url();
+}
+
+$schemaJson = $seo['schema_json'] ?? '';
+
+if ($schemaJson !== '') {
+    $decoded = json_decode($schemaJson, true);
+
+    if (json_last_error() === JSON_ERROR_NONE) {
+        $schemaJson = json_encode(
+            $decoded,
+            JSON_PRETTY_PRINT
+            | JSON_UNESCAPED_SLASHES
+            | JSON_UNESCAPED_UNICODE
+        );
+    }
+}
+
+$fieldPrefix = $fieldPrefix ?? 'content_field';
+
+$seoFieldPrefix = $fieldPrefix === 'seo'
+    ? 'seo'
+    : $fieldPrefix . '[seo]';
+?>
+
+<script>
+    window.DEVFLOW_SITE_URL = <?= json_encode(rtrim(site_url(), '/') . '/'); ?>;
+</script>
+
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link href="vendor/studio-42/elfinder/css/elfinder.full.css" type="text/css" rel="stylesheet" />
+<link href="vendor/studio-42/elfinder/css/theme.css" type="text/css" rel="stylesheet" />
+<script src="vendor/studio-42/elfinder/js/elfinder.full.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" type="text/javascript"></script>
+
+<script>
+    (function ($) {
+        $(document).on('click', '.js-seo-elfinder', function (e) {
+            e.preventDefault();
+
+            var target = $($(this).data('target'));
+            var finder = $('<div class="seo-elfinder-dialog"></div>');
+
+            finder.dialog({
+                title: 'Select Image',
+                modal: true,
+                width: 920,
+                height: 550,
+                closeOnEscape: true,
+                destroyOnClose: true,
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                },
+                open: function () {
+                    finder.elfinder({
+                        url: '<?=admin_url('connector');?>',
+                        lang: 'en',
+                        commandsOptions: {
+                            getfile: {
+                                onlyURL: false,
+                                multiple: false,
+                                folders: false,
+                                oncomplete: "destroy"
+                            }
+                        },
+                        getFileCallback: function (file, fm) {
+                            if ($.isArray(file)) {
+                                file = file[0];
+                            }
+
+                            var url = file && file.url ? file.url : '';
+
+                            if (url !== '') {
+                                target.val(url).trigger('change');
+                            }
+
+                            finder.dialog('close');
+                        }
+                    });
+                }
+            });
+        });
+    })(jQuery);
+</script>
+
+
+<div class="box box-primary devflow-seo-box" data-devflow-seo-editor="1">
+    <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-search"></i> <?=esc_html__('SEO', 'simple-seo');?></h3>
+    </div>
+    <div class="box-body">
+        <div class="nav-tabs-custom">
+            <div class="simple-seo-tabs-scroll">
+                <ul class="nav nav-tabs simple-seo-tabs" role="tablist">
+                    <li class="active"><a href="#seo-analysis" data-toggle="tab"><i class="fa-solid fa-brain"></i> <?=esc_html__('Analysis', 'simple-seo');?></a></li>
+                    <li><a href="#seo-title" data-toggle="tab"><i class="fa-solid fa-heading"></i> <?=esc_html__('Title', 'simple-seo');?></a></li>
+                    <li><a href="#seo-social" data-toggle="tab"><i class="fa-solid fa-share-nodes"></i> <?=esc_html__('Social', 'simple-seo');?></a></li>
+                    <li><a href="#seo-schema" data-toggle="tab"><i class="fa-solid fa-code-branch"></i> <?=esc_html__('Schema', 'simple-seo');?></a></li>
+                    <li><a href="#seo-advanced" data-toggle="tab"><i class="fa-solid fa-briefcase"></i> <?=esc_html__('Advanced', 'simple-seo');?></a></li>
+                    <li><a href="#seo-redirects" data-toggle="tab"><i class="fa-solid fa-diamond-turn-right"></i> <?=esc_html__('Redirects', 'simple-seo');?></a></li>
+                </ul>
+            </div>
+            <div class="tab-content devflow-seo-tabs">
+                <div class="tab-pane active" id="seo-analysis">
+                    <div class="form-group">
+                        <label><?=esc_html__('Focus keyphrase', 'simple-seo');?></label>
+                        <input type="text" class="form-control" name="<?=$seoFieldPrefix;?>[focus_keyphrase]" id="seo_focus_keyphrase" value="<?= SimpleSeoHelper::text($seo['focus_keyphrase'] ?? '') ?>">
+                    </div>
+                    <button type="button" class="btn btn-default" id="devflow-seo-run-analysis"><?=esc_html__('Analyze Content', 'simple-seo');?></button>
+                    <div id="devflow-seo-analysis-results" class="devflow-seo-analysis-results"></div>
+                    <?=help_block(
+                        title: t__('Analysis Check', 'simple-seo'),
+                        message: t__('Checks title, description, body length, focus phrase usage, headings, canonical, social image, and indexability.', 'simple-seo')
+                    );?>
+                </div>
+                <div class="tab-pane" id="seo-title">
+                    <div class="devflow-serp-preview">
+                        <div class="box box-default seo-search-preview-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><?=esc_html__('Search Preview', 'simple-seo');?></h3>
+                            </div>
+
+                            <div class="box-body">
+                                <div class="seo-preview">
+                                    <div class="seo-preview-title js-seo-preview-title">
+                                        <?= esc_html($seo['meta_title'] ?? 'Untitled'); ?>
+                                    </div>
+
+                                    <div class="seo-preview-url js-seo-preview-url" id="seo_preview_url">
+                                        <?= esc_html($previewUrl); ?>
+                                    </div>
+
+                                    <div class="seo-preview-description js-seo-preview-description">
+                                        <?= esc_html($seo['meta_description'] ?? 'No meta description has been set.'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><?=esc_html__('Meta title', 'simple-seo');?></label>
+                        <input type="text" class="form-control js-seo-meta-title" name="<?=$seoFieldPrefix;?>[meta_title]" id="seo_meta_title" maxlength="70" value="<?= SimpleSeoHelper::text($seo['meta_title'] ?? '') ?>">
+                        <span class="help-block"><span id="seo_title_count">0</span>/70 <?=esc_html__('characters', 'simple-seo');?></span>
+                    </div>
+                    <div class="form-group">
+                        <label><?=esc_html__('Meta description', 'simple-seo');?></label>
+                        <textarea class="form-control js-seo-meta-description" name="<?=$seoFieldPrefix;?>[meta_description]" id="seo_meta_description" rows="3" maxlength="180"><?= SimpleSeoHelper::text($seo['meta_description'] ?? '') ?></textarea>
+                        <span class="help-block"><span id="seo_desc_count">0</span>/180 <?=esc_html__('characters', 'simple-seo');?></span>
+                    </div>
+                </div>
+                <div class="tab-pane" id="seo-social">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4><?=esc_html__('Facebook / Open Graph', 'simple-seo');?></h4>
+                            <div class="form-group">
+                                <label><?=esc_html__('Title', 'simple-seo');?></label>
+                                <input type="text" class="form-control" name="<?=$seoFieldPrefix;?>[facebook_title]" value="<?= SimpleSeoHelper::text($seo['facebook_title'] ?? '') ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label><?=esc_html__('Description', 'simple-seo');?></label>
+                                <textarea class="form-control" name="<?=$seoFieldPrefix;?>[facebook_description]" rows="3"><?= SimpleSeoHelper::text($seo['facebook_description'] ?? '') ?></textarea>
+                            </div>
+
+                            <div class="form-group input-group">
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="<?= $idFacebook; ?>"
+                                        name="<?=$seoFieldPrefix;?>[facebook_image]"
+                                        placeholder="https://example.com/facebook-image.png"
+                                        value="<?= esc_attr($seo['facebook_image'] ?? ''); ?>"
+                                    >
+
+                                    <span class="input-group-btn">
+                                        <button
+                                            type="button"
+                                            class="btn btn-default js-seo-elfinder"
+                                            data-target="#<?= $idFacebook; ?>"
+                                        >
+                                            <?=esc_html__('Browse', 'simple-seo');?>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <p class="help-block">
+                                    <?=esc_html__('Enter an image URL manually or choose one from the media manager.', 'simple-seo');?>
+                                </p>
+                                <?php if (!empty($seo['facebook_image'])): ?>
+                                    <p style="margin-top:10px;">
+                                        <img
+                                            src="<?= esc_attr($seo['facebook_image']); ?>"
+                                            alt=""
+                                            style="max-width:250px;height:auto;"
+                                        >
+                                    </p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Twitter / X</h4>
+                            <div class="form-group">
+                                <label><?=esc_html__('Card', 'simple-seo');?></label>
+                                <select class="form-control" name="<?=$seoFieldPrefix;?>[twitter_card]">
+                                    <option value="summary_large_image" <?= ($seo['twitter_card'] ?? '') === 'summary_large_image' ? 'selected' : '' ?>><?=esc_html__('Summary large image', 'simple-seo');?></option>
+                                    <option value="summary" <?= ($seo['twitter_card'] ?? '') === 'summary' ? 'selected' : '' ?>><?=esc_html__('Summary', 'simple-seo');?></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?=esc_html__('Title', 'simple-seo');?></label>
+                                <input type="text" class="form-control" name="<?=$seoFieldPrefix;?>[twitter_title]" value="<?= SimpleSeoHelper::text($seo['twitter_title'] ?? '') ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label><?=esc_html__('Description', 'simple-seo');?></label>
+                                <textarea class="form-control" name="<?=$seoFieldPrefix;?>[twitter_description]" rows="3"><?= SimpleSeoHelper::text($seo['twitter_description'] ?? '') ?></textarea>
+                            </div>
+
+                            <div class="form-group input-group">
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="<?= $idTwitter; ?>"
+                                        name="<?=$seoFieldPrefix;?>[twitter_image]"
+                                        placeholder="https://example.com/x-image.png"
+                                        value="<?= esc_attr($seo['twitter_image'] ?? ''); ?>"
+                                    >
+
+                                    <span class="input-group-btn">
+                                        <button
+                                            type="button"
+                                            class="btn btn-default js-seo-elfinder"
+                                            data-target="#<?= $idTwitter; ?>"
+                                        >
+                                            <?=esc_html__('Browse', 'simple-seo');?>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <p class="help-block">
+                                    <?=esc_html__('Enter an image URL manually or choose one from the media manager.', 'simple-seo');?>
+                                </p>
+                                <?php if (!empty($seo['twitter_image'])): ?>
+                                    <p style="margin-top:10px;">
+                                        <img
+                                            src="<?= esc_attr($seo['twitter_image']); ?>"
+                                            alt=""
+                                            style="max-width:250px;height:auto;"
+                                        >
+                                    </p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="seo-schema">
+                    <div class="form-group"><label><?=esc_html__('Schema type', 'simple-seo');?></label><select class="form-control" name="<?=$seoFieldPrefix;?>[schema_type]"><?php foreach (['','WebPage','Article','NewsArticle','BlogPosting','Product','FAQPage','HowTo','Event','LocalBusiness','Organization','BreadcrumbList'] as $typeName): ?><option value="<?= $typeName ?>" <?= ($seo['schema_type'] ?? '') === $typeName ? 'selected' : '' ?>><?= $typeName === '' ? 'Use default' : $typeName ?></option><?php endforeach; ?></select></div>
+                    <div class="form-group"><label><?=esc_html__('Custom schema JSON object or @graph', 'simple-seo');?></label><textarea class="form-control" name="<?=$seoFieldPrefix;?>[schema_json]" rows="8" placeholder='{"@type":"Article"}'><?= SimpleSeoHelper::text($schemaJson ?? '') ?></textarea><p class="help-block"><?=esc_html__('Optional. Leave blank to let Simple SEO generate schema from the content/product.', 'simple-seo');?></p></div>
+                </div>
+                <div class="tab-pane" id="seo-advanced">
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[robots_index]" value="1" <?= !empty($seo['robots_index']) ? 'checked' : '' ?>> <?=esc_html__('Allow indexing', 'simple-seo');?></label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[robots_follow]" value="1" <?= !empty($seo['robots_follow']) ? 'checked' : '' ?>> <?=esc_html__('Follow links', 'simple-seo');?></label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[robots_noarchive]" value="1" <?= !empty($seo['robots_noarchive']) ? 'checked' : '' ?>> <?=esc_html__('No archive', 'simple-seo');?></label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[robots_nosnippet]" value="1" <?= !empty($seo['robots_nosnippet']) ? 'checked' : '' ?>> <?=esc_html__('No snippet', 'simple-seo');?></label></div>
+                    <div class="form-group">
+                        <label><?=esc_html__('Canonical URL', 'simple-seo');?></label>
+                        <input
+                            type="url"
+                            class="form-control js-seo-canonical-url"
+                            name="<?=$seoFieldPrefix;?>[canonical_url]"
+                            value="<?= SimpleSeoHelper::text($seo['canonical_url'] ?? '') ?>"
+                            placeholder="<?= esc_attr($previewUrl); ?>"
+                            data-entity-type="<?= esc_attr($type); ?>"
+                            data-default-locale="<?= esc_attr($defaultLocale ?? 'en'); ?>"
+                        >
+                        <p class="help-block">
+                            <?=esc_html__('Leave empty to let Simple SEO generate the canonical URL automatically from the slug.', 'simple-seo');?>
+                        </p>
+                    </div>
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[sitemap_include]" value="1" <?= !empty($seo['sitemap_include']) ? 'checked' : '' ?>> <?=esc_html__('Include in sitemap', 'simple-seo');?></label></div>
+                    <div class="row"><div class="col-sm-6"><label><?=esc_html__('Priority', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[sitemap_priority]" value="<?= SimpleSeoHelper::text($seo['sitemap_priority'] ?? '') ?>" placeholder="0.7"></div><div class="col-sm-6"><label><?=esc_html__('Change frequency', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[sitemap_changefreq]" value="<?= SimpleSeoHelper::text($seo['sitemap_changefreq'] ?? '') ?>" placeholder="weekly"></div></div>
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[news_enabled]" value="1" <?= !empty($seo['news_enabled']) ? 'checked' : '' ?>> <?=esc_html__('Include in news sitemap', 'simple-seo');?></label></div>
+                    <div class="form-group"><label><?=esc_html__('News keywords', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[news_keywords]" value="<?= SimpleSeoHelper::text($seo['news_keywords'] ?? '') ?>"></div>
+                    <div class="form-group"><label><?=esc_html__('Image URLs, one per line', 'simple-seo');?></label><textarea class="form-control" name="<?=$seoFieldPrefix;?>[image_urls]" rows="3"><?= SimpleSeoHelper::text($seo['image_urls'] ?? '') ?></textarea></div>
+                    <div class="form-group"><label><?=esc_html__('Video URLs, one per line', 'simple-seo');?></label><textarea class="form-control" name="<?=$seoFieldPrefix;?>[video_urls]" rows="3"><?= SimpleSeoHelper::text($seo['video_urls'] ?? '') ?></textarea></div>
+                </div>
+                <div class="tab-pane" id="seo-redirects">
+                    <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[redirect_enabled]" value="1" <?= !empty($seo['redirect_enabled']) ? 'checked' : '' ?>> <?=esc_html__('Enable redirect', 'simple-seo');?></label></div>
+                    <div class="form-group"><label><?=esc_html__('Redirect from URI', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[redirect_from]" value="<?= SimpleSeoHelper::text($seo['redirect_from'] ?? '') ?>" placeholder="/old-url"></div>
+                    <div class="form-group"><label><?=esc_html__('Redirect to URI', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[redirect_to]" value="<?= SimpleSeoHelper::text($seo['redirect_to'] ?? '') ?>" placeholder="/new-url"></div>
+                    <div class="form-group"><label><?=esc_html__('Status', 'simple-seo');?></label><select class="form-control" name="<?=$seoFieldPrefix;?>[redirect_status]"><option value="301" <?= ($seo['redirect_status'] ?? '') === '301' ? 'selected' : '' ?>><?=esc_html__('301 Permanent', 'simple-seo');?></option><option value="302" <?= ($seo['redirect_status'] ?? '') === '302' ? 'selected' : '' ?>><?=esc_html__('302 Temporary', 'simple-seo');?></option><option value="307" <?= ($seo['redirect_status'] ?? '') === '307' ? 'selected' : '' ?>><?=esc_html__('307 Temporary', 'simple-seo');?></option><option value="308" <?= ($seo['redirect_status'] ?? '') === '308' ? 'selected' : '' ?>><?=esc_html__('308 Permanent', 'simple-seo');?></option></select></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+        function updateSeoPreview() {
+            var title = $('.js-seo-meta-title').val() || '<?=esc_html__('Untitled', 'simple-seo');?>';
+            var description = $('.js-seo-meta-description').val() || '<?=esc_html__('No meta description has been set.', 'simple-seo');?>'
+
+            $('.js-seo-preview-title').text(title);
+            $('.js-seo-preview-description').text(description);
+        }
+
+        $(document).on('input keyup change', '.js-seo-meta-title, .js-seo-meta-description', updateSeoPreview);
+
+        $(updateSeoPreview);
+    })(jQuery);
+</script>

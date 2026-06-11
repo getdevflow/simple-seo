@@ -1,0 +1,117 @@
+<?php
+
+use App\Application\Devflow;
+use App\Shared\Services\Registry;
+
+use function App\Shared\Helpers\admin_url;
+use function App\Shared\Helpers\help_block;
+use function Qubus\Security\Helpers\esc_attr;
+use function Qubus\Security\Helpers\esc_html;
+use function Qubus\Security\Helpers\esc_html__;
+use function Qubus\Security\Helpers\t__;
+
+$this->parent('framework::backend/layouts/admin-layout');
+$this->block('backend', function ($param) {
+
+Registry::getInstance()->{'set'}('screen_parent', 'simple-seo');
+Registry::getInstance()->{'set'}('screen_child', 'simple-seo-routes');
+$r = Registry::getInstance()->get('simple-seo');
+?>
+
+<div class="content-wrapper">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-route"></i>
+            <h3 class="box-title"><?= esc_html__('Custom SEO Routes', $r['id']); ?></h3>
+
+            <div class="pull-right">
+                <button type="button" class="btn btn-warning" onclick="window.location = '<?= admin_url('plugin/simple-seo/routes/create');?>'"><i class="fa fa-plus"></i> <?=esc_html__('New SEO Route', $r['id']);?></button>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <?=Devflow::$PHP->flash->display();?>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Routes</h3>
+            </div>
+
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Route</th>
+                        <th>Label</th>
+                        <th>Status</th>
+                        <th style="width:180px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (empty($param['routes'])): ?>
+                        <tr>
+                            <td colspan="4">No custom route SEO records found.</td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php foreach ($param['routes'] as $route): ?>
+                        <tr>
+                            <td><code><?= esc_html((string) $route->route_path); ?></code></td>
+                            <td><?= esc_html((string) $route->route_label); ?></td>
+                            <td>
+                                <?= (int) $route->enabled === 1
+                                        ? '<span class="label label-success">Enabled</span>'
+                                        : '<span class="label label-default">Disabled</span>'; ?>
+                            </td>
+                            <td>
+                                <a href="<?= esc_attr(admin_url('plugin/simple-seo/routes/' . $route->id . '/')); ?>"
+                                   class="btn btn-xs btn-primary">
+                                    Edit
+                                </a>
+
+                                <button type="button"
+                                        class="btn btn-xs btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#deleteRouteSeo-<?= esc_attr((string) $route->id); ?>">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <div class="modal fade" id="deleteRouteSeo-<?= esc_attr((string) $route->id); ?>" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post"
+                                          action="<?= esc_attr(admin_url('plugin/simple-seo/routes/delete/')); ?>"
+                                          class="modal-content">
+                                        <input type="hidden" name="id" value="<?= esc_attr((string) $route->id); ?>">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span>&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Delete Custom Route SEO</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            Delete SEO settings for
+                                            <code><?= esc_html((string) $route->route_path); ?></code>?
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<?php }); ?>

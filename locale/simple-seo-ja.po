@@ -1,0 +1,1563 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple SEO\n"
+"POT-Creation-Date: 2026-06-11 14:03-0600\n"
+"PO-Revision-Date: 2026-06-11 14:03-0600\n"
+"Last-Translator: \n"
+"Language-Team: Joshua Parker\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: simple-seo\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: t__;esc_html__;trans;trans_html;trans_attr;esc_attr__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: Controller\n"
+"X-Poedit-SearchPath-1: Repository\n"
+"X-Poedit-SearchPath-2: Routing\n"
+"X-Poedit-SearchPath-3: Service\n"
+"X-Poedit-SearchPath-4: Support\n"
+"X-Poedit-SearchPath-5: view\n"
+"X-Poedit-SearchPath-6: SimpleSeoPlugin.php\n"
+
+#: Controller/IndexingController.php:54
+msgid "Indexing"
+msgstr "インデックス作成"
+
+#: Controller/IndexingController.php:69 Controller/ManualIndexingController.php:47
+#, fuzzy
+msgid "Missing URL."
+msgstr "URLが抜けています。"
+
+#: Controller/IndexingController.php:79
+#, fuzzy
+msgid "URL submitted."
+msgstr "URLを送信しました。"
+
+#: Controller/IndexingController.php:109
+#, fuzzy
+msgid "Meta title exists and is <= 70 characters."
+msgstr "メタタイトルは存在し、<=70文字です。"
+
+#: Controller/IndexingController.php:115
+#, fuzzy
+msgid "Meta description is 120–180 characters."
+msgstr "メタ記述は120〜180文字です。"
+
+#: Controller/IndexingController.php:121
+#, fuzzy
+msgid "Body has at least 300 words."
+msgstr "『Body』には少なくとも300語あります。"
+
+#: Controller/IndexingController.php:129
+#, fuzzy
+msgid "Focus keyphrase appears in title, description, or body."
+msgstr "フォーカスキーワードはタイトル、説明、本文に現れます。"
+
+#: Controller/IndexingController.php:143
+#, fuzzy
+msgid "Canonical URL is set or will be generated."
+msgstr "標準URLは設定済み、または生成されます。"
+
+#: Controller/IndexingController.php:156
+#, fuzzy
+msgid "Social image is set."
+msgstr "社会的イメージは確立されます。"
+
+#: Controller/ManualIndexingController.php:71
+#, fuzzy
+msgid "No URLs were provided."
+msgstr "URLは提供されていません。"
+
+#: Controller/ManualIndexingController.php:101
+#, fuzzy
+msgid "Submitted sitemap to IndexNow."
+msgstr "IndexNowにサイトマップを提出しました。"
+
+#: Controller/ManualIndexingController.php:111
+#, fuzzy
+msgid "Submitted sitemap to Google Search Console."
+msgstr "サイトマップをGoogleサーチコンソールに提出しました。"
+
+#: Controller/NotFoundController.php:59
+msgid "404 Monitor"
+msgstr "404 モニター"
+
+#: Controller/RedirectController.php:73
+#, fuzzy
+msgid "Redirect Manager"
+msgstr "リダイレクトマネージャー"
+
+#: Controller/RedirectController.php:114 Repository/RedirectRepository.php:227
+#, fuzzy
+msgid ""
+"Redirect loop detected. Source and target cannot redirect back to each other or "
+"to themselves."
+msgstr ""
+"リダイレクトループを検出しました。ソースとターゲットは互いに、あるいは自分自身にリ"
+"ダイレクトすることはできません。"
+
+#: Controller/RedirectController.php:124 Repository/RedirectRepository.php:236
+#, fuzzy
+msgid "A redirect already exists for this source URL."
+msgstr "この送信元URLにはすでにリダイレクトが存在します。"
+
+#: Controller/RouteSeoController.php:33
+#, fuzzy
+msgid "Custom Route SEO"
+msgstr "カスタムルートSEOです"
+
+#: Controller/RouteSeoController.php:64
+msgid "Not found"
+msgstr "見つかりません"
+
+#: Controller/RouteSeoController.php:127
+msgid "Error occurred."
+msgstr "zip エラーが発生しました"
+
+#: Controller/SearchConsoleController.php:60
+msgid "Search Statistics"
+msgstr "検索統計を切断"
+
+#: Controller/SearchConsoleController.php:82
+#, fuzzy
+msgid "Google Search Console connected successfully."
+msgstr "Googleサーチコンソールは正常に接続できました。"
+
+#: Controller/SettingsController.php:34
+#, fuzzy
+msgid "Simple SEO"
+msgstr "シンプルなSEOです"
+
+#: Controller/SitemapController.php:136
+#, fuzzy
+msgid "Wrong key."
+msgstr "鍵が違う。"
+
+#: Controller/SitemapController.php:170
+#, fuzzy
+msgid "No sitemap."
+msgstr "サイトマップもありません。"
+
+#: Service/CrawlDiagnosticsService.php:56
+#, fuzzy
+msgid "robots.txt is reachable."
+msgstr "robots.txtは連絡が取れます。"
+
+#: Service/CrawlDiagnosticsService.php:63
+#, fuzzy
+msgid "sitemap.xml is reachable."
+msgstr "sitemap.xmlは連絡が取れる。"
+
+#: Service/CrawlDiagnosticsService.php:75
+#, fuzzy
+msgid "IndexNow is configured."
+msgstr "IndexNowは設定済みです。"
+
+#: Service/CrawlDiagnosticsService.php:82
+#, fuzzy
+msgid "Google OAuth is connected."
+msgstr "Google OAuthは接続されています。"
+
+#: Service/CrawlDiagnosticsService.php:88
+#, fuzzy
+msgid "Search Console Site URL is configured."
+msgstr "サーチコンソールのサイトURLは設定済みです。"
+
+#: Service/CrawlDiagnosticsService.php:94
+#, fuzzy
+msgid "Active sitemap count"
+msgstr "アクティブサイトマップカウント"
+
+#: Service/CrawlDiagnosticsService.php:99
+#, fuzzy
+msgid "Published content count"
+msgstr "公開されたコンテンツ数"
+
+#: Service/CrawlDiagnosticsService.php:104
+#, fuzzy
+msgid "Published page count"
+msgstr "公開ページ数"
+
+#: Service/CrawlDiagnosticsService.php:109
+#, fuzzy
+msgid "Published product count"
+msgstr "出版製品数"
+
+#: Service/CrawlDiagnosticsService.php:112
+#, fuzzy
+msgid "Redirect hit count"
+msgstr "リダイレクトヒットカウント"
+
+#: Service/CrawlDiagnosticsService.php:113
+#, fuzzy
+msgid "404 count"
+msgstr "404カウント"
+
+#: Service/CrawlDiagnosticsService.php:114
+#, fuzzy
+msgid "Redirects total"
+msgstr "リダイレクト合計"
+
+#: Service/CrawlDiagnosticsService.php:115
+#, fuzzy
+msgid "Active redirects"
+msgstr "アクティブなリダイレクト"
+
+#: Service/CrawlDiagnosticsService.php:125
+#, fuzzy
+msgid "Needs attention"
+msgstr "注意が必要です"
+
+#: Service/GoogleIndexingService.php:31
+#, fuzzy
+msgid "No URL provided."
+msgstr "URLは提供されていません。"
+
+#: Service/GoogleIndexingService.php:35
+#, fuzzy
+msgid "Google Indexing API is disabled."
+msgstr "GoogleインデックスAPIは無効になっています。"
+
+#: Service/GoogleIndexingService.php:43
+#, fuzzy
+msgid ""
+"Missing Google Indexing API access token. Configure google_indexing_access_token "
+"or GOOGLE_INDEXING_ACCESS_TOKEN."
+msgstr ""
+"Google Indexing APIのアクセストークンがありません。google_indexing_access_tokenま"
+"たはGOOGLE_INDEXING_ACCESS_TOKENの設定をしてください。"
+
+#: Service/GoogleIndexingService.php:90
+#, fuzzy
+msgid "Google token verification failed"
+msgstr "Googleトークン認証に失敗しました"
+
+#: Service/GoogleIndexingService.php:116
+#, fuzzy
+msgid "Google Indexing request failed with HTTP "
+msgstr "GoogleインデックスリクエストがHTTPで失敗しました"
+
+#: Service/GoogleOAuthService.php:60
+#, fuzzy
+msgid "Google did not return a refresh token."
+msgstr "Googleはリフレッシュトークンを返しませんでした。"
+
+#: Service/GoogleOAuthService.php:103
+#, fuzzy
+msgid "Google account is not connected."
+msgstr "Googleアカウントは連携していません。"
+
+#: Service/GoogleOAuthService.php:116
+#, fuzzy
+msgid "Google did not return an access token."
+msgstr "Googleはアクセストークンを返しませんでした。"
+
+#: Service/GoogleOAuthService.php:176
+#, fuzzy
+msgid "Missing Google Client ID."
+msgstr "GoogleクライアントIDがありません。"
+
+#: Service/GoogleOAuthService.php:193
+#, fuzzy
+msgid "Missing Google Client Secret."
+msgstr "Googleクライアントの秘密が欠けています。"
+
+#: Service/GoogleOAuthService.php:218
+#, fuzzy
+msgid "Google OAuth request failed with HTTP "
+msgstr "Google OAuthリクエストはHTTPで失敗しました"
+
+#: Service/IndexNowService.php:52
+#, fuzzy
+msgid "IndexNow is disabled."
+msgstr "IndexNowは無効になっています。"
+
+#: Service/IndexNowService.php:58
+#, fuzzy
+msgid "Missing IndexNow key."
+msgstr "IndexNowキーが欠落しています。"
+
+#: Service/IndexNowService.php:67
+#, fuzzy
+msgid "No URLs provided."
+msgstr "URLは提供されていません。"
+
+#: Service/IndexNowService.php:79
+#, fuzzy
+msgid "Unable to determine IndexNow host."
+msgstr "IndexNowのホストを特定できません。"
+
+#: Service/IndexNowService.php:126
+#, fuzzy
+msgid "IndexNow request failed with HTTP "
+msgstr "IndexNowリクエストがHTTPで失敗しました"
+
+#: Service/SearchConsoleService.php:99
+#, fuzzy
+msgid "Missing Search Console site URL."
+msgstr "Search ConsoleのサイトURLがありません。"
+
+#: Service/SearchConsoleService.php:163
+#, fuzzy
+msgid "Search Console request failed with HTTP "
+msgstr "HTTP で検索コンソールリクエストが失敗しました"
+
+#: Service/SearchConsoleService.php:186
+#, fuzzy
+msgid "Search Console site URL is not configured."
+msgstr "Search ConsoleのサイトURLは設定されていません。"
+
+#: Service/SearchConsoleService.php:192
+#, fuzzy
+msgid "Missing sitemap URL."
+msgstr "サイトマップのURLがありません。"
+
+#: Service/SearchConsoleService.php:219
+#, fuzzy
+msgid "Google sitemap submission failed with HTTP "
+msgstr "Googleサイトマップの送信がHTTPで失敗しました"
+
+#: Service/SettingsImportExportService.php:54
+#, fuzzy
+msgid "Invalid JSON file."
+msgstr "無効なJSONファイル。"
+
+#: Service/SettingsImportExportService.php:60
+#, fuzzy
+msgid "Import file does not contain settings."
+msgstr "インポートファイルには設定が含まれていません。"
+
+#: SimpleSeoPlugin.php:79
+#, fuzzy
+msgid "Simple Seo"
+msgstr "シンプルソ"
+
+#: SimpleSeoPlugin.php:84
+#, fuzzy
+msgid ""
+"Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
+"technical SEO, indexing, crawl management, 404 monitoring, and so much more."
+msgstr ""
+"Simple SEOは、Devflow CMS向けのSEO管理スイートで、オンページSEO、技術的なSEO、イン"
+"デックス作成、クロール管理、404モニタリングなど多岐にわたる内容をカバーしていま"
+"す。"
+
+#: SimpleSeoPlugin.php:145
+#, fuzzy
+#| msgid "SEO Score"
+msgid "SEO Routes"
+msgstr "SEOルート"
+
+#: SimpleSeoPlugin.php:164
+#, fuzzy
+msgid ""
+"You must upgrade your system to at least v2.3 in order to use the Simple SEO "
+"plugin."
+msgstr ""
+"Simple SEOプラグインを使うには、システムを少なくともv2.3にアップグレードする必要が"
+"あります。"
+
+#: view/404-monitor.phtml:31 view/indexing.phtml:26 view/redirects.phtml:32
+#: view/settings.phtml:100
+msgid "Search Console"
+msgstr "検索コンソール"
+
+#: view/404-monitor.phtml:32 view/indexing.phtml:27 view/redirects.phtml:33
+#: view/search-console.phtml:28 view/settings.phtml:97
+#, fuzzy
+msgid "Seo Settings"
+msgstr "SEO設定"
+
+#: view/404-monitor.phtml:33 view/indexing.phtml:28 view/partial/seo-tabs.phtml:138
+#: view/redirects.phtml:100 view/search-console.phtml:29 view/settings.phtml:101
+msgid "Redirects"
+msgstr "リダイレクト"
+
+#: view/404-monitor.phtml:81
+#, fuzzy
+msgid "Search URL, referrer, user agent"
+msgstr "検索URL、リファラー、ユーザーエージェント"
+
+#: view/404-monitor.phtml:115 view/redirects.phtml:196
+msgid "Bulk Actions"
+msgstr "一括操作"
+
+#: view/404-monitor.phtml:116 view/404-monitor.phtml:189
+msgid "Ignore"
+msgstr "無視"
+
+#: view/404-monitor.phtml:117 view/404-monitor.phtml:182
+msgid "Restore"
+msgstr "復元"
+
+#: view/404-monitor.phtml:118 view/404-monitor.phtml:199 view/404-monitor.phtml:284
+#: view/redirects.phtml:199 view/redirects.phtml:315 view/route-form.phtml:40
+msgid "Delete"
+msgstr "削除"
+
+#: view/404-monitor.phtml:126 view/redirects.phtml:207
+msgid "Apply"
+msgstr "適用"
+
+#: view/404-monitor.phtml:138 view/indexing.phtml:48
+msgid "URL"
+msgstr "URL"
+
+#: view/404-monitor.phtml:139 view/redirects.phtml:224
+msgid "Hits"
+msgstr "ヒット数"
+
+#: view/404-monitor.phtml:140
+msgid "Referrer"
+msgstr "紹介者"
+
+#: view/404-monitor.phtml:141
+#, fuzzy
+msgid "First Seen"
+msgstr "初登場"
+
+#: view/404-monitor.phtml:142
+msgid "Last Seen"
+msgstr "最終表示"
+
+#: view/404-monitor.phtml:143 view/redirects.phtml:227
+msgid "Actions"
+msgstr "アクション"
+
+#: view/404-monitor.phtml:149
+#, fuzzy
+msgid "No 404s recorded."
+msgstr "404は記録されていません。"
+
+#: view/404-monitor.phtml:173 view/404-monitor.phtml:216 view/404-monitor.phtml:255
+#, fuzzy
+msgid "Create Redirect"
+msgstr "リダイレクトを作成"
+
+#: view/404-monitor.phtml:221 view/redirects.phtml:51 view/redirects.phtml:359
+msgid "Source URL"
+msgstr "ソース URL"
+
+#: view/404-monitor.phtml:232 view/redirects.phtml:62 view/redirects.phtml:370
+msgid "Target URL"
+msgstr "ターゲットURL"
+
+#: view/404-monitor.phtml:243 view/redirects.phtml:73 view/redirects.phtml:381
+msgid "Status Code"
+msgstr "ステータスコード"
+
+#: view/404-monitor.phtml:245 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:75
+#, fuzzy
+msgid "301 Permanent"
+msgstr "301 パーマネント"
+
+#: view/404-monitor.phtml:246 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:76
+#, fuzzy
+msgid "302 Temporary"
+msgstr "302 臨時"
+
+#: view/404-monitor.phtml:247 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:77
+#, fuzzy
+msgid "307 Temporary"
+msgstr "307 臨時"
+
+#: view/404-monitor.phtml:248 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:78
+#, fuzzy
+msgid "308 Permanent"
+msgstr "308 パーマネント"
+
+#: view/404-monitor.phtml:254 view/404-monitor.phtml:283 view/404-monitor.phtml:365
+#: view/redirects.phtml:414 view/redirects.phtml:461 view/redirects.phtml:546
+#: view/route-form.phtml:41 view/route-form.phtml:44
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: view/404-monitor.phtml:274
+#, fuzzy
+msgid "Delete 404 Entry"
+msgstr "404エントリを削除"
+
+#: view/404-monitor.phtml:278
+#, fuzzy
+msgid "Delete this 404 entry?"
+msgstr "この404のエントリーを削除すべきですか?"
+
+#: view/404-monitor.phtml:307 view/redirects.phtml:488
+#, fuzzy
+msgid "Showing page"
+msgstr "表示ページ"
+
+#: view/404-monitor.phtml:353 view/redirects.phtml:534
+msgid "Bulk Action"
+msgstr "一括操作"
+
+#: view/404-monitor.phtml:371 view/redirects.phtml:552
+msgid "Continue"
+msgstr "続ける"
+
+#: view/indexing.phtml:23
+#, fuzzy
+msgid "Manual URL & Sitemap Submission"
+msgstr "手動URLとサイトマップ提出"
+
+#: view/indexing.phtml:45
+#, fuzzy
+msgid "Submit Single URL"
+msgstr "単一URLを送信"
+
+#: view/indexing.phtml:56 view/indexing.phtml:87 view/indexing.phtml:125
+#, fuzzy
+msgid "Submit To"
+msgstr "投稿先"
+
+#: view/indexing.phtml:60 view/indexing.phtml:91
+#, fuzzy
+msgid "Google Indexing API"
+msgstr "GoogleインデックスAPI"
+
+#: view/indexing.phtml:64 view/settings.phtml:871
+#, fuzzy
+msgid "Submit URL"
+msgstr "URLを送信"
+
+#: view/indexing.phtml:75
+#, fuzzy
+msgid "Submit Multiple URLs"
+msgstr "複数のURLを送信"
+
+#: view/indexing.phtml:78
+msgid "URLs"
+msgstr "URL"
+
+#: view/indexing.phtml:83
+#, fuzzy
+msgid "Enter one URL per line."
+msgstr "1行につき1つのURLを入力してください。"
+
+#: view/indexing.phtml:95
+#, fuzzy
+msgid "Submit URLs"
+msgstr "URLを送信"
+
+#: view/indexing.phtml:106
+#, fuzzy
+msgid "Manual Sitemap Submission"
+msgstr "手動サイトマップ提出"
+
+#: view/indexing.phtml:114 view/indexing.phtml:133
+#, fuzzy
+msgid "Submit Sitemap"
+msgstr "サイトマップを送信"
+
+#: view/indexing.phtml:117
+msgid "Sitemap URL"
+msgstr "サイトマップURL"
+
+#: view/indexing.phtml:127
+#, fuzzy
+msgid "IndexNow + Google Search Console"
+msgstr "IndexNow + Google Search Console"
+
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+msgid "Google Search Console"
+msgstr "Google Search Console"
+
+#: view/partial/seo-side.phtml:4
+msgid "SEO Score"
+msgstr "SEO スコア"
+
+#: view/partial/seo-side.phtml:7
+#, fuzzy
+msgid ""
+"Score updates after analysis. Save the page to persist SEO fields into the "
+"attribute JSON field."
+msgstr ""
+"分析後のスコア更新。SEOフィールドをJSONフィールドの属性に永続化するためにページを"
+"保存してください。"
+
+#: view/partial/seo-side.phtml:8
+#, fuzzy
+msgid "Run SEO Analysis"
+msgstr "SEO分析を実行しましょう"
+
+#: view/partial/seo-tabs.phtml:127
+msgid "SEO"
+msgstr "SEO"
+
+#: view/partial/seo-tabs.phtml:133
+msgid "Analysis"
+msgstr "分析"
+
+#: view/partial/seo-tabs.phtml:134 view/partial/seo-tabs.phtml:194
+#: view/partial/seo-tabs.phtml:250
+msgid "Title"
+msgstr "タイトル"
+
+#: view/partial/seo-tabs.phtml:135
+msgid "Social"
+msgstr "ソーシャル"
+
+#: view/partial/seo-tabs.phtml:136 view/settings.phtml:122
+msgid "Schema"
+msgstr "スキーマ"
+
+#: view/partial/seo-tabs.phtml:137
+msgid "Advanced"
+msgstr "高度な設定"
+
+#: view/partial/seo-tabs.phtml:144
+msgid "Focus keyphrase"
+msgstr "フォーカス キーフレーズ"
+
+#: view/partial/seo-tabs.phtml:147
+#, fuzzy
+msgid "Analyze Content"
+msgstr "コンテンツの分析"
+
+#: view/partial/seo-tabs.phtml:150
+#, fuzzy
+msgid "Analysis Check"
+msgstr "分析チェック"
+
+#: view/partial/seo-tabs.phtml:151
+#, fuzzy
+msgid ""
+"Checks title, description, body length, focus phrase usage, headings, canonical, "
+"social image, and indexability."
+msgstr ""
+"タイトル、説明、体長、焦点フレーズの使用、見出し、正典、社会的イメージ、索引性を"
+"チェックします。"
+
+#: view/partial/seo-tabs.phtml:158
+msgid "Search Preview"
+msgstr "検索プレビュー"
+
+#: view/partial/seo-tabs.phtml:179
+msgid "Meta title"
+msgstr "メタタイトル"
+
+#: view/partial/seo-tabs.phtml:181 view/partial/seo-tabs.phtml:186
+msgid "characters"
+msgstr "字数    "
+
+#: view/partial/seo-tabs.phtml:184
+msgid "Meta description"
+msgstr "メタディスクリプション"
+
+#: view/partial/seo-tabs.phtml:192
+#, fuzzy
+msgid "Facebook / Open Graph"
+msgstr "Facebook / オープングラフ"
+
+#: view/partial/seo-tabs.phtml:199 view/partial/seo-tabs.phtml:255
+msgid "Description"
+msgstr "説明"
+
+#: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
+#: view/settings.phtml:172 view/settings.phtml:572
+msgid "Browse"
+msgstr "参照"
+
+#: view/partial/seo-tabs.phtml:226 view/partial/seo-tabs.phtml:282
+#: view/settings.phtml:178
+#, fuzzy
+msgid "Enter an image URL manually or choose one from the media manager."
+msgstr "画像のURLを手動で入力するか、メディアマネージャーから選択してください。"
+
+#: view/partial/seo-tabs.phtml:242
+msgid "Card"
+msgstr "カード"
+
+#: view/partial/seo-tabs.phtml:244
+#, fuzzy
+msgid "Summary large image"
+msgstr "要約大型画像"
+
+#: view/partial/seo-tabs.phtml:245
+msgid "Summary"
+msgstr "概要"
+
+#: view/partial/seo-tabs.phtml:298
+#, fuzzy
+msgid "Schema type"
+msgstr "スキーマタイプ"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid "Custom schema JSON object or @graph"
+msgstr "カスタムスキーマJSONオブジェクトまたは@graph"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid ""
+"Optional. Leave blank to let Simple SEO generate schema from the content/product."
+msgstr ""
+"任意です。空欄のままにして、Simple SEOがコンテンツや商品からスキーマを生成できるよ"
+"うにします。"
+
+#: view/partial/seo-tabs.phtml:302
+#, fuzzy
+msgid "Allow indexing"
+msgstr "インデックス作成を許可する"
+
+#: view/partial/seo-tabs.phtml:303
+#, fuzzy
+msgid "Follow links"
+msgstr "リンクをフォローしてください"
+
+#: view/partial/seo-tabs.phtml:304
+#, fuzzy
+msgid "No archive"
+msgstr "アーカイブはありません"
+
+#: view/partial/seo-tabs.phtml:305
+#, fuzzy
+msgid "No snippet"
+msgstr "抜粋なし"
+
+#: view/partial/seo-tabs.phtml:307
+msgid "Canonical URL"
+msgstr "URLの正規化"
+
+#: view/partial/seo-tabs.phtml:318
+#, fuzzy
+msgid ""
+"Leave empty to let Simple SEO generate the canonical URL automatically from the "
+"slug."
+msgstr ""
+"空のままにしておき、Simple SEOがスラッグから自動的に標準的なURLを生成できるように"
+"します。"
+
+#: view/partial/seo-tabs.phtml:321
+#, fuzzy
+msgid "Include in sitemap"
+msgstr "サイトマップに含める"
+
+#: view/partial/seo-tabs.phtml:322
+msgid "Priority"
+msgstr "優先"
+
+#: view/partial/seo-tabs.phtml:322
+#, fuzzy
+msgid "Change frequency"
+msgstr "周波数を変える"
+
+#: view/partial/seo-tabs.phtml:323
+#, fuzzy
+msgid "Include in news sitemap"
+msgstr "ニュースサイトマップに含める"
+
+#: view/partial/seo-tabs.phtml:324
+#, fuzzy
+msgid "News keywords"
+msgstr "ニュースキーワード"
+
+#: view/partial/seo-tabs.phtml:325
+#, fuzzy
+msgid "Image URLs, one per line"
+msgstr "画像URLは1行につき1つ"
+
+#: view/partial/seo-tabs.phtml:326
+#, fuzzy
+msgid "Video URLs, one per line"
+msgstr "動画URLは1行につき1つ"
+
+#: view/partial/seo-tabs.phtml:329
+#, fuzzy
+msgid "Enable redirect"
+msgstr "リダイレクトを有効にする"
+
+#: view/partial/seo-tabs.phtml:330
+#, fuzzy
+msgid "Redirect from URI"
+msgstr "URIからのリダイレクト"
+
+#: view/partial/seo-tabs.phtml:331
+#, fuzzy
+msgid "Redirect to URI"
+msgstr "URIへリダイレクト"
+
+#: view/partial/seo-tabs.phtml:332 view/redirects.phtml:222
+msgid "Status"
+msgstr "ステータス"
+
+#: view/partial/seo-tabs.phtml:342
+msgid "Untitled"
+msgstr "無題"
+
+#: view/partial/seo-tabs.phtml:343
+#, fuzzy
+msgid "No meta description has been set."
+msgstr "メタ的な説明は設定されていません。"
+
+#: view/redirects.phtml:45
+msgid "Add Redirect"
+msgstr "リダイレクトを追加"
+
+#: view/redirects.phtml:87 view/redirects.phtml:114 view/redirects.phtml:225
+#: view/redirects.phtml:284 view/redirects.phtml:399
+msgid "Enabled"
+msgstr "有効"
+
+#: view/redirects.phtml:93 view/redirects.phtml:415
+msgid "Save Redirect"
+msgstr "リダイレクトを保存します。"
+
+#: view/redirects.phtml:108
+msgid "All"
+msgstr "すべて"
+
+#: view/redirects.phtml:120 view/redirects.phtml:286
+#, fuzzy
+msgid "Disabled"
+msgstr "障害者"
+
+#: view/redirects.phtml:126 view/redirects.phtml:278
+msgid "Manual"
+msgstr "手動"
+
+#: view/redirects.phtml:132
+msgid "Content"
+msgstr "コンテンツ"
+
+#: view/redirects.phtml:138
+msgid "Products"
+msgstr "商品"
+
+#: view/redirects.phtml:144
+msgid "Pages"
+msgstr "ページ"
+
+#: view/redirects.phtml:169
+msgid "per page"
+msgstr "ページごと"
+
+#: view/redirects.phtml:175
+msgid "Filter"
+msgstr "フィルター"
+
+#: view/redirects.phtml:180
+msgid "Clear"
+msgstr "クリア"
+
+#: view/redirects.phtml:197 view/redirects.phtml:305
+msgid "Enable"
+msgstr "有効"
+
+#: view/redirects.phtml:198 view/redirects.phtml:305
+msgid "Disable"
+msgstr "無効"
+
+#: view/redirects.phtml:219
+msgid "Warnings"
+msgstr "警告"
+
+#: view/redirects.phtml:220
+msgid "Source"
+msgstr "ソース"
+
+#: view/redirects.phtml:221
+msgid "Target"
+msgstr "ターゲット"
+
+#: view/redirects.phtml:226
+msgid "Updated"
+msgstr "更新しました"
+
+#: view/redirects.phtml:233
+#, fuzzy
+msgid "No redirects found."
+msgstr "リダイレクトは見つかりませんでした。"
+
+#: view/redirects.phtml:253
+msgid "Chain"
+msgstr "チェーン"
+
+#: view/redirects.phtml:297
+msgid "Edit"
+msgstr "編集"
+
+#: view/redirects.phtml:330
+#, fuzzy
+msgid "Edit Redirect"
+msgstr "編集:リダイレクト"
+
+#: view/redirects.phtml:336
+#, fuzzy
+msgid "Redirect chain detected."
+msgstr "リダイレクトチェーン検出。"
+
+#: view/redirects.phtml:338
+#, fuzzy, php-format
+msgid ""
+" Current target:\n"
+"                                                                    <code>%s</"
+"code><br>\n"
+"                                                                    That target "
+"redirects to:\n"
+"                                                                    <code>%s</"
+"code>\n"
+"                                                                    %s\n"
+"                                                                        Consider "
+"changing this redirect target directly to:\n"
+"                                                                        <code>%s</"
+"code>\n"
+"                                                                    %s"
+msgstr ""
+" 現在のターゲッ"
+"ト:                                                                    <code><0></"
+"0></code><br>そのターゲットは次の方向にリダイレクトされます:\n"
+"                                                                    <code><1></"
+"1></code>\n"
+"                                                                    %s\n"
+"                                                                        このリダイ"
+"レクトターゲットを直接以下に変更することを検討してくださ"
+"い:                                                                        "
+"<code><3></3></code>\n"
+"                                                                    %s"
+
+#: view/redirects.phtml:405
+#, fuzzy
+msgid "This redirect is linked to"
+msgstr "このリダイレクトは"
+
+#: view/redirects.phtml:408
+#, fuzzy
+msgid "Saving changes will also update that entity's SEO Redirect tab."
+msgstr "変更を保存すると、その組織のSEOリダイレクトタブも更新されます。"
+
+#: view/redirects.phtml:432 view/redirects.phtml:462
+msgid "Delete Redirect"
+msgstr "リダイレクトの削除"
+
+#: view/redirects.phtml:436
+msgid "Are you sure you want to delete this redirect?"
+msgstr "これらのリダイレクトを削除してもよろしいですか?"
+
+#: view/route-form.phtml:34
+#, fuzzy
+msgid "Custom SEO Route"
+msgstr "カスタムSEOルート"
+
+#: view/route-form.phtml:38 view/routes.phtml:28
+#, fuzzy
+msgid "New SEO Route"
+msgstr "新しいSEOルート"
+
+#: view/route-form.phtml:39
+msgid "Update"
+msgstr "更新"
+
+#: view/route-form.phtml:43
+msgid "Save"
+msgstr "保存"
+
+#: view/routes.phtml:25
+#, fuzzy
+msgid "Custom SEO Routes"
+msgstr "カスタムSEOルート"
+
+#: view/search-console.phtml:47
+#, fuzzy
+msgid ""
+"Google Search Console is not connected.\n"
+"                Add your Google Client ID and Client Secret in SEO Settings, then "
+"connect your account."
+msgstr ""
+"Googleサーチコンソールは接続されていません。\n"
+"                SEO設定でGoogleクライアントIDとクライアントシークレットを追加し、"
+"アカウントを接続してください。"
+
+#: view/search-console.phtml:52
+#, fuzzy
+msgid "Go to SEO Settings"
+msgstr "SEO設定へ"
+
+#: view/search-console.phtml:57
+#, fuzzy
+msgid "Google is connected, but no Search Console Site URL has been configured."
+msgstr "Googleは接続されていますが、Search ConsoleのサイトURLは設定されていません。"
+
+#: view/search-console.phtml:61
+#, fuzzy
+msgid "Configure Site URL"
+msgstr "サイトURLの設定"
+
+#: view/search-console.phtml:70 view/search-console.phtml:139
+#: view/search-console.phtml:178
+msgid "Clicks"
+msgstr "クリック数"
+
+#: view/search-console.phtml:79 view/search-console.phtml:140
+#: view/search-console.phtml:179
+msgid "Impressions"
+msgstr "インプレッション"
+
+#: view/search-console.phtml:97
+#, fuzzy
+msgid "Avg Position"
+msgstr "平均順位"
+
+#: view/search-console.phtml:110
+#, fuzzy
+msgid "Connected property:"
+msgstr "関連性質:"
+
+#: view/search-console.phtml:120
+msgid "Test Connection"
+msgstr "テスト接続"
+
+#: view/search-console.phtml:131
+msgid "Top Queries"
+msgstr "上位のクエリ"
+
+#: view/search-console.phtml:138
+msgid "Query"
+msgstr "クエリ"
+
+#: view/search-console.phtml:142 view/search-console.phtml:181
+msgid "Position"
+msgstr "位置"
+
+#: view/search-console.phtml:148
+#, fuzzy
+msgid "No query data available."
+msgstr "クエリデータは利用できません。"
+
+#: view/search-console.phtml:170
+msgid "Top Pages"
+msgstr "トップページ"
+
+#: view/search-console.phtml:177
+msgid "Page"
+msgstr "ページ"
+
+#: view/search-console.phtml:187
+#, fuzzy
+msgid "No page data available."
+msgstr "ページデータは利用できません。"
+
+#: view/settings.phtml:118
+msgid "Global"
+msgstr "グローバル"
+
+#: view/settings.phtml:119
+msgid "Homepage"
+msgstr "ホームページ"
+
+#: view/settings.phtml:120
+msgid "Webmaster"
+msgstr "ウェブマスター"
+
+#: view/settings.phtml:123
+msgid "Sitemaps"
+msgstr "サイトマップ"
+
+#: view/settings.phtml:135
+#, fuzzy
+msgid "Theme/View Instructions"
+msgstr "テーマ/表示指示"
+
+#: view/settings.phtml:140
+msgid "Site name"
+msgstr "サイト名"
+
+#: view/settings.phtml:145
+msgid "Title template"
+msgstr "タイトルのテンプレート"
+
+#: view/settings.phtml:150
+msgid "Default description"
+msgstr "デフォルトの説明"
+
+#: view/settings.phtml:155
+#, fuzzy
+msgid "Default social image"
+msgstr "デフォルトの社会的イメージ"
+
+#: view/settings.phtml:192
+msgid "Google Analytics"
+msgstr "Google アナリティクス"
+
+#: view/settings.phtml:204
+msgid "Enable Google Analytics"
+msgstr "Google Analytics を有効にする"
+
+#: view/settings.phtml:209
+msgid "Measurement ID"
+msgstr "支払い ID"
+
+#: view/settings.phtml:219
+msgid "Google Tag Manager"
+msgstr "Google タグマネージャ"
+
+#: view/settings.phtml:231
+#, fuzzy
+msgid "Enable Google Tag Manager"
+msgstr "Googleタグマネージャーを有効にする"
+
+#: view/settings.phtml:236
+msgid "Container ID"
+msgstr "コンテナ ID"
+
+#: view/settings.phtml:245
+msgid "Uninstall"
+msgstr "アンインストール"
+
+#: view/settings.phtml:255
+#, fuzzy
+msgid "Remove all data on Deactivation"
+msgstr "非稼働化に関するすべてのデータを削除してください"
+
+#: view/settings.phtml:271
+#, fuzzy
+msgid "Google Analytics / Tag Manager Theme Instructions"
+msgstr "Google Analytics / タグマネージャー テーマの指示"
+
+#: view/settings.phtml:276
+#, fuzzy
+msgid ""
+"For Simple SEO tracking to work correctly, your theme/layout should include these "
+"action helpers."
+msgstr ""
+"シンプルなSEOトラッキングを正しく機能させるには、テーマやレイアウトにこれらのアク"
+"ションヘルパーを含めるべきです。"
+
+#: view/settings.phtml:279
+#, fuzzy
+msgid "1. Head Helper"
+msgstr "1. ヘッドヘルパー"
+
+#: view/settings.phtml:280 view/settings.phtml:303
+#, fuzzy
+msgid "Place this before the closing"
+msgstr "これをクロージング前に置いてください"
+
+#: view/settings.phtml:284 view/settings.phtml:296 view/settings.phtml:308
+#, fuzzy
+msgid "This is used for:"
+msgstr "これは以下の用途に使われます:"
+
+#: view/settings.phtml:286
+#, fuzzy
+msgid "Google Tag Manager script loader"
+msgstr "Google タグマネージャースクリプトローダー"
+
+#: view/settings.phtml:287
+#, fuzzy
+msgid "SEO meta tags if your theme outputs them through the head hook"
+msgstr "テーマがヘッドフックを通じて出力するならSEOメタタグを使います"
+
+#: view/settings.phtml:290
+#, fuzzy
+msgid "2. Body Open Helper"
+msgstr "2. ボディオープンヘルパー"
+
+#: view/settings.phtml:291
+#, fuzzy
+msgid "Place this immediately after the opening"
+msgstr "開口直後にこれを置いてください"
+
+#: view/settings.phtml:298
+#, fuzzy
+msgid "Google Tag Manager body placement support"
+msgstr "Googleタグマネージャーのボディ配置サポート"
+
+#: view/settings.phtml:299
+#, fuzzy
+msgid "Frontend integrations that must load near the top of the body"
+msgstr "ボディの上部近くでロードしなければならないフロントエンドの統合"
+
+#: view/settings.phtml:302
+#, fuzzy
+msgid "3. Footer Helper"
+msgstr "3. フッターヘルパー"
+
+#: view/settings.phtml:310
+#, fuzzy
+msgid "Google Analytics footer loader"
+msgstr "Google Analytics フッターローダー"
+
+#: view/settings.phtml:311
+#, fuzzy
+msgid "Footer scripts registered by plugins"
+msgstr "プラグインによるフッタースクリプト"
+
+#: view/settings.phtml:314
+#, fuzzy
+msgid "Recommended Theme Layout"
+msgstr "推奨テーマレイアウト"
+
+#: view/settings.phtml:332
+#, fuzzy
+msgid "Tracking Behavior"
+msgstr "追跡行動"
+
+#: view/settings.phtml:334
+#, fuzzy
+msgid "Google Tag Manager loads from"
+msgstr "Googleタグマネージャーは"
+
+#: view/settings.phtml:335
+#, fuzzy
+msgid "Google Analytics loads from"
+msgstr "Google Analyticsは"
+
+#: view/settings.phtml:336
+#, fuzzy
+msgid "No tracking IDs are hardcoded into the theme or layout."
+msgstr "トラッキングIDはテーマやレイアウトにハードコードされていません。"
+
+#: view/settings.phtml:344
+msgid "Got it"
+msgstr "分かりました"
+
+#: view/settings.phtml:354
+#, fuzzy
+msgid "Homepage SEO title"
+msgstr "ホームページSEOタイトル"
+
+#: view/settings.phtml:359
+#, fuzzy
+msgid "Homepage description"
+msgstr "ホームページの説明"
+
+#: view/settings.phtml:364
+#, fuzzy
+msgid "Homepage schema type"
+msgstr "ホームページスキーマタイプ"
+
+#: view/settings.phtml:387
+#, fuzzy
+msgid "Allow search engines to index the homepage"
+msgstr "検索エンジンがホームページをインデックスできるようにする"
+
+#: view/settings.phtml:395
+#, fuzzy
+msgid "Allow search engines to follow homepage links"
+msgstr "検索エンジンがホームページのリンクをたどることを許可する"
+
+#: view/settings.phtml:403
+#, fuzzy
+msgid "Prevent cached homepage copies"
+msgstr "キャッシュされたホームページコピーの防止"
+
+#: view/settings.phtml:411
+#, fuzzy
+msgid "Prevent homepage snippets in search results"
+msgstr "検索結果からホームページのスニペットを防ごう"
+
+#: view/settings.phtml:418
+msgid "Google site verification"
+msgstr "Google site verification"
+
+#: view/settings.phtml:423
+#, fuzzy
+msgid "Bing verification"
+msgstr "Bing検証"
+
+#: view/settings.phtml:428
+#, fuzzy
+msgid "Yandex verification"
+msgstr "ヤンデックス検証"
+
+#: view/settings.phtml:433
+#, fuzzy
+msgid "Baidu verification"
+msgstr "バイドゥ検証"
+
+#: view/settings.phtml:450
+#, fuzzy
+msgid "Enable IndexNow"
+msgstr "IndexNowを有効にする"
+
+#: view/settings.phtml:462
+#, fuzzy
+msgid "Enable Google Indexing API"
+msgstr "GoogleインデックスAPIを有効にする"
+
+#: view/settings.phtml:466
+msgid "Google Client ID"
+msgstr "Google クライアント ID"
+
+#: view/settings.phtml:476
+msgid "Google Client Secret"
+msgstr "Googleクライアントシークレットキー"
+
+#: view/settings.phtml:486
+#, fuzzy
+msgid "Search Console Site URL"
+msgstr "サーチコンソールサイトURL"
+
+#: view/settings.phtml:504
+#, fuzzy
+msgid "Missing Credentials"
+msgstr "欠落した資格証明書"
+
+#: view/settings.phtml:505
+#, fuzzy
+msgid ""
+"Enter your Google Client ID and Client Secret, then save settings before "
+"connecting."
+msgstr ""
+"GoogleクライアントIDとクライアントシークレットを入力し、接続前に設定を保存してくだ"
+"さい。"
+
+#: view/settings.phtml:515
+#, fuzzy
+msgid "Google Search Console is connected."
+msgstr "Googleサーチコンソールが接続されています。"
+
+#: view/settings.phtml:521
+#, fuzzy
+msgid "Disconnect Google"
+msgstr "Googleの接続を切る"
+
+#: view/settings.phtml:528
+#, fuzzy
+msgid "No Connection"
+msgstr "関係なし"
+
+#: view/settings.phtml:529
+#, fuzzy
+msgid "Connect your Google account to access Search Console statistics."
+msgstr "Googleアカウントに接続してSearch Consoleの統計にアクセスできます。"
+
+#: view/settings.phtml:534
+#, fuzzy
+msgid "Connect Google"
+msgstr "Googleを接続してください"
+
+#: view/settings.phtml:544
+#, fuzzy
+msgid "Auto submit sitemap URLs"
+msgstr "サイトマップURLの自動送信"
+
+#: view/settings.phtml:550
+msgid "Organization name"
+msgstr "組織名"
+
+#: view/settings.phtml:555
+#, fuzzy
+msgid "Organization logo"
+msgstr "組織ロゴ"
+
+#: view/settings.phtml:578
+#, fuzzy
+msgid "Enter a logo URL manually or choose one from the media manager."
+msgstr "ロゴのURLを手動で入力するか、メディアマネージャーから選択してください。"
+
+#: view/settings.phtml:592
+#, fuzzy
+msgid "Organization phone"
+msgstr "組織電話"
+
+#: view/settings.phtml:597
+#, fuzzy
+msgid "Default schema type"
+msgstr "デフォルトのスキーマタイプ"
+
+#: view/settings.phtml:617
+#, fuzzy
+msgid "Enable styling for sitemaps."
+msgstr "サイトマップのスタイリングを有効にしてください。"
+
+#: view/settings.phtml:625
+#, fuzzy
+msgid "Sitemap XSL"
+msgstr "サイトマップ XSL"
+
+#: view/settings.phtml:629
+#, fuzzy
+msgid "Enable the sitemaps you would like to use for your site."
+msgstr "使用したいサイトマップを有効にしてください。"
+
+#: view/settings.phtml:637
+#, fuzzy
+msgid "Content Sitemap"
+msgstr "コンテンツサイトマップ"
+
+#: view/settings.phtml:644
+#, fuzzy
+msgid "Product Sitemap"
+msgstr "プロダクトサイトマップ"
+
+#: view/settings.phtml:651
+msgid "News Sitemap"
+msgstr "ニュースサイトマップ"
+
+#: view/settings.phtml:658
+#, fuzzy
+msgid "Image Sitemap"
+msgstr "画像サイトマップ"
+
+#: view/settings.phtml:665
+msgid "Video Sitemap"
+msgstr "動画サイトマップ"
+
+#: view/settings.phtml:672
+#, fuzzy
+msgid "Content Types Sitemap"
+msgstr "コンテンツタイプ サイトマップ"
+
+#: view/settings.phtml:679
+#, fuzzy
+msgid "Pages Sitemap"
+msgstr "ページサイトマップ"
+
+#: view/settings.phtml:693
+#, fuzzy
+msgid "Enable runtime robots.txt"
+msgstr "ランタイムrobots.txtを有効にする"
+
+#: view/settings.phtml:706
+#, fuzzy
+msgid "Allow search engines to crawl this site"
+msgstr "検索エンジンがこのサイトをクロールできるように"
+
+#: view/settings.phtml:719
+#, fuzzy
+msgid "Include sitemap URL"
+msgstr "サイトマップのURLを含める"
+
+#: view/settings.phtml:724
+#, fuzzy
+msgid "Custom Robots Rules"
+msgstr "カスタムロボットのルール"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "Leave empty to use the default"
+msgstr "デフォルトを使うには空のままにしてください"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "These rules apply only to the current site."
+msgstr "これらのルールは現在のサイトにのみ適用されます。"
+
+#: view/settings.phtml:738
+#, fuzzy
+msgid "Runtime URL:"
+msgstr "ランタイムURL:"
+
+#: view/settings.phtml:749
+#, fuzzy
+msgid "Save SEO Settings"
+msgstr "SEO設定を保存する"
+
+#: view/settings.phtml:762
+#, fuzzy
+msgid "Crawl Diagnostics"
+msgstr "クロール・ダイアグノスティクス"
+
+#: view/settings.phtml:788
+#, fuzzy
+msgid "No diagnostics available."
+msgstr "診断はできません。"
+
+#: view/settings.phtml:798
+msgid "Import/Export"
+msgstr "インポート/エクスポート"
+
+#: view/settings.phtml:803
+#, fuzzy
+msgid ""
+"Export SEO settings as JSON or import settings from another Devflow site.\n"
+"                            OAuth connection tokens are not exported."
+msgstr ""
+"SEO設定をJSONとしてエクスポートするか、他のDevflowサイトから設定を取り込むことがで"
+"きます。\n"
+"                            OAuth接続トークンはエクスポートされません。"
+
+#: view/settings.phtml:810
+msgid "Export Settings"
+msgstr "設定のエクスポート"
+
+#: view/settings.phtml:821
+#, fuzzy
+msgid "Import Settings JSON"
+msgstr "インポート設定 JSON"
+
+#: view/settings.phtml:830
+msgid "Import Settings"
+msgstr "設定のインポート"
+
+#: view/settings.phtml:838
+#, fuzzy
+msgid "Submit URL for Indexing"
+msgstr "インデックス作成のためにURLを送信"
+
+#~ msgid "Warning:"
+#~ msgstr "警告:"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "                                                                The Analytics "
+#~ "and Tag Manager feature is considered \n"
+#~ "                                                                experimental "
+#~ "and may not work 100% under some \n"
+#~ "                                                                circumstances. "
+#~ "Make sure to do extensive testing \n"
+#~ "                                                                before "
+#~ "enabling on a production site. Nevertheless, \n"
+#~ "                                                                by following "
+#~ "the instructions below, you will enable \n"
+#~ "                                                                your theme/"
+#~ "layout to load the meta tags generated by \n"
+#~ "                                                                the plugin.\n"
+#~ "                                                            "
+#~ msgstr ""
+#~ "\n"
+#~ "分析およびタグマネージャー機能も検討されています\n"
+#~ "                                                                実験的なもの"
+#~ "で、100% u効果がないかもしれません\n"
+#~ "                                                                状況が。徹底的"
+#~ "なテストを必ず行ってください\n"
+#~ "                                                                本番環境で有効"
+#~ "化する前に。それでも、\n"
+#~ "                                                                以下の指示に従"
+#~ "うことで、\n"
+#~ "                                                                あなたのテーマ"
+#~ "やレイアウトで、生成されたメタタグを読み込むことができます。\n"
+#~ "                                                                プラグインで"
+#~ "す。\n"
+#~ "                                                            "
+
+#~ msgid "Note:"
+#~ msgstr "メモ："
+
+#, fuzzy
+#~ msgid ""
+#~ "Because Devflow loads tracking through the asset system, the GTM body script "
+#~ "is not a true\n"
+#~ "                                                            no-JavaScript "
+#~ "fallback. A true GTM <code>&lt;noscript&gt;</code> fallback requires direct "
+#~ "HTML output\n"
+#~ "                                                            immediately after "
+#~ "the opening <code>&lt;body&gt;</code>"
+#~ msgstr ""
+#~ "Devflowはアセットシステムを通じて追跡を読み込むため、GTMボディスクリプトは真の"
+#~ "ものではありません\n"
+#~ "                                                            JavaScriptのフォー"
+#~ "ルバックなし。真のGTM <code>&lt;noscript&gt;</code> フォールバックには直接の"
+#~ "HTML出力が必要です\n"
+#~ "                                                            開館直後 "
+#~ "<code>&lt;body&gt;</code>"
+
+#, fuzzy
+#~ msgid "Tracking settings are fetched from a Simple SEO JSON config route."
+#~ msgstr "トラッキング設定はSimple SEOのJSON設定ルートから取得されます。"
+
+#, fuzzy
+#~ msgid "Remove Settings"
+#~ msgstr "設定を削除する"

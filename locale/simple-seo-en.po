@@ -1,0 +1,1263 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple SEO\n"
+"POT-Creation-Date: 2026-06-11 14:02-0600\n"
+"PO-Revision-Date: 2026-06-11 14:02-0600\n"
+"Last-Translator: \n"
+"Language-Team: Joshua Parker\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: simple-seo\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: t__;esc_html__;trans;trans_html;trans_attr;esc_attr__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: Controller\n"
+"X-Poedit-SearchPath-1: Repository\n"
+"X-Poedit-SearchPath-2: Routing\n"
+"X-Poedit-SearchPath-3: Service\n"
+"X-Poedit-SearchPath-4: Support\n"
+"X-Poedit-SearchPath-5: view\n"
+"X-Poedit-SearchPath-6: SimpleSeoPlugin.php\n"
+
+#: Controller/IndexingController.php:54
+msgid "Indexing"
+msgstr ""
+
+#: Controller/IndexingController.php:69 Controller/ManualIndexingController.php:47
+msgid "Missing URL."
+msgstr ""
+
+#: Controller/IndexingController.php:79
+msgid "URL submitted."
+msgstr ""
+
+#: Controller/IndexingController.php:109
+msgid "Meta title exists and is <= 70 characters."
+msgstr ""
+
+#: Controller/IndexingController.php:115
+msgid "Meta description is 120–180 characters."
+msgstr ""
+
+#: Controller/IndexingController.php:121
+msgid "Body has at least 300 words."
+msgstr ""
+
+#: Controller/IndexingController.php:129
+msgid "Focus keyphrase appears in title, description, or body."
+msgstr ""
+
+#: Controller/IndexingController.php:143
+msgid "Canonical URL is set or will be generated."
+msgstr ""
+
+#: Controller/IndexingController.php:156
+msgid "Social image is set."
+msgstr ""
+
+#: Controller/ManualIndexingController.php:71
+msgid "No URLs were provided."
+msgstr ""
+
+#: Controller/ManualIndexingController.php:101
+msgid "Submitted sitemap to IndexNow."
+msgstr ""
+
+#: Controller/ManualIndexingController.php:111
+msgid "Submitted sitemap to Google Search Console."
+msgstr ""
+
+#: Controller/NotFoundController.php:59
+msgid "404 Monitor"
+msgstr ""
+
+#: Controller/RedirectController.php:73
+msgid "Redirect Manager"
+msgstr ""
+
+#: Controller/RedirectController.php:114 Repository/RedirectRepository.php:227
+msgid ""
+"Redirect loop detected. Source and target cannot redirect back to each other or "
+"to themselves."
+msgstr ""
+
+#: Controller/RedirectController.php:124 Repository/RedirectRepository.php:236
+msgid "A redirect already exists for this source URL."
+msgstr ""
+
+#: Controller/RouteSeoController.php:33
+msgid "Custom Route SEO"
+msgstr ""
+
+#: Controller/RouteSeoController.php:64
+msgid "Not found"
+msgstr ""
+
+#: Controller/RouteSeoController.php:127
+msgid "Error occurred."
+msgstr ""
+
+#: Controller/SearchConsoleController.php:60
+msgid "Search Statistics"
+msgstr ""
+
+#: Controller/SearchConsoleController.php:82
+msgid "Google Search Console connected successfully."
+msgstr ""
+
+#: Controller/SettingsController.php:34
+msgid "Simple SEO"
+msgstr ""
+
+#: Controller/SitemapController.php:136
+msgid "Wrong key."
+msgstr ""
+
+#: Controller/SitemapController.php:170
+msgid "No sitemap."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:56
+msgid "robots.txt is reachable."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:63
+msgid "sitemap.xml is reachable."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:75
+msgid "IndexNow is configured."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:82
+msgid "Google OAuth is connected."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:88
+msgid "Search Console Site URL is configured."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:94
+msgid "Active sitemap count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:99
+msgid "Published content count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:104
+msgid "Published page count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:109
+msgid "Published product count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:112
+msgid "Redirect hit count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:113
+msgid "404 count"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:114
+msgid "Redirects total"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:115
+msgid "Active redirects"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:125
+msgid "Needs attention"
+msgstr ""
+
+#: Service/GoogleIndexingService.php:31
+msgid "No URL provided."
+msgstr ""
+
+#: Service/GoogleIndexingService.php:35
+msgid "Google Indexing API is disabled."
+msgstr ""
+
+#: Service/GoogleIndexingService.php:43
+msgid ""
+"Missing Google Indexing API access token. Configure google_indexing_access_token "
+"or GOOGLE_INDEXING_ACCESS_TOKEN."
+msgstr ""
+
+#: Service/GoogleIndexingService.php:90
+msgid "Google token verification failed"
+msgstr ""
+
+#: Service/GoogleIndexingService.php:116
+msgid "Google Indexing request failed with HTTP "
+msgstr ""
+
+#: Service/GoogleOAuthService.php:60
+msgid "Google did not return a refresh token."
+msgstr ""
+
+#: Service/GoogleOAuthService.php:103
+msgid "Google account is not connected."
+msgstr ""
+
+#: Service/GoogleOAuthService.php:116
+msgid "Google did not return an access token."
+msgstr ""
+
+#: Service/GoogleOAuthService.php:176
+msgid "Missing Google Client ID."
+msgstr ""
+
+#: Service/GoogleOAuthService.php:193
+msgid "Missing Google Client Secret."
+msgstr ""
+
+#: Service/GoogleOAuthService.php:218
+msgid "Google OAuth request failed with HTTP "
+msgstr ""
+
+#: Service/IndexNowService.php:52
+msgid "IndexNow is disabled."
+msgstr ""
+
+#: Service/IndexNowService.php:58
+msgid "Missing IndexNow key."
+msgstr ""
+
+#: Service/IndexNowService.php:67
+msgid "No URLs provided."
+msgstr ""
+
+#: Service/IndexNowService.php:79
+msgid "Unable to determine IndexNow host."
+msgstr ""
+
+#: Service/IndexNowService.php:126
+msgid "IndexNow request failed with HTTP "
+msgstr ""
+
+#: Service/SearchConsoleService.php:99
+msgid "Missing Search Console site URL."
+msgstr ""
+
+#: Service/SearchConsoleService.php:163
+msgid "Search Console request failed with HTTP "
+msgstr ""
+
+#: Service/SearchConsoleService.php:186
+msgid "Search Console site URL is not configured."
+msgstr ""
+
+#: Service/SearchConsoleService.php:192
+msgid "Missing sitemap URL."
+msgstr ""
+
+#: Service/SearchConsoleService.php:219
+msgid "Google sitemap submission failed with HTTP "
+msgstr ""
+
+#: Service/SettingsImportExportService.php:54
+msgid "Invalid JSON file."
+msgstr ""
+
+#: Service/SettingsImportExportService.php:60
+msgid "Import file does not contain settings."
+msgstr ""
+
+#: SimpleSeoPlugin.php:79
+msgid "Simple Seo"
+msgstr ""
+
+#: SimpleSeoPlugin.php:84
+msgid ""
+"Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
+"technical SEO, indexing, crawl management, 404 monitoring, and so much more."
+msgstr ""
+
+#: SimpleSeoPlugin.php:145
+msgid "SEO Routes"
+msgstr ""
+
+#: SimpleSeoPlugin.php:164
+msgid ""
+"You must upgrade your system to at least v2.3 in order to use the Simple SEO "
+"plugin."
+msgstr ""
+
+#: view/404-monitor.phtml:31 view/indexing.phtml:26 view/redirects.phtml:32
+#: view/settings.phtml:100
+msgid "Search Console"
+msgstr ""
+
+#: view/404-monitor.phtml:32 view/indexing.phtml:27 view/redirects.phtml:33
+#: view/search-console.phtml:28 view/settings.phtml:97
+msgid "Seo Settings"
+msgstr ""
+
+#: view/404-monitor.phtml:33 view/indexing.phtml:28 view/partial/seo-tabs.phtml:138
+#: view/redirects.phtml:100 view/search-console.phtml:29 view/settings.phtml:101
+msgid "Redirects"
+msgstr ""
+
+#: view/404-monitor.phtml:81
+msgid "Search URL, referrer, user agent"
+msgstr ""
+
+#: view/404-monitor.phtml:115 view/redirects.phtml:196
+msgid "Bulk Actions"
+msgstr ""
+
+#: view/404-monitor.phtml:116 view/404-monitor.phtml:189
+msgid "Ignore"
+msgstr ""
+
+#: view/404-monitor.phtml:117 view/404-monitor.phtml:182
+msgid "Restore"
+msgstr ""
+
+#: view/404-monitor.phtml:118 view/404-monitor.phtml:199 view/404-monitor.phtml:284
+#: view/redirects.phtml:199 view/redirects.phtml:315 view/route-form.phtml:40
+msgid "Delete"
+msgstr ""
+
+#: view/404-monitor.phtml:126 view/redirects.phtml:207
+msgid "Apply"
+msgstr ""
+
+#: view/404-monitor.phtml:138 view/indexing.phtml:48
+msgid "URL"
+msgstr ""
+
+#: view/404-monitor.phtml:139 view/redirects.phtml:224
+msgid "Hits"
+msgstr ""
+
+#: view/404-monitor.phtml:140
+msgid "Referrer"
+msgstr ""
+
+#: view/404-monitor.phtml:141
+msgid "First Seen"
+msgstr ""
+
+#: view/404-monitor.phtml:142
+msgid "Last Seen"
+msgstr ""
+
+#: view/404-monitor.phtml:143 view/redirects.phtml:227
+msgid "Actions"
+msgstr ""
+
+#: view/404-monitor.phtml:149
+msgid "No 404s recorded."
+msgstr ""
+
+#: view/404-monitor.phtml:173 view/404-monitor.phtml:216 view/404-monitor.phtml:255
+msgid "Create Redirect"
+msgstr ""
+
+#: view/404-monitor.phtml:221 view/redirects.phtml:51 view/redirects.phtml:359
+msgid "Source URL"
+msgstr ""
+
+#: view/404-monitor.phtml:232 view/redirects.phtml:62 view/redirects.phtml:370
+msgid "Target URL"
+msgstr ""
+
+#: view/404-monitor.phtml:243 view/redirects.phtml:73 view/redirects.phtml:381
+msgid "Status Code"
+msgstr ""
+
+#: view/404-monitor.phtml:245 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:75
+msgid "301 Permanent"
+msgstr ""
+
+#: view/404-monitor.phtml:246 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:76
+msgid "302 Temporary"
+msgstr ""
+
+#: view/404-monitor.phtml:247 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:77
+msgid "307 Temporary"
+msgstr ""
+
+#: view/404-monitor.phtml:248 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:78
+msgid "308 Permanent"
+msgstr ""
+
+#: view/404-monitor.phtml:254 view/404-monitor.phtml:283 view/404-monitor.phtml:365
+#: view/redirects.phtml:414 view/redirects.phtml:461 view/redirects.phtml:546
+#: view/route-form.phtml:41 view/route-form.phtml:44
+msgid "Cancel"
+msgstr ""
+
+#: view/404-monitor.phtml:274
+msgid "Delete 404 Entry"
+msgstr ""
+
+#: view/404-monitor.phtml:278
+msgid "Delete this 404 entry?"
+msgstr ""
+
+#: view/404-monitor.phtml:307 view/redirects.phtml:488
+msgid "Showing page"
+msgstr ""
+
+#: view/404-monitor.phtml:353 view/redirects.phtml:534
+msgid "Bulk Action"
+msgstr ""
+
+#: view/404-monitor.phtml:371 view/redirects.phtml:552
+msgid "Continue"
+msgstr ""
+
+#: view/indexing.phtml:23
+msgid "Manual URL & Sitemap Submission"
+msgstr ""
+
+#: view/indexing.phtml:45
+msgid "Submit Single URL"
+msgstr ""
+
+#: view/indexing.phtml:56 view/indexing.phtml:87 view/indexing.phtml:125
+msgid "Submit To"
+msgstr ""
+
+#: view/indexing.phtml:60 view/indexing.phtml:91
+msgid "Google Indexing API"
+msgstr ""
+
+#: view/indexing.phtml:64 view/settings.phtml:871
+msgid "Submit URL"
+msgstr ""
+
+#: view/indexing.phtml:75
+msgid "Submit Multiple URLs"
+msgstr ""
+
+#: view/indexing.phtml:78
+msgid "URLs"
+msgstr ""
+
+#: view/indexing.phtml:83
+msgid "Enter one URL per line."
+msgstr ""
+
+#: view/indexing.phtml:95
+msgid "Submit URLs"
+msgstr ""
+
+#: view/indexing.phtml:106
+msgid "Manual Sitemap Submission"
+msgstr ""
+
+#: view/indexing.phtml:114 view/indexing.phtml:133
+msgid "Submit Sitemap"
+msgstr ""
+
+#: view/indexing.phtml:117
+msgid "Sitemap URL"
+msgstr ""
+
+#: view/indexing.phtml:127
+msgid "IndexNow + Google Search Console"
+msgstr ""
+
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+msgid "Google Search Console"
+msgstr ""
+
+#: view/partial/seo-side.phtml:4
+msgid "SEO Score"
+msgstr ""
+
+#: view/partial/seo-side.phtml:7
+msgid ""
+"Score updates after analysis. Save the page to persist SEO fields into the "
+"attribute JSON field."
+msgstr ""
+
+#: view/partial/seo-side.phtml:8
+msgid "Run SEO Analysis"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:127
+msgid "SEO"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:133
+msgid "Analysis"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:134 view/partial/seo-tabs.phtml:194
+#: view/partial/seo-tabs.phtml:250
+msgid "Title"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:135
+msgid "Social"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:136 view/settings.phtml:122
+msgid "Schema"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:137
+msgid "Advanced"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:144
+msgid "Focus keyphrase"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:147
+msgid "Analyze Content"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:150
+msgid "Analysis Check"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:151
+msgid ""
+"Checks title, description, body length, focus phrase usage, headings, canonical, "
+"social image, and indexability."
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:158
+msgid "Search Preview"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:179
+msgid "Meta title"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:181 view/partial/seo-tabs.phtml:186
+msgid "characters"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:184
+msgid "Meta description"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:192
+msgid "Facebook / Open Graph"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:199 view/partial/seo-tabs.phtml:255
+msgid "Description"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
+#: view/settings.phtml:172 view/settings.phtml:572
+msgid "Browse"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:226 view/partial/seo-tabs.phtml:282
+#: view/settings.phtml:178
+msgid "Enter an image URL manually or choose one from the media manager."
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:242
+msgid "Card"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:244
+msgid "Summary large image"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:245
+msgid "Summary"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:298
+msgid "Schema type"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:299
+msgid "Custom schema JSON object or @graph"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:299
+msgid ""
+"Optional. Leave blank to let Simple SEO generate schema from the content/product."
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:302
+msgid "Allow indexing"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:303
+msgid "Follow links"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:304
+msgid "No archive"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:305
+msgid "No snippet"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:307
+msgid "Canonical URL"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:318
+msgid ""
+"Leave empty to let Simple SEO generate the canonical URL automatically from the "
+"slug."
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:321
+msgid "Include in sitemap"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:322
+msgid "Priority"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:322
+msgid "Change frequency"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:323
+msgid "Include in news sitemap"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:324
+msgid "News keywords"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:325
+msgid "Image URLs, one per line"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:326
+msgid "Video URLs, one per line"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:329
+msgid "Enable redirect"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:330
+msgid "Redirect from URI"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:331
+msgid "Redirect to URI"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:332 view/redirects.phtml:222
+msgid "Status"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:342
+msgid "Untitled"
+msgstr ""
+
+#: view/partial/seo-tabs.phtml:343
+msgid "No meta description has been set."
+msgstr ""
+
+#: view/redirects.phtml:45
+msgid "Add Redirect"
+msgstr ""
+
+#: view/redirects.phtml:87 view/redirects.phtml:114 view/redirects.phtml:225
+#: view/redirects.phtml:284 view/redirects.phtml:399
+msgid "Enabled"
+msgstr ""
+
+#: view/redirects.phtml:93 view/redirects.phtml:415
+msgid "Save Redirect"
+msgstr ""
+
+#: view/redirects.phtml:108
+msgid "All"
+msgstr ""
+
+#: view/redirects.phtml:120 view/redirects.phtml:286
+msgid "Disabled"
+msgstr ""
+
+#: view/redirects.phtml:126 view/redirects.phtml:278
+msgid "Manual"
+msgstr ""
+
+#: view/redirects.phtml:132
+msgid "Content"
+msgstr ""
+
+#: view/redirects.phtml:138
+msgid "Products"
+msgstr ""
+
+#: view/redirects.phtml:144
+msgid "Pages"
+msgstr ""
+
+#: view/redirects.phtml:169
+msgid "per page"
+msgstr ""
+
+#: view/redirects.phtml:175
+msgid "Filter"
+msgstr ""
+
+#: view/redirects.phtml:180
+msgid "Clear"
+msgstr ""
+
+#: view/redirects.phtml:197 view/redirects.phtml:305
+msgid "Enable"
+msgstr ""
+
+#: view/redirects.phtml:198 view/redirects.phtml:305
+msgid "Disable"
+msgstr ""
+
+#: view/redirects.phtml:219
+msgid "Warnings"
+msgstr ""
+
+#: view/redirects.phtml:220
+msgid "Source"
+msgstr ""
+
+#: view/redirects.phtml:221
+msgid "Target"
+msgstr ""
+
+#: view/redirects.phtml:226
+msgid "Updated"
+msgstr ""
+
+#: view/redirects.phtml:233
+msgid "No redirects found."
+msgstr ""
+
+#: view/redirects.phtml:253
+msgid "Chain"
+msgstr ""
+
+#: view/redirects.phtml:297
+msgid "Edit"
+msgstr ""
+
+#: view/redirects.phtml:330
+msgid "Edit Redirect"
+msgstr ""
+
+#: view/redirects.phtml:336
+msgid "Redirect chain detected."
+msgstr ""
+
+#: view/redirects.phtml:338
+#, php-format
+msgid ""
+" Current target:\n"
+"                                                                    <code>%s</"
+"code><br>\n"
+"                                                                    That target "
+"redirects to:\n"
+"                                                                    <code>%s</"
+"code>\n"
+"                                                                    %s\n"
+"                                                                        Consider "
+"changing this redirect target directly to:\n"
+"                                                                        <code>%s</"
+"code>\n"
+"                                                                    %s"
+msgstr ""
+
+#: view/redirects.phtml:405
+msgid "This redirect is linked to"
+msgstr ""
+
+#: view/redirects.phtml:408
+msgid "Saving changes will also update that entity's SEO Redirect tab."
+msgstr ""
+
+#: view/redirects.phtml:432 view/redirects.phtml:462
+msgid "Delete Redirect"
+msgstr ""
+
+#: view/redirects.phtml:436
+msgid "Are you sure you want to delete this redirect?"
+msgstr ""
+
+#: view/route-form.phtml:34
+msgid "Custom SEO Route"
+msgstr ""
+
+#: view/route-form.phtml:38 view/routes.phtml:28
+msgid "New SEO Route"
+msgstr ""
+
+#: view/route-form.phtml:39
+msgid "Update"
+msgstr ""
+
+#: view/route-form.phtml:43
+msgid "Save"
+msgstr ""
+
+#: view/routes.phtml:25
+msgid "Custom SEO Routes"
+msgstr ""
+
+#: view/search-console.phtml:47
+msgid ""
+"Google Search Console is not connected.\n"
+"                Add your Google Client ID and Client Secret in SEO Settings, then "
+"connect your account."
+msgstr ""
+
+#: view/search-console.phtml:52
+msgid "Go to SEO Settings"
+msgstr ""
+
+#: view/search-console.phtml:57
+msgid "Google is connected, but no Search Console Site URL has been configured."
+msgstr ""
+
+#: view/search-console.phtml:61
+msgid "Configure Site URL"
+msgstr ""
+
+#: view/search-console.phtml:70 view/search-console.phtml:139
+#: view/search-console.phtml:178
+msgid "Clicks"
+msgstr ""
+
+#: view/search-console.phtml:79 view/search-console.phtml:140
+#: view/search-console.phtml:179
+msgid "Impressions"
+msgstr ""
+
+#: view/search-console.phtml:97
+msgid "Avg Position"
+msgstr ""
+
+#: view/search-console.phtml:110
+msgid "Connected property:"
+msgstr ""
+
+#: view/search-console.phtml:120
+msgid "Test Connection"
+msgstr ""
+
+#: view/search-console.phtml:131
+msgid "Top Queries"
+msgstr ""
+
+#: view/search-console.phtml:138
+msgid "Query"
+msgstr ""
+
+#: view/search-console.phtml:142 view/search-console.phtml:181
+msgid "Position"
+msgstr ""
+
+#: view/search-console.phtml:148
+msgid "No query data available."
+msgstr ""
+
+#: view/search-console.phtml:170
+msgid "Top Pages"
+msgstr ""
+
+#: view/search-console.phtml:177
+msgid "Page"
+msgstr ""
+
+#: view/search-console.phtml:187
+msgid "No page data available."
+msgstr ""
+
+#: view/settings.phtml:118
+msgid "Global"
+msgstr ""
+
+#: view/settings.phtml:119
+msgid "Homepage"
+msgstr ""
+
+#: view/settings.phtml:120
+msgid "Webmaster"
+msgstr ""
+
+#: view/settings.phtml:123
+msgid "Sitemaps"
+msgstr ""
+
+#: view/settings.phtml:135
+msgid "Theme/View Instructions"
+msgstr ""
+
+#: view/settings.phtml:140
+msgid "Site name"
+msgstr ""
+
+#: view/settings.phtml:145
+msgid "Title template"
+msgstr ""
+
+#: view/settings.phtml:150
+msgid "Default description"
+msgstr ""
+
+#: view/settings.phtml:155
+msgid "Default social image"
+msgstr ""
+
+#: view/settings.phtml:192
+msgid "Google Analytics"
+msgstr ""
+
+#: view/settings.phtml:204
+msgid "Enable Google Analytics"
+msgstr ""
+
+#: view/settings.phtml:209
+msgid "Measurement ID"
+msgstr ""
+
+#: view/settings.phtml:219
+msgid "Google Tag Manager"
+msgstr ""
+
+#: view/settings.phtml:231
+msgid "Enable Google Tag Manager"
+msgstr ""
+
+#: view/settings.phtml:236
+msgid "Container ID"
+msgstr ""
+
+#: view/settings.phtml:245
+msgid "Uninstall"
+msgstr ""
+
+#: view/settings.phtml:255
+msgid "Remove all data on Deactivation"
+msgstr ""
+
+#: view/settings.phtml:271
+msgid "Google Analytics / Tag Manager Theme Instructions"
+msgstr ""
+
+#: view/settings.phtml:276
+msgid ""
+"For Simple SEO tracking to work correctly, your theme/layout should include these "
+"action helpers."
+msgstr ""
+
+#: view/settings.phtml:279
+msgid "1. Head Helper"
+msgstr ""
+
+#: view/settings.phtml:280 view/settings.phtml:303
+msgid "Place this before the closing"
+msgstr ""
+
+#: view/settings.phtml:284 view/settings.phtml:296 view/settings.phtml:308
+msgid "This is used for:"
+msgstr ""
+
+#: view/settings.phtml:286
+msgid "Google Tag Manager script loader"
+msgstr ""
+
+#: view/settings.phtml:287
+msgid "SEO meta tags if your theme outputs them through the head hook"
+msgstr ""
+
+#: view/settings.phtml:290
+msgid "2. Body Open Helper"
+msgstr ""
+
+#: view/settings.phtml:291
+msgid "Place this immediately after the opening"
+msgstr ""
+
+#: view/settings.phtml:298
+msgid "Google Tag Manager body placement support"
+msgstr ""
+
+#: view/settings.phtml:299
+msgid "Frontend integrations that must load near the top of the body"
+msgstr ""
+
+#: view/settings.phtml:302
+msgid "3. Footer Helper"
+msgstr ""
+
+#: view/settings.phtml:310
+msgid "Google Analytics footer loader"
+msgstr ""
+
+#: view/settings.phtml:311
+msgid "Footer scripts registered by plugins"
+msgstr ""
+
+#: view/settings.phtml:314
+msgid "Recommended Theme Layout"
+msgstr ""
+
+#: view/settings.phtml:332
+msgid "Tracking Behavior"
+msgstr ""
+
+#: view/settings.phtml:334
+msgid "Google Tag Manager loads from"
+msgstr ""
+
+#: view/settings.phtml:335
+msgid "Google Analytics loads from"
+msgstr ""
+
+#: view/settings.phtml:336
+msgid "No tracking IDs are hardcoded into the theme or layout."
+msgstr ""
+
+#: view/settings.phtml:344
+msgid "Got it"
+msgstr ""
+
+#: view/settings.phtml:354
+msgid "Homepage SEO title"
+msgstr ""
+
+#: view/settings.phtml:359
+msgid "Homepage description"
+msgstr ""
+
+#: view/settings.phtml:364
+msgid "Homepage schema type"
+msgstr ""
+
+#: view/settings.phtml:387
+msgid "Allow search engines to index the homepage"
+msgstr ""
+
+#: view/settings.phtml:395
+msgid "Allow search engines to follow homepage links"
+msgstr ""
+
+#: view/settings.phtml:403
+msgid "Prevent cached homepage copies"
+msgstr ""
+
+#: view/settings.phtml:411
+msgid "Prevent homepage snippets in search results"
+msgstr ""
+
+#: view/settings.phtml:418
+msgid "Google site verification"
+msgstr ""
+
+#: view/settings.phtml:423
+msgid "Bing verification"
+msgstr ""
+
+#: view/settings.phtml:428
+msgid "Yandex verification"
+msgstr ""
+
+#: view/settings.phtml:433
+msgid "Baidu verification"
+msgstr ""
+
+#: view/settings.phtml:450
+msgid "Enable IndexNow"
+msgstr ""
+
+#: view/settings.phtml:462
+msgid "Enable Google Indexing API"
+msgstr ""
+
+#: view/settings.phtml:466
+msgid "Google Client ID"
+msgstr ""
+
+#: view/settings.phtml:476
+msgid "Google Client Secret"
+msgstr ""
+
+#: view/settings.phtml:486
+msgid "Search Console Site URL"
+msgstr ""
+
+#: view/settings.phtml:504
+msgid "Missing Credentials"
+msgstr ""
+
+#: view/settings.phtml:505
+msgid ""
+"Enter your Google Client ID and Client Secret, then save settings before "
+"connecting."
+msgstr ""
+
+#: view/settings.phtml:515
+msgid "Google Search Console is connected."
+msgstr ""
+
+#: view/settings.phtml:521
+msgid "Disconnect Google"
+msgstr ""
+
+#: view/settings.phtml:528
+msgid "No Connection"
+msgstr ""
+
+#: view/settings.phtml:529
+msgid "Connect your Google account to access Search Console statistics."
+msgstr ""
+
+#: view/settings.phtml:534
+msgid "Connect Google"
+msgstr ""
+
+#: view/settings.phtml:544
+msgid "Auto submit sitemap URLs"
+msgstr ""
+
+#: view/settings.phtml:550
+msgid "Organization name"
+msgstr ""
+
+#: view/settings.phtml:555
+msgid "Organization logo"
+msgstr ""
+
+#: view/settings.phtml:578
+msgid "Enter a logo URL manually or choose one from the media manager."
+msgstr ""
+
+#: view/settings.phtml:592
+msgid "Organization phone"
+msgstr ""
+
+#: view/settings.phtml:597
+msgid "Default schema type"
+msgstr ""
+
+#: view/settings.phtml:617
+msgid "Enable styling for sitemaps."
+msgstr ""
+
+#: view/settings.phtml:625
+msgid "Sitemap XSL"
+msgstr ""
+
+#: view/settings.phtml:629
+msgid "Enable the sitemaps you would like to use for your site."
+msgstr ""
+
+#: view/settings.phtml:637
+msgid "Content Sitemap"
+msgstr ""
+
+#: view/settings.phtml:644
+msgid "Product Sitemap"
+msgstr ""
+
+#: view/settings.phtml:651
+msgid "News Sitemap"
+msgstr ""
+
+#: view/settings.phtml:658
+msgid "Image Sitemap"
+msgstr ""
+
+#: view/settings.phtml:665
+msgid "Video Sitemap"
+msgstr ""
+
+#: view/settings.phtml:672
+msgid "Content Types Sitemap"
+msgstr ""
+
+#: view/settings.phtml:679
+msgid "Pages Sitemap"
+msgstr ""
+
+#: view/settings.phtml:693
+msgid "Enable runtime robots.txt"
+msgstr ""
+
+#: view/settings.phtml:706
+msgid "Allow search engines to crawl this site"
+msgstr ""
+
+#: view/settings.phtml:719
+msgid "Include sitemap URL"
+msgstr ""
+
+#: view/settings.phtml:724
+msgid "Custom Robots Rules"
+msgstr ""
+
+#: view/settings.phtml:733
+msgid "Leave empty to use the default"
+msgstr ""
+
+#: view/settings.phtml:733
+msgid "These rules apply only to the current site."
+msgstr ""
+
+#: view/settings.phtml:738
+msgid "Runtime URL:"
+msgstr ""
+
+#: view/settings.phtml:749
+msgid "Save SEO Settings"
+msgstr ""
+
+#: view/settings.phtml:762
+msgid "Crawl Diagnostics"
+msgstr ""
+
+#: view/settings.phtml:788
+msgid "No diagnostics available."
+msgstr ""
+
+#: view/settings.phtml:798
+msgid "Import/Export"
+msgstr ""
+
+#: view/settings.phtml:803
+msgid ""
+"Export SEO settings as JSON or import settings from another Devflow site.\n"
+"                            OAuth connection tokens are not exported."
+msgstr ""
+
+#: view/settings.phtml:810
+msgid "Export Settings"
+msgstr ""
+
+#: view/settings.phtml:821
+msgid "Import Settings JSON"
+msgstr ""
+
+#: view/settings.phtml:830
+msgid "Import Settings"
+msgstr ""
+
+#: view/settings.phtml:838
+msgid "Submit URL for Indexing"
+msgstr ""

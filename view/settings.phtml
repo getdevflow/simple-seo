@@ -1,0 +1,897 @@
+<?php
+
+use App\Application\Devflow;
+use App\Shared\Services\Registry;
+use Plugin\SimpleSeo\Support\SimpleSeoHelper;
+
+use function App\Shared\Helpers\admin_url;
+use function App\Shared\Helpers\checked;
+use function App\Shared\Helpers\help_block;
+use function App\Shared\Helpers\site_url;
+use function Qubus\Security\Helpers\esc_attr;
+use function Qubus\Security\Helpers\esc_html;
+use function Qubus\Security\Helpers\esc_html__;
+use function Qubus\Security\Helpers\t__;
+
+$this->parent('framework::backend/layouts/admin-layout');
+$this->block('backend', function ($param) {
+
+Registry::getInstance()->{'set'}('screen_parent', 'simple-seo');
+Registry::getInstance()->{'set'}('screen_child', 'simple-seo');
+$r = Registry::getInstance()->get('simple-seo');
+
+$schemaTypes = [
+    'WebSite' => 'WebSite',
+    'WebPage' => 'WebPage',
+    'Article' => 'Article',
+    'BlogPosting' => 'BlogPosting',
+    'NewsArticle' => 'NewsArticle',
+    'Product' => 'Product',
+    'Organization' => 'Organization',
+    'LocalBusiness' => 'LocalBusiness',
+    'Person' => 'Person',
+    'FAQPage' => 'FAQPage',
+];
+?>
+
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link href="vendor/studio-42/elfinder/css/elfinder.full.css" type="text/css" rel="stylesheet" />
+<link href="vendor/studio-42/elfinder/css/theme.css" type="text/css" rel="stylesheet" />
+<script src="vendor/studio-42/elfinder/js/elfinder.full.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" type="text/javascript"></script>
+
+    <script>
+        (function ($) {
+            $(document).on('click', '.js-seo-elfinder', function (e) {
+                e.preventDefault();
+
+                var target = $($(this).data('target'));
+                var finder = $('<div class="seo-elfinder-dialog"></div>');
+
+                finder.dialog({
+                    title: 'Select Image',
+                    modal: true,
+                    width: 920,
+                    height: 550,
+                    closeOnEscape: true,
+                    destroyOnClose: true,
+                    close: function () {
+                        $(this).dialog('destroy').remove();
+                    },
+                    open: function () {
+                        finder.elfinder({
+                            url: '<?=admin_url('connector');?>',
+                            lang: 'en',
+                            commandsOptions: {
+                                getfile: {
+                                    onlyURL: false,
+                                    multiple: false,
+                                    folders: false,
+                                    oncomplete: "destroy"
+                                }
+                            },
+                            getFileCallback: function (file, fm) {
+                                if ($.isArray(file)) {
+                                    file = file[0];
+                                }
+
+                                var url = file && file.url ? file.url : '';
+
+                                if (url !== '') {
+                                    target.val(url).trigger('change');
+                                }
+
+                                finder.dialog('close');
+                            }
+                        });
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+
+<div class="content-wrapper">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-magnifying-glass"></i>
+            <h3 class="box-title"><?= esc_html__('Seo Settings', $r['id']); ?></h3>
+
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary" onclick="window.location='<?= admin_url('plugin/simple-seo/search-console/');?>'"><i class="fa fa-chart-line"></i> <?=esc_html__('Search Console', $r['id']);?></button>
+                <button type="button" class="btn btn-warning" onclick="window.location='<?= admin_url('plugin/simple-seo/redirects/');?>'"><i class="fa fa-diamond-turn-right"></i> <?=esc_html__('Redirects', $r['id']);?></button>
+                <button type="button" class="btn btn-success" onclick="window.location='<?= admin_url('plugin/simple-seo/indexing/');?>'"><i class="fa fa-indent"></i> <?=esc_html__('Indexing', $r['id']);?></button>
+                <button type="button" class="btn btn-dark" onclick="window.location='<?= admin_url('plugin/simple-seo/404-monitor/');?>'"><i class="fa fa-binoculars"></i> <?=esc_html__('404 Monitor', $r['id']);?></button>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <?= Devflow::$PHP->flash->display(); ?>
+        <div class="row">
+            <div class="col-md-9">
+                <form method="post" action="<?= admin_url('plugin/simple-seo/') ?>">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <div class="nav-tabs-custom">
+                                <div class="simple-seo-tabs-scroll">
+                                    <ul class="nav nav-tabs simple-seo-tabs" role="tablist">
+                                        <li class="active"><a data-toggle="tab" href="#seo-global"><i class="fa-solid fa-globe"></i> <?=esc_html__('Global', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-home"><i class="fa-solid fa-house"></i> <?=esc_html__('Homepage', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-webmaster"><i class="fa-solid fa-screwdriver-wrench"></i> <?=esc_html__('Webmaster', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-indexing"><i class="fa-solid fa-folder"></i> <?=esc_html__('Indexing', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-schema-defaults"><i class="fa-solid fa-code-branch"></i> <?=esc_html__('Schema', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-sitemaps"><i class="fa-solid fa-sitemap"></i> <?=esc_html__('Sitemaps', $r['id']);?></a></li>
+                                        <li><a data-toggle="tab" href="#seo-robots"><i class="fa-solid fa-robot"></i> Robots.txt</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab-content" style="padding-top:15px">
+                                    <div id="seo-global" class="tab-pane active">
+                                        <div class="form-group">
+                                            <button type="button"
+                                                    class="btn btn-default"
+                                                    data-toggle="modal"
+                                                    data-target="#seoTrackingThemeInstructionsModal">
+                                                <?=esc_html__('Theme/View Instructions', $r['id']);?>
+                                            </button>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Site name', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[site_name]" value="<?= SimpleSeoHelper::text($param['settings']['site_name']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Title template', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[default_title_template]" value="<?= SimpleSeoHelper::text($param['settings']['default_title_template']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Default description', $r['id']);?></label>
+                                            <textarea class="form-control" name="seo_settings[default_description]" rows="3"><?= SimpleSeoHelper::text($param['settings']['default_description']) ?></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Default social image', $r['id']);?></label>
+                                            <div class="input-group">
+                                                <input
+                                                        type="text"
+                                                        name="seo_settings[default_social_image]"
+                                                        id="default_social_image"
+                                                        class="form-control"
+                                                        value="<?= SimpleSeoHelper::text($param['settings']['default_social_image']); ?>"
+                                                        placeholder="https://example.com/social-image.jpg"
+                                                >
+
+                                                <span class="input-group-btn">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-default js-seo-elfinder"
+                                                        data-target="#default_social_image"
+                                                    >
+                                                        <?=esc_html__('Browse', $r['id']);?>
+                                                    </button>
+                                                </span>
+                                            </div>
+
+                                            <p class="help-block">
+                                                <?=esc_html__('Enter an image URL manually or choose one from the media manager.', $r['id']);?>
+                                            </p>
+                                            <?php if (!empty($param['settings']['default_social_image'])): ?>
+                                                <p style="margin-top:10px;">
+                                                    <img
+                                                        src="<?= SimpleSeoHelper::text($param['settings']['default_social_image']); ?>"
+                                                        alt=""
+                                                        style="max-width:250px;height:auto;"
+                                                    >
+                                                </p>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title"><?=esc_html__('Google Analytics', $r['id']);?></h3>
+                                        </div>
+
+                                        <div class="box-body">
+                                            <input type="hidden" name="seo_settings[enable_google_analytics]" value="0">
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="seo_settings[enable_google_analytics]"
+                                                           value="1"
+                                                            <?= !empty($param['settings']['enable_google_analytics']) ? 'checked' : ''; ?>>
+                                                    <?=esc_html__('Enable Google Analytics', $r['id']);?>
+                                                </label>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label><?=esc_html__('Measurement ID', $r['id']);?></label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="seo_settings[google_analytics_id]"
+                                                       value="<?= esc_attr((string) ($param['settings']['google_analytics_id'] ?? '')); ?>"
+                                                       placeholder="G-XXXXXXXXXX">
+                                            </div>
+                                        </div>
+
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title"><?=esc_html__('Google Tag Manager', $r['id']);?></h3>
+                                        </div>
+
+                                        <div class="box-body">
+                                            <input type="hidden" name="seo_settings[enable_google_tag_manager]" value="0">
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="seo_settings[enable_google_tag_manager]"
+                                                           value="1"
+                                                            <?= !empty($param['settings']['enable_google_tag_manager']) ? 'checked' : ''; ?>>
+                                                    <?=esc_html__('Enable Google Tag Manager', $r['id']);?>
+                                                </label>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label><?=esc_html__('Container ID', $r['id']);?></label>
+                                                <input type="text"
+                                                   class="form-control"
+                                                   name="seo_settings[google_tag_manager_id]"
+                                                   value="<?= esc_attr((string) ($param['settings']['google_tag_manager_id'] ?? '')); ?>"
+                                                   placeholder="GTM-XXXXXXX">
+                                            </div>
+
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><?=esc_html__('Uninstall', $r['id']);?></h3>
+                                            </div>
+
+                                            <div class="box-body">
+                                                <div class="form-group">
+
+                                                    <input type="checkbox"
+                                                           class="js-switch"
+                                                           name="seo_settings[remove_settings]"
+                                                           value="1"<?= checked('1', !empty($param['settings']['remove_settings']) ? '1' : '0', false); ?> />
+                                                    <label><?= esc_html__('Remove all data on Deactivation', $r['id']); ?></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="seoTrackingThemeInstructionsModal" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button"
+                                                                class="close"
+                                                                data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+
+                                                        <h4 class="modal-title"><?=esc_html__('Google Analytics / Tag Manager Theme Instructions', $r['id']);?></h4>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            <?=esc_html__('For Simple SEO tracking to work correctly, your theme/layout should include these action helpers.', $r['id']);?>
+                                                        </p>
+
+                                                        <h4><?=esc_html__('1. Head Helper', $r['id']);?></h4>
+                                                        <p><?=esc_html__('Place this before the closing', $r['id']);?> <code>&lt;/head&gt;</code> tag:</p>
+
+<pre><code>&lt;?php \App\Shared\Helpers\cms_head(); ?&gt;</code></pre>
+
+                                                        <p><?=esc_html__('This is used for:', $r['id']);?></p>
+                                                        <ul>
+                                                            <li><?=esc_html__('Google Tag Manager script loader', $r['id']);?></li>
+                                                            <li><?=esc_html__('SEO meta tags if your theme outputs them through the head hook', $r['id']);?></li>
+                                                        </ul>
+
+                                                        <h4><?=esc_html__('2. Body Open Helper', $r['id']);?></h4>
+                                                        <p><?=esc_html__('Place this immediately after the opening', $r['id']);?> <code>&lt;body&gt;</code> tag:</p>
+
+<pre><code>&lt;body&gt;
+&lt;?php \App\Shared\Helpers\cms_body_open(); ?&gt;</code></pre>
+
+                                                        <p><?=esc_html__('This is used for:', $r['id']);?></p>
+                                                        <ul>
+                                                            <li><?=esc_html__('Google Tag Manager body placement support', $r['id']);?></li>
+                                                            <li><?=esc_html__('Frontend integrations that must load near the top of the body', $r['id']);?></li>
+                                                        </ul>
+
+                                                        <h4><?=esc_html__('3. Footer Helper', $r['id']);?></h4>
+                                                        <p><?=esc_html__('Place this before the closing', $r['id']);?> <code>&lt;/body&gt;</code> tag:</p>
+
+<pre><code>&lt;?php \App\Shared\Helpers\cms_footer(); ?&gt;
+&lt;/body&gt;</code></pre>
+
+                                                        <p><?=esc_html__('This is used for:', $r['id']);?></p>
+                                                        <ul>
+                                                            <li><?=esc_html__('Google Analytics footer loader', $r['id']);?></li>
+                                                            <li><?=esc_html__('Footer scripts registered by plugins', $r['id']);?></li>
+                                                        </ul>
+
+                                                        <h4><?=esc_html__('Recommended Theme Layout', $r['id']);?></h4>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;?php \App\Shared\Helpers\cms_head(); ?&gt;
+    ...
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;?php \App\Shared\Helpers\cms_body_open(); ?&gt;
+
+    ...
+
+    &lt;?php \App\Shared\Helpers\cms_footer(); ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                                                        <h4><?=esc_html__('Tracking Behavior', $r['id']);?></h4>
+                                                        <ul>
+                                                            <li><?=esc_html__('Google Tag Manager loads from', $r['id']);?> <code>cms_head</code>.</li>
+                                                            <li><?=esc_html__('Google Analytics loads from', $r['id']);?> <code>cms_footer</code>.</li>
+                                                            <li><?=esc_html__('No tracking IDs are hardcoded into the theme or layout.', $r['id']);?></li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-primary"
+                                                                data-dismiss="modal">
+                                                            <?=esc_html__('Got it', $r['id']);?>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-home" class="tab-pane">
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Homepage SEO title', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[homepage_title]" value="<?= SimpleSeoHelper::text($param['settings']['homepage_title']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Homepage description', $r['id']);?></label>
+                                            <textarea class="form-control" name="seo_settings[homepage_description]" rows="3"><?= SimpleSeoHelper::text($param['settings']['homepage_description']) ?></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Homepage schema type', $r['id']);?></label>
+                                            <select
+                                                name="seo_settings[homepage_schema_type]"
+                                                id="homepage_schema_type"
+                                                class="form-control"
+                                            >
+                                                <?php foreach ($schemaTypes as $value => $label): ?>
+                                                    <option
+                                                            value="<?= esc_attr($value); ?>"
+                                                            <?= ($param['settings']['homepage_schema_type'] ?? 'WebSite') === $value ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= esc_html($label); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <input type="checkbox"
+                                                       class="js-switch"
+                                                       name="seo_settings[homepage_robots_index]"
+                                                       value="1"<?= checked('1', !empty($param['settings']['homepage_robots_index']) ? '1' : '0', false); ?> />
+                                                <label><?= esc_html__('Allow search engines to index the homepage', $r['id']); ?></label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <input type="checkbox"
+                                                       class="js-switch"
+                                                       name="seo_settings[homepage_robots_follow]"
+                                                       value="1"<?= checked('1', !empty($param['settings']['homepage_robots_follow']) ? '1' : '0', false); ?> />
+                                                <label><?= esc_html__('Allow search engines to follow homepage links', $r['id']); ?></label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <input type="checkbox"
+                                                       class="js-switch"
+                                                       name="seo_settings[homepage_robots_noarchive]"
+                                                       value="1"<?= checked('1', !empty($param['settings']['homepage_robots_noarchive']) ? '1' : '0', false); ?> />
+                                                <label><?= esc_html__('Prevent cached homepage copies', $r['id']); ?></label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <input type="checkbox"
+                                                       class="js-switch"
+                                                       name="seo_settings[homepage_robots_nosnippet]"
+                                                       value="1"<?= checked('1', !empty($param['settings']['homepage_robots_nosnippet']) ? '1' : '0', false); ?> />
+                                                <label><?= esc_html__('Prevent homepage snippets in search results', $r['id']); ?></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-webmaster" class="tab-pane">
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Google site verification', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[google_site_verification]" value="<?= SimpleSeoHelper::text($param['settings']['google_site_verification']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Bing verification', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[bing_site_verification]" value="<?= SimpleSeoHelper::text($param['settings']['bing_site_verification']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Yandex verification', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[yandex_site_verification]" value="<?= SimpleSeoHelper::text($param['settings']['yandex_site_verification']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Baidu verification', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[baidu_site_verification]" value="<?= SimpleSeoHelper::text($param['settings']['baidu_site_verification']) ?>">
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-indexing" class="tab-pane">
+
+                                        <?=help_block(
+                                            title: 'Most secure option',
+                                            message: 'Set INDEXNOW_KEY in .env for IndexNow. Google Search Console uses OAuth and requires a Google Client ID and Client Secret.'
+                                        );?>
+
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_indexnow]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_indexnow']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Enable IndexNow', $r['id']); ?></label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>IndexNow key</label>
+                                            <input class="form-control" name="seo_settings[indexnow_key]" value="<?= SimpleSeoHelper::text($param['settings']['indexnow_key']) ?>">
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_google_indexing]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_google_indexing']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Enable Google Indexing API', $r['id']); ?></label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Google Client ID', $r['id']);?></label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="seo_settings[google_client_id]"
+                                                    value="<?= SimpleSeoHelper::text($param['settings']['google_client_id'] ?? ''); ?>"
+                                            >
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Google Client Secret', $r['id']);?></label>
+                                            <input
+                                                    type="password"
+                                                    class="form-control"
+                                                    name="seo_settings[google_client_secret]"
+                                                    value="<?= SimpleSeoHelper::text($param['settings']['google_client_secret'] ?? ''); ?>"
+                                            >
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Search Console Site URL', $r['id']);?></label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="seo_settings[google_search_console_site_url]"
+                                                    value="<?= SimpleSeoHelper::text($param['settings']['google_search_console_site_url'] ?? ''); ?>"
+                                                    placeholder="sc-domain:example.com or https://example.com/"
+                                            >
+                                        </div>
+
+                                        <?php
+                                        $hasCredentials =
+                                                !empty($param['settings']['google_client_id'])
+                                                && !empty($param['settings']['google_client_secret']);
+                                        ?>
+
+                                        <?php if (!$hasCredentials): ?>
+                                        <?=help_block(
+                                            t__('Missing Credentials', $r['id']),
+                                            t__('Enter your Google Client ID and Client Secret, then save settings before connecting.', $r['id'])
+                                        );?>
+
+                                        <hr>
+
+                                        <h4><?=esc_html__('Google Search Console', $r['id']);?></h4>
+
+                                        <?php elseif (!empty($param['settings']['google_oauth_refresh_token'])): ?>
+
+                                            <div class="alert alert-success">
+                                                <?=esc_html__('Google Search Console is connected.', $r['id']);?>
+                                            </div>
+
+                                            <form method="post"
+                                                  action="<?= admin_url('plugin/simple-seo/google/disconnect/'); ?>">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <?=esc_html__('Disconnect Google', $r['id']);?>
+                                                </button>
+                                            </form>
+
+                                        <?php else: ?>
+
+                                            <?=help_block(
+                                                    t__('No Connection', $r['id']),
+                                                    t__('Connect your Google account to access Search Console statistics.', $r['id'])
+                                            );?>
+
+                                            <a href="<?= admin_url('plugin/simple-seo/google/connect/'); ?>"
+                                               class="btn btn-primary">
+                                                <?=esc_html__('Connect Google', $r['id']);?>
+                                            </a>
+
+                                        <?php endif; ?>
+
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[auto_submit_sitemaps]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['auto_submit_sitemaps']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Auto submit sitemap URLs', $r['id']); ?></label>
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-schema-defaults" class="tab-pane">
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Organization name', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[organization_name]" value="<?= SimpleSeoHelper::text($param['settings']['organization_name']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Organization logo', $r['id']);?></label>
+                                            <div class="input-group">
+                                                <input
+                                                        type="text"
+                                                        name="seo_settings[organization_logo]"
+                                                        id="organization_logo"
+                                                        class="form-control"
+                                                        value="<?= SimpleSeoHelper::text($param['settings']['organization_logo'] ?? ''); ?>"
+                                                        placeholder="https://example.com/logo.png"
+                                                >
+
+                                                <span class="input-group-btn">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-default js-seo-elfinder"
+                                                        data-target="#organization_logo"
+                                                    >
+                                                        <?=esc_html__('Browse', $r['id']);?>
+                                                    </button>
+                                                </span>
+                                            </div>
+
+                                            <p class="help-block">
+                                                <?=esc_html__('Enter a logo URL manually or choose one from the media manager.', $r['id']);?>
+                                            </p>
+
+                                            <?php if (!empty($param['settings']['default_social_image'])): ?>
+                                                <p style="margin-top:10px;">
+                                                    <img
+                                                        src="<?= SimpleSeoHelper::text($param['settings']['default_social_image']); ?>"
+                                                        alt=""
+                                                        style="max-width:250px;height:auto;"
+                                                    >
+                                                </p>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group"><label><?=esc_html__('Organization phone', $r['id']);?></label>
+                                            <input class="form-control" name="seo_settings[organization_phone]" value="<?= SimpleSeoHelper::text($param['settings']['organization_phone']) ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Default schema type', $r['id']);?></label>
+                                            <select
+                                                name="seo_settings[organization_schema_type]"
+                                                id="organization_schema_type"
+                                                class="form-control"
+                                            >
+                                                <?php foreach ($schemaTypes as $value => $label): ?>
+                                                    <option
+                                                            value="<?= esc_attr($value); ?>"
+                                                            <?= ($param['settings']['organization_schema_type'] ?? 'WebPage') === $value ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= esc_html($label); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-sitemaps" class="tab-pane">
+                                        <p class="help-block">
+                                            <?=esc_html__('Enable styling for sitemaps.', $r['id']);?>
+                                        </p>
+
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_stylesheet]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_stylesheet']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Sitemap XSL', $r['id']); ?></label>
+                                        </div>
+
+                                        <p class="help-block">
+                                            <?=esc_html__('Enable the sitemaps you would like to use for your site.', $r['id']);?>
+                                        </p>
+
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_content]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_content']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Content Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_products]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_products']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Product Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_news]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_news']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('News Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_images]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_images']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Image Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_videos]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_videos']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Video Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_content_types]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_content_types']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Content Types Sitemap', $r['id']); ?></label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <input type="checkbox"
+                                                   class="js-switch"
+                                                   name="seo_settings[enable_sitemap_pages]"
+                                                   value="1"<?= checked('1', !empty($param['settings']['enable_sitemap_pages']) ? '1' : '0', false); ?> />
+                                            <label><?= esc_html__('Pages Sitemap', $r['id']); ?></label>
+                                        </div>
+                                    </div>
+
+                                    <div id="seo-robots" class="tab-pane">
+                                        <input type="hidden" name="seo_settings[enable_robots_txt]" value="0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input
+                                                        type="checkbox"
+                                                        name="seo_settings[enable_robots_txt]"
+                                                        value="1"
+                                                        <?= !empty($param['settings']['enable_robots_txt']) ? 'checked' : ''; ?>
+                                                >
+                                                <?=esc_html__('Enable runtime robots.txt', $r['id']);?>
+                                            </label>
+                                        </div>
+
+                                        <input type="hidden" name="seo_settings[robots_indexing_enabled]" value="0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input
+                                                        type="checkbox"
+                                                        name="seo_settings[robots_indexing_enabled]"
+                                                        value="1"
+                                                        <?= !empty($param['settings']['robots_indexing_enabled']) ? 'checked' : ''; ?>
+                                                >
+                                                <?=esc_html__('Allow search engines to crawl this site', $r['id']);?>
+                                            </label>
+                                        </div>
+
+                                        <input type="hidden" name="seo_settings[robots_include_sitemap]" value="0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input
+                                                        type="checkbox"
+                                                        name="seo_settings[robots_include_sitemap]"
+                                                        value="1"
+                                                        <?= !empty($param['settings']['robots_include_sitemap']) ? 'checked' : ''; ?>
+                                                >
+                                                <?=esc_html__('Include sitemap URL', $r['id']);?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><?=esc_html__('Custom Robots Rules', $r['id']);?></label>
+                                            <textarea
+                                                    class="form-control"
+                                                    name="seo_settings[robots_custom_rules]"
+                                                    rows="8"
+                                                    placeholder="Disallow: /private/&#10;Allow: /"
+                                            ><?= esc_html($param['settings']['robots_custom_rules'] ?? ''); ?></textarea>
+
+                                            <p class="help-block">
+                                                <?=esc_html__('Leave empty to use the default', $r['id']);?> <code>Allow: /</code>. <?=esc_html__('These rules apply only to the current site.', $r['id']);?>
+                                            </p>
+                                        </div>
+
+                                        <div class="alert alert-info">
+                                            <?=esc_html__('Runtime URL:', $r['id']);?>
+                                            <a href="<?= esc_attr(rtrim(site_url(), '/') . '/robots.txt'); ?>" target="_blank">
+                                                <?= esc_html(rtrim(site_url(), '/') . '/robots.txt'); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button class="btn btn-success"><?=esc_html__('Save SEO Settings', $r['id']);?></button>
+                        </div>
+                    </div>
+                    <input type="hidden"
+                       name="seo_settings[_active_tab]"
+                       id="simple-seo-active-tab"
+                       value="<?= esc_attr($param['settings']['_active_tab'] ?? '#seo-global'); ?>">
+                </form>
+            </div>
+
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?=esc_html__('Crawl Diagnostics', $r['id']);?></h3>
+                    </div>
+
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <?php foreach (($param['diagnostics'] ?? []) as $item): ?>
+                                <tr>
+                                    <td style="width:40px;">
+                                        <?php if (!empty($item['pass'])): ?>
+                                            <i class="fa fa-check text-green"></i>
+                                        <?php else: ?>
+                                            <i class="fa fa-times text-red"></i>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= esc_html($item['label']); ?></td>
+                                    <td class="text-right">
+                        <span class="label <?= !empty($item['pass']) ? 'label-success' : 'label-warning'; ?>">
+                            <?= esc_html((string) $item['value']); ?>
+                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            <?php if (empty($param['diagnostics'])): ?>
+                                <tr>
+                                    <td><?=esc_html__('No diagnostics available.', $r['id']);?></td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?=esc_html__('Import/Export', $r['id']);?></h3>
+                    </div>
+
+                    <div class="box-body">
+                        <p>
+                            <?=esc_html__('Export SEO settings as JSON or import settings from another Devflow site.
+                            OAuth connection tokens are not exported.', $r['id']);?>
+                        </p>
+
+                        <p>
+                            <a href="<?= esc_attr(admin_url('plugin/simple-seo/export/')); ?>"
+                               class="btn btn-primary">
+                                <?=esc_html__('Export Settings', $r['id']);?>
+                            </a>
+                        </p>
+
+                        <hr>
+
+                        <form method="post"
+                              action="<?= esc_attr(admin_url('plugin/simple-seo/import/')); ?>"
+                              enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label><?=esc_html__('Import Settings JSON', $r['id']);?></label>
+                                <input type="file"
+                                       name="settings_file"
+                                       class="form-control"
+                                       accept="application/json,.json"
+                                       required>
+                            </div>
+
+                            <button type="submit" class="btn btn-warning">
+                                <?=esc_html__('Import Settings', $r['id']);?>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?=esc_html__('Submit URL for Indexing', $r['id']);?></h3>
+                    </div>
+
+                    <div class="box-body">
+                        <form
+                                id="devflow-seo-indexing-form"
+                                method="post"
+                                action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/submit/')); ?>"
+                        >
+                            <div class="form-group">
+                                <label for="devflow-seo-indexing-url">URL</label>
+                                <input
+                                        type="url"
+                                        id="devflow-seo-indexing-url"
+                                        class="form-control"
+                                        name="url"
+                                        required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="devflow-seo-indexing-engine">Engine</label>
+                                <select
+                                        id="devflow-seo-indexing-engine"
+                                        class="form-control"
+                                        name="engine"
+                                >
+                                    <option value="indexnow">IndexNow</option>
+                                    <option value="google">Google Indexing API</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">
+                                <?=esc_html__('Submit URL', $r['id']);?>
+                            </button>
+
+                            <div id="devflow-seo-indexing-result" style="margin-top:15px;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+    <script>
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+            $('#simple-seo-active-tab').val($(e.target).attr('href'));
+        });
+
+        $(function () {
+            var hash = window.location.hash;
+
+            if (hash) {
+                $('a[data-toggle="tab"][href="' + hash + '"]').tab('show');
+                $('#simple-seo-active-tab').val(hash);
+            }
+        });
+    </script>
+<?php }); ?>

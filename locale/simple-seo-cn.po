@@ -1,0 +1,1526 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple SEO\n"
+"POT-Creation-Date: 2026-06-11 14:01-0600\n"
+"PO-Revision-Date: 2026-06-11 14:01-0600\n"
+"Last-Translator: \n"
+"Language-Team: Joshua Parker\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: simple-seo\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: t__;esc_html__;trans;trans_html;trans_attr;esc_attr__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: Controller\n"
+"X-Poedit-SearchPath-1: Repository\n"
+"X-Poedit-SearchPath-2: Routing\n"
+"X-Poedit-SearchPath-3: Service\n"
+"X-Poedit-SearchPath-4: Support\n"
+"X-Poedit-SearchPath-5: view\n"
+"X-Poedit-SearchPath-6: SimpleSeoPlugin.php\n"
+
+#: Controller/IndexingController.php:54
+msgid "Indexing"
+msgstr "索引"
+
+#: Controller/IndexingController.php:69 Controller/ManualIndexingController.php:47
+#, fuzzy
+msgid "Missing URL."
+msgstr "缺少网址。"
+
+#: Controller/IndexingController.php:79
+msgid "URL submitted."
+msgstr "网址已提交。"
+
+#: Controller/IndexingController.php:109
+#, fuzzy
+msgid "Meta title exists and is <= 70 characters."
+msgstr "元标题存在，且<=70个字符。"
+
+#: Controller/IndexingController.php:115
+#, fuzzy
+msgid "Meta description is 120–180 characters."
+msgstr "元描述为120–180字符。"
+
+#: Controller/IndexingController.php:121
+#, fuzzy
+msgid "Body has at least 300 words."
+msgstr "正体至少有300个词。"
+
+#: Controller/IndexingController.php:129
+#, fuzzy
+msgid "Focus keyphrase appears in title, description, or body."
+msgstr "焦点关键词出现在标题、描述或正文中。"
+
+#: Controller/IndexingController.php:143
+#, fuzzy
+msgid "Canonical URL is set or will be generated."
+msgstr "规范URL已被设置或将生成。"
+
+#: Controller/IndexingController.php:156
+#, fuzzy
+msgid "Social image is set."
+msgstr "社会形象已经确立。"
+
+#: Controller/ManualIndexingController.php:71
+#, fuzzy
+msgid "No URLs were provided."
+msgstr "没有提供任何网址。"
+
+#: Controller/ManualIndexingController.php:101
+#, fuzzy
+msgid "Submitted sitemap to IndexNow."
+msgstr "已提交网站地图至IndexNow。"
+
+#: Controller/ManualIndexingController.php:111
+#, fuzzy
+msgid "Submitted sitemap to Google Search Console."
+msgstr "已提交网站地图至谷歌搜索控制台。"
+
+#: Controller/NotFoundController.php:59
+msgid "404 Monitor"
+msgstr "404 监测"
+
+#: Controller/RedirectController.php:73
+msgid "Redirect Manager"
+msgstr "重定向管理"
+
+#: Controller/RedirectController.php:114 Repository/RedirectRepository.php:227
+#, fuzzy
+msgid ""
+"Redirect loop detected. Source and target cannot redirect back to each other or "
+"to themselves."
+msgstr "检测到重定向环路。源头和目标不能互相引导回去，也不能回到自己身上。"
+
+#: Controller/RedirectController.php:124 Repository/RedirectRepository.php:236
+#, fuzzy
+msgid "A redirect already exists for this source URL."
+msgstr "该源URL已经存在重定向。"
+
+#: Controller/RouteSeoController.php:33
+#, fuzzy
+msgid "Custom Route SEO"
+msgstr "定制路线SEO"
+
+#: Controller/RouteSeoController.php:64
+msgid "Not found"
+msgstr "未找到"
+
+#: Controller/RouteSeoController.php:127
+msgid "Error occurred."
+msgstr "发生错误。"
+
+#: Controller/SearchConsoleController.php:60
+msgid "Search Statistics"
+msgstr "搜索统计"
+
+#: Controller/SearchConsoleController.php:82
+#, fuzzy
+msgid "Google Search Console connected successfully."
+msgstr "Google 搜索控制台成功连接。"
+
+#: Controller/SettingsController.php:34
+#, fuzzy
+msgid "Simple SEO"
+msgstr "简单的SEO"
+
+#: Controller/SitemapController.php:136
+#, fuzzy
+msgid "Wrong key."
+msgstr "钥匙错了。"
+
+#: Controller/SitemapController.php:170
+#, fuzzy
+msgid "No sitemap."
+msgstr "没有网站地图。"
+
+#: Service/CrawlDiagnosticsService.php:56
+#, fuzzy
+msgid "robots.txt is reachable."
+msgstr "robots.txt是可以联系到的。"
+
+#: Service/CrawlDiagnosticsService.php:63
+#, fuzzy
+msgid "sitemap.xml is reachable."
+msgstr "sitemap.xml是可以联系到的。"
+
+#: Service/CrawlDiagnosticsService.php:75
+#, fuzzy
+msgid "IndexNow is configured."
+msgstr "IndexNow 已配置好。"
+
+#: Service/CrawlDiagnosticsService.php:82
+#, fuzzy
+msgid "Google OAuth is connected."
+msgstr "谷歌 OAuth 是连接的。"
+
+#: Service/CrawlDiagnosticsService.php:88
+#, fuzzy
+msgid "Search Console Site URL is configured."
+msgstr "搜索控制台站点URL已配置。"
+
+#: Service/CrawlDiagnosticsService.php:94
+#, fuzzy
+msgid "Active sitemap count"
+msgstr "活跃站点地图计数"
+
+#: Service/CrawlDiagnosticsService.php:99
+#, fuzzy
+msgid "Published content count"
+msgstr "已发布内容数量"
+
+#: Service/CrawlDiagnosticsService.php:104
+#, fuzzy
+msgid "Published page count"
+msgstr "已出版页数"
+
+#: Service/CrawlDiagnosticsService.php:109
+#, fuzzy
+msgid "Published product count"
+msgstr "已发表产品数量"
+
+#: Service/CrawlDiagnosticsService.php:112
+#, fuzzy
+msgid "Redirect hit count"
+msgstr "重定向命中计数"
+
+#: Service/CrawlDiagnosticsService.php:113
+#, fuzzy
+msgid "404 count"
+msgstr "404人"
+
+#: Service/CrawlDiagnosticsService.php:114
+#, fuzzy
+msgid "Redirects total"
+msgstr "重定向总数"
+
+#: Service/CrawlDiagnosticsService.php:115
+#, fuzzy
+msgid "Active redirects"
+msgstr "活跃重定向"
+
+#: Service/CrawlDiagnosticsService.php:125
+#, fuzzy
+msgid "Needs attention"
+msgstr "需要关注"
+
+#: Service/GoogleIndexingService.php:31
+#, fuzzy
+msgid "No URL provided."
+msgstr "没有提供网址。"
+
+#: Service/GoogleIndexingService.php:35
+#, fuzzy
+msgid "Google Indexing API is disabled."
+msgstr "Google 索引 API 已被禁用。"
+
+#: Service/GoogleIndexingService.php:43
+#, fuzzy
+msgid ""
+"Missing Google Indexing API access token. Configure google_indexing_access_token "
+"or GOOGLE_INDEXING_ACCESS_TOKEN."
+msgstr ""
+"缺少 Google 索引 API 访问令牌。配置google_indexing_access_token或"
+"GOOGLE_INDEXING_ACCESS_TOKEN。"
+
+#: Service/GoogleIndexingService.php:90
+#, fuzzy
+msgid "Google token verification failed"
+msgstr "谷歌令牌验证失败"
+
+#: Service/GoogleIndexingService.php:116
+#, fuzzy
+msgid "Google Indexing request failed with HTTP "
+msgstr "Google 索引请求在 HTTP 下失败"
+
+#: Service/GoogleOAuthService.php:60
+#, fuzzy
+msgid "Google did not return a refresh token."
+msgstr "谷歌没有返回刷新令牌。"
+
+#: Service/GoogleOAuthService.php:103
+msgid "Google account is not connected."
+msgstr "谷歌账户未连接。"
+
+#: Service/GoogleOAuthService.php:116
+#, fuzzy
+msgid "Google did not return an access token."
+msgstr "谷歌没有返回访问令牌。"
+
+#: Service/GoogleOAuthService.php:176
+#, fuzzy
+msgid "Missing Google Client ID."
+msgstr "缺少谷歌客户端ID。"
+
+#: Service/GoogleOAuthService.php:193
+#, fuzzy
+msgid "Missing Google Client Secret."
+msgstr "缺少谷歌客户端秘密。"
+
+#: Service/GoogleOAuthService.php:218
+#, fuzzy
+msgid "Google OAuth request failed with HTTP "
+msgstr "Google OAuth 请求在 HTTP 上失败"
+
+#: Service/IndexNowService.php:52
+#, fuzzy
+msgid "IndexNow is disabled."
+msgstr "IndexNow 已被禁用。"
+
+#: Service/IndexNowService.php:58
+#, fuzzy
+msgid "Missing IndexNow key."
+msgstr "缺少IndexNow关键点。"
+
+#: Service/IndexNowService.php:67
+msgid "No URLs provided."
+msgstr "未提供网址。"
+
+#: Service/IndexNowService.php:79
+#, fuzzy
+msgid "Unable to determine IndexNow host."
+msgstr "无法确定IndexNow的主机。"
+
+#: Service/IndexNowService.php:126
+#, fuzzy
+msgid "IndexNow request failed with HTTP "
+msgstr "IndexNow 请求在 HTTP 问题下失败"
+
+#: Service/SearchConsoleService.php:99
+#, fuzzy
+msgid "Missing Search Console site URL."
+msgstr "缺少搜索控制台网站网址。"
+
+#: Service/SearchConsoleService.php:163
+#, fuzzy
+msgid "Search Console request failed with HTTP "
+msgstr "搜索控制台请求在HTTP上失败"
+
+#: Service/SearchConsoleService.php:186
+#, fuzzy
+msgid "Search Console site URL is not configured."
+msgstr "Search Console 站点的 URL 未配置。"
+
+#: Service/SearchConsoleService.php:192
+#, fuzzy
+msgid "Missing sitemap URL."
+msgstr "缺少网站地图网址。"
+
+#: Service/SearchConsoleService.php:219
+#, fuzzy
+msgid "Google sitemap submission failed with HTTP "
+msgstr "谷歌网站地图提交失败，HTTP问题"
+
+#: Service/SettingsImportExportService.php:54
+#, fuzzy
+msgid "Invalid JSON file."
+msgstr "JSON文件无效。"
+
+#: Service/SettingsImportExportService.php:60
+#, fuzzy
+msgid "Import file does not contain settings."
+msgstr "导入文件不包含设置。"
+
+#: SimpleSeoPlugin.php:79
+#, fuzzy
+msgid "Simple Seo"
+msgstr "简单徐"
+
+#: SimpleSeoPlugin.php:84
+#, fuzzy
+msgid ""
+"Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
+"technical SEO, indexing, crawl management, 404 monitoring, and so much more."
+msgstr ""
+"Simple SEO是一套适用于Devflow CMS的SEO管理套件，涵盖页面内SEO、技术SEO、索引、爬取"
+"管理、404监控等诸多内容。"
+
+#: SimpleSeoPlugin.php:145
+#, fuzzy
+#| msgid "SEO Score"
+msgid "SEO Routes"
+msgstr "SEO路径"
+
+#: SimpleSeoPlugin.php:164
+#, fuzzy
+msgid ""
+"You must upgrade your system to at least v2.3 in order to use the Simple SEO "
+"plugin."
+msgstr "您必须将系统升级到至少v2.3，才能使用Simple SEO插件。"
+
+#: view/404-monitor.phtml:31 view/indexing.phtml:26 view/redirects.phtml:32
+#: view/settings.phtml:100
+msgid "Search Console"
+msgstr "搜索控制台"
+
+#: view/404-monitor.phtml:32 view/indexing.phtml:27 view/redirects.phtml:33
+#: view/search-console.phtml:28 view/settings.phtml:97
+msgid "Seo Settings"
+msgstr "搜索引擎优化设置"
+
+#: view/404-monitor.phtml:33 view/indexing.phtml:28 view/partial/seo-tabs.phtml:138
+#: view/redirects.phtml:100 view/search-console.phtml:29 view/settings.phtml:101
+msgid "Redirects"
+msgstr "重定向"
+
+#: view/404-monitor.phtml:81
+#, fuzzy
+msgid "Search URL, referrer, user agent"
+msgstr "搜索URL、引荐人、用户代理"
+
+#: view/404-monitor.phtml:115 view/redirects.phtml:196
+msgid "Bulk Actions"
+msgstr "批量操作"
+
+#: view/404-monitor.phtml:116 view/404-monitor.phtml:189
+msgid "Ignore"
+msgstr "忽略"
+
+#: view/404-monitor.phtml:117 view/404-monitor.phtml:182
+msgid "Restore"
+msgstr "恢复"
+
+#: view/404-monitor.phtml:118 view/404-monitor.phtml:199 view/404-monitor.phtml:284
+#: view/redirects.phtml:199 view/redirects.phtml:315 view/route-form.phtml:40
+msgid "Delete"
+msgstr "删除"
+
+#: view/404-monitor.phtml:126 view/redirects.phtml:207
+msgid "Apply"
+msgstr "应用"
+
+#: view/404-monitor.phtml:138 view/indexing.phtml:48
+msgid "URL"
+msgstr "网址"
+
+#: view/404-monitor.phtml:139 view/redirects.phtml:224
+msgid "Hits"
+msgstr "点击"
+
+#: view/404-monitor.phtml:140
+msgid "Referrer"
+msgstr "推荐人"
+
+#: view/404-monitor.phtml:141
+msgid "First Seen"
+msgstr "第一次看到"
+
+#: view/404-monitor.phtml:142
+msgid "Last Seen"
+msgstr "上次查看"
+
+#: view/404-monitor.phtml:143 view/redirects.phtml:227
+msgid "Actions"
+msgstr "操作"
+
+#: view/404-monitor.phtml:149
+#, fuzzy
+msgid "No 404s recorded."
+msgstr "未记录404。"
+
+#: view/404-monitor.phtml:173 view/404-monitor.phtml:216 view/404-monitor.phtml:255
+msgid "Create Redirect"
+msgstr "创建重定向"
+
+#: view/404-monitor.phtml:221 view/redirects.phtml:51 view/redirects.phtml:359
+msgid "Source URL"
+msgstr "源URL"
+
+#: view/404-monitor.phtml:232 view/redirects.phtml:62 view/redirects.phtml:370
+msgid "Target URL"
+msgstr "目标网址"
+
+#: view/404-monitor.phtml:243 view/redirects.phtml:73 view/redirects.phtml:381
+msgid "Status Code"
+msgstr "状态码"
+
+#: view/404-monitor.phtml:245 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:75
+msgid "301 Permanent"
+msgstr "301 永久重定向"
+
+#: view/404-monitor.phtml:246 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:76
+#, fuzzy
+msgid "302 Temporary"
+msgstr "302临时"
+
+#: view/404-monitor.phtml:247 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:77
+msgid "307 Temporary"
+msgstr "307 暂时重定向"
+
+#: view/404-monitor.phtml:248 view/partial/seo-tabs.phtml:332
+#: view/redirects.phtml:78
+#, fuzzy
+msgid "308 Permanent"
+msgstr "308 永久"
+
+#: view/404-monitor.phtml:254 view/404-monitor.phtml:283 view/404-monitor.phtml:365
+#: view/redirects.phtml:414 view/redirects.phtml:461 view/redirects.phtml:546
+#: view/route-form.phtml:41 view/route-form.phtml:44
+msgid "Cancel"
+msgstr "取消"
+
+#: view/404-monitor.phtml:274
+#, fuzzy
+msgid "Delete 404 Entry"
+msgstr "删除404条目"
+
+#: view/404-monitor.phtml:278
+#, fuzzy
+msgid "Delete this 404 entry?"
+msgstr "删除这条404条目？"
+
+#: view/404-monitor.phtml:307 view/redirects.phtml:488
+#, fuzzy
+msgid "Showing page"
+msgstr "展示页面"
+
+#: view/404-monitor.phtml:353 view/redirects.phtml:534
+msgid "Bulk Action"
+msgstr "批量操作"
+
+#: view/404-monitor.phtml:371 view/redirects.phtml:552
+msgid "Continue"
+msgstr "继续"
+
+#: view/indexing.phtml:23
+#, fuzzy
+msgid "Manual URL & Sitemap Submission"
+msgstr "手动网址 & 网站地图提交"
+
+#: view/indexing.phtml:45
+#, fuzzy
+msgid "Submit Single URL"
+msgstr "提交单一网址"
+
+#: view/indexing.phtml:56 view/indexing.phtml:87 view/indexing.phtml:125
+#, fuzzy
+msgid "Submit To"
+msgstr "提交"
+
+#: view/indexing.phtml:60 view/indexing.phtml:91
+#, fuzzy
+msgid "Google Indexing API"
+msgstr "谷歌索引API"
+
+#: view/indexing.phtml:64 view/settings.phtml:871
+msgid "Submit URL"
+msgstr "提交网址"
+
+#: view/indexing.phtml:75
+#, fuzzy
+msgid "Submit Multiple URLs"
+msgstr "提交多个网址"
+
+#: view/indexing.phtml:78
+msgid "URLs"
+msgstr "网址"
+
+#: view/indexing.phtml:83
+#, fuzzy
+msgid "Enter one URL per line."
+msgstr "每行输入一个URL。"
+
+#: view/indexing.phtml:95
+msgid "Submit URLs"
+msgstr "提交 URL"
+
+#: view/indexing.phtml:106
+#, fuzzy
+msgid "Manual Sitemap Submission"
+msgstr "手动网站地图提交"
+
+#: view/indexing.phtml:114 view/indexing.phtml:133
+#, fuzzy
+msgid "Submit Sitemap"
+msgstr "提交网站地图"
+
+#: view/indexing.phtml:117
+msgid "Sitemap URL"
+msgstr "网站地图网址"
+
+#: view/indexing.phtml:127
+#, fuzzy
+msgid "IndexNow + Google Search Console"
+msgstr "IndexNow + 谷歌搜索控制台"
+
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+msgid "Google Search Console"
+msgstr "谷歌搜索控制台"
+
+#: view/partial/seo-side.phtml:4
+msgid "SEO Score"
+msgstr "SEO评分"
+
+#: view/partial/seo-side.phtml:7
+#, fuzzy
+msgid ""
+"Score updates after analysis. Save the page to persist SEO fields into the "
+"attribute JSON field."
+msgstr "分析后更新分数。保存页面以将SEO字段保存到属性JSON字段中。"
+
+#: view/partial/seo-side.phtml:8
+#, fuzzy
+msgid "Run SEO Analysis"
+msgstr "运行SEO分析"
+
+#: view/partial/seo-tabs.phtml:127
+msgid "SEO"
+msgstr "SEO"
+
+#: view/partial/seo-tabs.phtml:133
+msgid "Analysis"
+msgstr "分析"
+
+#: view/partial/seo-tabs.phtml:134 view/partial/seo-tabs.phtml:194
+#: view/partial/seo-tabs.phtml:250
+msgid "Title"
+msgstr "标题"
+
+#: view/partial/seo-tabs.phtml:135
+msgid "Social"
+msgstr "社交"
+
+#: view/partial/seo-tabs.phtml:136 view/settings.phtml:122
+msgid "Schema"
+msgstr "架构"
+
+#: view/partial/seo-tabs.phtml:137
+msgid "Advanced"
+msgstr "高级"
+
+#: view/partial/seo-tabs.phtml:144
+msgid "Focus keyphrase"
+msgstr "焦点关键词"
+
+#: view/partial/seo-tabs.phtml:147
+#, fuzzy
+msgid "Analyze Content"
+msgstr "分析内容"
+
+#: view/partial/seo-tabs.phtml:150
+#, fuzzy
+msgid "Analysis Check"
+msgstr "分析检查"
+
+#: view/partial/seo-tabs.phtml:151
+#, fuzzy
+msgid ""
+"Checks title, description, body length, focus phrase usage, headings, canonical, "
+"social image, and indexability."
+msgstr "检查标题、描述、正文长度、焦点短语使用、标题、规范、社会形象和索引性。"
+
+#: view/partial/seo-tabs.phtml:158
+msgid "Search Preview"
+msgstr "搜索预览"
+
+#: view/partial/seo-tabs.phtml:179
+msgid "Meta title"
+msgstr "Meta标题"
+
+#: view/partial/seo-tabs.phtml:181 view/partial/seo-tabs.phtml:186
+msgid "characters"
+msgstr "字符"
+
+#: view/partial/seo-tabs.phtml:184
+msgid "Meta description"
+msgstr "Meta 描述"
+
+#: view/partial/seo-tabs.phtml:192
+#, fuzzy
+msgid "Facebook / Open Graph"
+msgstr "Facebook / 开放图谱"
+
+#: view/partial/seo-tabs.phtml:199 view/partial/seo-tabs.phtml:255
+msgid "Description"
+msgstr "描述"
+
+#: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
+#: view/settings.phtml:172 view/settings.phtml:572
+msgid "Browse"
+msgstr "浏览"
+
+#: view/partial/seo-tabs.phtml:226 view/partial/seo-tabs.phtml:282
+#: view/settings.phtml:178
+#, fuzzy
+msgid "Enter an image URL manually or choose one from the media manager."
+msgstr "手动输入图片URL，或从媒体管理器中选择一个。"
+
+#: view/partial/seo-tabs.phtml:242
+msgid "Card"
+msgstr "卡片"
+
+#: view/partial/seo-tabs.phtml:244
+msgid "Summary large image"
+msgstr "摘要大图"
+
+#: view/partial/seo-tabs.phtml:245
+#, fuzzy
+msgid "Summary"
+msgstr "摘要"
+
+#: view/partial/seo-tabs.phtml:298
+msgid "Schema type"
+msgstr "架构类型"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid "Custom schema JSON object or @graph"
+msgstr "自定义模式 JSON 对象或 @graph"
+
+#: view/partial/seo-tabs.phtml:299
+#, fuzzy
+msgid ""
+"Optional. Leave blank to let Simple SEO generate schema from the content/product."
+msgstr "可选。留空让Simple SEO从内容/产品中生成schema。"
+
+#: view/partial/seo-tabs.phtml:302
+#, fuzzy
+msgid "Allow indexing"
+msgstr "允许索引"
+
+#: view/partial/seo-tabs.phtml:303
+#, fuzzy
+msgid "Follow links"
+msgstr "点击链接"
+
+#: view/partial/seo-tabs.phtml:304
+#, fuzzy
+msgid "No archive"
+msgstr "无档案"
+
+#: view/partial/seo-tabs.phtml:305
+#, fuzzy
+msgid "No snippet"
+msgstr "无片段"
+
+#: view/partial/seo-tabs.phtml:307
+msgid "Canonical URL"
+msgstr "规范URL"
+
+#: view/partial/seo-tabs.phtml:318
+#, fuzzy
+msgid ""
+"Leave empty to let Simple SEO generate the canonical URL automatically from the "
+"slug."
+msgstr "留空让Simple SEO自动从该网块生成标准URL。"
+
+#: view/partial/seo-tabs.phtml:321
+#, fuzzy
+msgid "Include in sitemap"
+msgstr "包含在网站地图中"
+
+#: view/partial/seo-tabs.phtml:322
+msgid "Priority"
+msgstr "优先级"
+
+#: view/partial/seo-tabs.phtml:322
+#, fuzzy
+msgid "Change frequency"
+msgstr "变更频率"
+
+#: view/partial/seo-tabs.phtml:323
+#, fuzzy
+msgid "Include in news sitemap"
+msgstr "包含在新闻网站地图中"
+
+#: view/partial/seo-tabs.phtml:324
+#, fuzzy
+msgid "News keywords"
+msgstr "新闻关键词"
+
+#: view/partial/seo-tabs.phtml:325
+#, fuzzy
+msgid "Image URLs, one per line"
+msgstr "图片网址，每行一个"
+
+#: view/partial/seo-tabs.phtml:326
+#, fuzzy
+msgid "Video URLs, one per line"
+msgstr "视频网址，每行一个"
+
+#: view/partial/seo-tabs.phtml:329
+msgid "Enable redirect"
+msgstr "启用重定向"
+
+#: view/partial/seo-tabs.phtml:330
+#, fuzzy
+msgid "Redirect from URI"
+msgstr "重定向自URI"
+
+#: view/partial/seo-tabs.phtml:331
+#, fuzzy
+msgid "Redirect to URI"
+msgstr "重定向至URI"
+
+#: view/partial/seo-tabs.phtml:332 view/redirects.phtml:222
+msgid "Status"
+msgstr "状态"
+
+#: view/partial/seo-tabs.phtml:342
+msgid "Untitled"
+msgstr "无标题"
+
+#: view/partial/seo-tabs.phtml:343
+#, fuzzy
+msgid "No meta description has been set."
+msgstr "没有设定任何元描述。"
+
+#: view/redirects.phtml:45
+msgid "Add Redirect"
+msgstr "添加重定向"
+
+#: view/redirects.phtml:87 view/redirects.phtml:114 view/redirects.phtml:225
+#: view/redirects.phtml:284 view/redirects.phtml:399
+#, fuzzy
+msgid "Enabled"
+msgstr "启用"
+
+#: view/redirects.phtml:93 view/redirects.phtml:415
+#, fuzzy
+msgid "Save Redirect"
+msgstr "保存重定向"
+
+#: view/redirects.phtml:108
+msgid "All"
+msgstr "所有"
+
+#: view/redirects.phtml:120 view/redirects.phtml:286
+msgid "Disabled"
+msgstr "禁用"
+
+#: view/redirects.phtml:126 view/redirects.phtml:278
+msgid "Manual"
+msgstr "手动"
+
+#: view/redirects.phtml:132
+msgid "Content"
+msgstr "内容"
+
+#: view/redirects.phtml:138
+msgid "Products"
+msgstr "产品"
+
+#: view/redirects.phtml:144
+msgid "Pages"
+msgstr "页面"
+
+#: view/redirects.phtml:169
+msgid "per page"
+msgstr "每页"
+
+#: view/redirects.phtml:175
+msgid "Filter"
+msgstr "筛选"
+
+#: view/redirects.phtml:180
+msgid "Clear"
+msgstr "清除"
+
+#: view/redirects.phtml:197 view/redirects.phtml:305
+msgid "Enable"
+msgstr "启用"
+
+#: view/redirects.phtml:198 view/redirects.phtml:305
+msgid "Disable"
+msgstr "禁用"
+
+#: view/redirects.phtml:219
+msgid "Warnings"
+msgstr "警告"
+
+#: view/redirects.phtml:220
+msgid "Source"
+msgstr "来源"
+
+#: view/redirects.phtml:221
+msgid "Target"
+msgstr "目标"
+
+#: view/redirects.phtml:226
+msgid "Updated"
+msgstr "更新"
+
+#: view/redirects.phtml:233
+msgid "No redirects found."
+msgstr "找不到重定向"
+
+#: view/redirects.phtml:253
+msgid "Chain"
+msgstr "链"
+
+#: view/redirects.phtml:297
+msgid "Edit"
+msgstr "编辑"
+
+#: view/redirects.phtml:330
+#, fuzzy
+msgid "Edit Redirect"
+msgstr "编辑 重定向"
+
+#: view/redirects.phtml:336
+#, fuzzy
+msgid "Redirect chain detected."
+msgstr "检测到重定向链。"
+
+#: view/redirects.phtml:338
+#, fuzzy, php-format
+msgid ""
+" Current target:\n"
+"                                                                    <code>%s</"
+"code><br>\n"
+"                                                                    That target "
+"redirects to:\n"
+"                                                                    <code>%s</"
+"code>\n"
+"                                                                    %s\n"
+"                                                                        Consider "
+"changing this redirect target directly to:\n"
+"                                                                        <code>%s</"
+"code>\n"
+"                                                                    %s"
+msgstr ""
+" 当前目标：                                                                    "
+"<code><0></0></code><br>该目标重定向到：\n"
+"                                                                    <code><1></"
+"1></code>\n"
+"                                                                    %s\n"
+"                                                                        考虑将该重"
+"定向目标直接更改"
+"为：                                                                        "
+"<code><3></3></code>\n"
+"                                                                    %s"
+
+#: view/redirects.phtml:405
+#, fuzzy
+msgid "This redirect is linked to"
+msgstr "此重定向链接至"
+
+#: view/redirects.phtml:408
+#, fuzzy
+msgid "Saving changes will also update that entity's SEO Redirect tab."
+msgstr "保存更改还会更新该实体的SEO重定向标签页。"
+
+#: view/redirects.phtml:432 view/redirects.phtml:462
+#, fuzzy
+msgid "Delete Redirect"
+msgstr "删除 重定向"
+
+#: view/redirects.phtml:436
+msgid "Are you sure you want to delete this redirect?"
+msgstr "您是否确定要删除此重定向？"
+
+#: view/route-form.phtml:34
+#, fuzzy
+msgid "Custom SEO Route"
+msgstr "定制SEO路线"
+
+#: view/route-form.phtml:38 view/routes.phtml:28
+#, fuzzy
+msgid "New SEO Route"
+msgstr "新的SEO路线"
+
+#: view/route-form.phtml:39
+msgid "Update"
+msgstr "更新"
+
+#: view/route-form.phtml:43
+msgid "Save"
+msgstr "保存"
+
+#: view/routes.phtml:25
+#, fuzzy
+msgid "Custom SEO Routes"
+msgstr "定制SEO路线"
+
+#: view/search-console.phtml:47
+#, fuzzy
+msgid ""
+"Google Search Console is not connected.\n"
+"                Add your Google Client ID and Client Secret in SEO Settings, then "
+"connect your account."
+msgstr ""
+"Google 搜索控制台未连接。\n"
+"                在SEO设置中添加你的Google客户ID和客户秘密，然后连接你的账户。"
+
+#: view/search-console.phtml:52
+#, fuzzy
+msgid "Go to SEO Settings"
+msgstr "前往SEO设置"
+
+#: view/search-console.phtml:57
+#, fuzzy
+msgid "Google is connected, but no Search Console Site URL has been configured."
+msgstr "Google 已连接，但尚未配置 Search Console 站点的 URL。"
+
+#: view/search-console.phtml:61
+#, fuzzy
+msgid "Configure Site URL"
+msgstr "配置站点网址"
+
+#: view/search-console.phtml:70 view/search-console.phtml:139
+#: view/search-console.phtml:178
+msgid "Clicks"
+msgstr "点击"
+
+#: view/search-console.phtml:79 view/search-console.phtml:140
+#: view/search-console.phtml:179
+msgid "Impressions"
+msgstr "展示"
+
+#: view/search-console.phtml:97
+#, fuzzy
+msgid "Avg Position"
+msgstr "平均位置"
+
+#: view/search-console.phtml:110
+#, fuzzy
+msgid "Connected property:"
+msgstr "连通性质："
+
+#: view/search-console.phtml:120
+msgid "Test Connection"
+msgstr "测试连接"
+
+#: view/search-console.phtml:131
+#, fuzzy
+msgid "Top Queries"
+msgstr "热门查询"
+
+#: view/search-console.phtml:138
+msgid "Query"
+msgstr "查询"
+
+#: view/search-console.phtml:142 view/search-console.phtml:181
+msgid "Position"
+msgstr "位置"
+
+#: view/search-console.phtml:148
+#, fuzzy
+msgid "No query data available."
+msgstr "没有查询数据。"
+
+#: view/search-console.phtml:170
+msgid "Top Pages"
+msgstr "热门页面"
+
+#: view/search-console.phtml:177
+msgid "Page"
+msgstr "页面"
+
+#: view/search-console.phtml:187
+#, fuzzy
+msgid "No page data available."
+msgstr "没有页面数据可用。"
+
+#: view/settings.phtml:118
+msgid "Global"
+msgstr "全局"
+
+#: view/settings.phtml:119
+msgid "Homepage"
+msgstr "主页"
+
+#: view/settings.phtml:120
+msgid "Webmaster"
+msgstr "网站管理员"
+
+#: view/settings.phtml:123
+msgid "Sitemaps"
+msgstr "站点地图"
+
+#: view/settings.phtml:135
+#, fuzzy
+msgid "Theme/View Instructions"
+msgstr "主题/视图指示"
+
+#: view/settings.phtml:140
+msgid "Site name"
+msgstr "网站名称"
+
+#: view/settings.phtml:145
+msgid "Title template"
+msgstr "标题模板"
+
+#: view/settings.phtml:150
+msgid "Default description"
+msgstr "默认说明"
+
+#: view/settings.phtml:155
+#, fuzzy
+msgid "Default social image"
+msgstr "默认的社会形象"
+
+#: view/settings.phtml:192
+msgid "Google Analytics"
+msgstr "谷歌分析"
+
+#: view/settings.phtml:204
+msgid "Enable Google Analytics"
+msgstr "启用Google Analytics（分析）跟踪"
+
+#: view/settings.phtml:209
+msgid "Measurement ID"
+msgstr "测量编号"
+
+#: view/settings.phtml:219
+msgid "Google Tag Manager"
+msgstr "谷歌标签管理器 ID"
+
+#: view/settings.phtml:231
+#, fuzzy
+msgid "Enable Google Tag Manager"
+msgstr "启用 Google 标签管理器"
+
+#: view/settings.phtml:236
+msgid "Container ID"
+msgstr "容器ID"
+
+#: view/settings.phtml:245
+msgid "Uninstall"
+msgstr "卸载"
+
+#: view/settings.phtml:255
+#, fuzzy
+msgid "Remove all data on Deactivation"
+msgstr "删除所有关于停用的数据"
+
+#: view/settings.phtml:271
+#, fuzzy
+msgid "Google Analytics / Tag Manager Theme Instructions"
+msgstr "Google Analytics / 标签管理器主题说明"
+
+#: view/settings.phtml:276
+#, fuzzy
+msgid ""
+"For Simple SEO tracking to work correctly, your theme/layout should include these "
+"action helpers."
+msgstr "为了让简单的SEO追踪正常工作，你的主题/布局应包含这些动作辅助工具。"
+
+#: view/settings.phtml:279
+#, fuzzy
+msgid "1. Head Helper"
+msgstr "1. 首席助手"
+
+#: view/settings.phtml:280 view/settings.phtml:303
+#, fuzzy
+msgid "Place this before the closing"
+msgstr "把这个放在交割前"
+
+#: view/settings.phtml:284 view/settings.phtml:296 view/settings.phtml:308
+#, fuzzy
+msgid "This is used for:"
+msgstr "这适用于："
+
+#: view/settings.phtml:286
+#, fuzzy
+msgid "Google Tag Manager script loader"
+msgstr "Google 标签管理器脚本加载器"
+
+#: view/settings.phtml:287
+#, fuzzy
+msgid "SEO meta tags if your theme outputs them through the head hook"
+msgstr "如果你的主题通过头钩输出SEO元标签"
+
+#: view/settings.phtml:290
+#, fuzzy
+msgid "2. Body Open Helper"
+msgstr "2. 身体开放助手"
+
+#: view/settings.phtml:291
+#, fuzzy
+msgid "Place this immediately after the opening"
+msgstr "把这个放在开门之后"
+
+#: view/settings.phtml:298
+#, fuzzy
+msgid "Google Tag Manager body placement support"
+msgstr "Google 标签管理器的正体位置支持"
+
+#: view/settings.phtml:299
+#, fuzzy
+msgid "Frontend integrations that must load near the top of the body"
+msgstr "前端集成必须加载在机身顶部附近"
+
+#: view/settings.phtml:302
+#, fuzzy
+msgid "3. Footer Helper"
+msgstr "3. 页脚辅助"
+
+#: view/settings.phtml:310
+#, fuzzy
+msgid "Google Analytics footer loader"
+msgstr "Google Analytics 脚脚加载器"
+
+#: view/settings.phtml:311
+#, fuzzy
+msgid "Footer scripts registered by plugins"
+msgstr "插件注册的页脚脚本"
+
+#: view/settings.phtml:314
+#, fuzzy
+msgid "Recommended Theme Layout"
+msgstr "推荐主题布局"
+
+#: view/settings.phtml:332
+#, fuzzy
+msgid "Tracking Behavior"
+msgstr "追踪行为"
+
+#: view/settings.phtml:334
+#, fuzzy
+msgid "Google Tag Manager loads from"
+msgstr "Google 标签管理器从"
+
+#: view/settings.phtml:335
+#, fuzzy
+msgid "Google Analytics loads from"
+msgstr "Google Analytics 从"
+
+#: view/settings.phtml:336
+#, fuzzy
+msgid "No tracking IDs are hardcoded into the theme or layout."
+msgstr "主题或布局中没有硬编码追踪ID。"
+
+#: view/settings.phtml:344
+msgid "Got it"
+msgstr "收到"
+
+#: view/settings.phtml:354
+#, fuzzy
+msgid "Homepage SEO title"
+msgstr "首页SEO标题"
+
+#: view/settings.phtml:359
+#, fuzzy
+msgid "Homepage description"
+msgstr "主页描述"
+
+#: view/settings.phtml:364
+#, fuzzy
+msgid "Homepage schema type"
+msgstr "主页模式类型"
+
+#: view/settings.phtml:387
+#, fuzzy
+msgid "Allow search engines to index the homepage"
+msgstr "允许搜索引擎索引首页"
+
+#: view/settings.phtml:395
+#, fuzzy
+msgid "Allow search engines to follow homepage links"
+msgstr "允许搜索引擎跟踪首页链接"
+
+#: view/settings.phtml:403
+#, fuzzy
+msgid "Prevent cached homepage copies"
+msgstr "防止缓存主页副本"
+
+#: view/settings.phtml:411
+#, fuzzy
+msgid "Prevent homepage snippets in search results"
+msgstr "避免首页片段出现在搜索结果中"
+
+#: view/settings.phtml:418
+msgid "Google site verification"
+msgstr "谷歌网站验证"
+
+#: view/settings.phtml:423
+#, fuzzy
+msgid "Bing verification"
+msgstr "必应验证"
+
+#: view/settings.phtml:428
+#, fuzzy
+msgid "Yandex verification"
+msgstr "Yandex验证"
+
+#: view/settings.phtml:433
+#, fuzzy
+msgid "Baidu verification"
+msgstr "百度验证"
+
+#: view/settings.phtml:450
+#, fuzzy
+msgid "Enable IndexNow"
+msgstr "启用IndexNow。"
+
+#: view/settings.phtml:462
+#, fuzzy
+msgid "Enable Google Indexing API"
+msgstr "启用谷歌索引API"
+
+#: view/settings.phtml:466
+msgid "Google Client ID"
+msgstr "Google客户端ID"
+
+#: view/settings.phtml:476
+msgid "Google Client Secret"
+msgstr "Google客户端秘密"
+
+#: view/settings.phtml:486
+#, fuzzy
+msgid "Search Console Site URL"
+msgstr "搜索控制台网站网址"
+
+#: view/settings.phtml:504
+#, fuzzy
+msgid "Missing Credentials"
+msgstr "缺失的证件"
+
+#: view/settings.phtml:505
+#, fuzzy
+msgid ""
+"Enter your Google Client ID and Client Secret, then save settings before "
+"connecting."
+msgstr "输入你的 Google 客户端 ID 和客户端秘密，然后在连接前保存设置。"
+
+#: view/settings.phtml:515
+#, fuzzy
+msgid "Google Search Console is connected."
+msgstr "Google 搜索控制台已连接。"
+
+#: view/settings.phtml:521
+#, fuzzy
+msgid "Disconnect Google"
+msgstr "断开谷歌连接"
+
+#: view/settings.phtml:528
+msgid "No Connection"
+msgstr "无连接"
+
+#: view/settings.phtml:529
+#, fuzzy
+msgid "Connect your Google account to access Search Console statistics."
+msgstr "连接您的 Google 账户以访问 Search Console 的统计数据。"
+
+#: view/settings.phtml:534
+#, fuzzy
+msgid "Connect Google"
+msgstr "连接谷歌"
+
+#: view/settings.phtml:544
+#, fuzzy
+msgid "Auto submit sitemap URLs"
+msgstr "自动提交网站地图网址"
+
+#: view/settings.phtml:550
+msgid "Organization name"
+msgstr "组织名称"
+
+#: view/settings.phtml:555
+msgid "Organization logo"
+msgstr "组织LOGO"
+
+#: view/settings.phtml:578
+#, fuzzy
+msgid "Enter a logo URL manually or choose one from the media manager."
+msgstr "手动输入标志网址，或从媒体管理器中选择一个。"
+
+#: view/settings.phtml:592
+#, fuzzy
+msgid "Organization phone"
+msgstr "组织电话"
+
+#: view/settings.phtml:597
+#, fuzzy
+msgid "Default schema type"
+msgstr "默认模式类型"
+
+#: view/settings.phtml:617
+#, fuzzy
+msgid "Enable styling for sitemaps."
+msgstr "启用网站地图的样式。"
+
+#: view/settings.phtml:625
+#, fuzzy
+msgid "Sitemap XSL"
+msgstr "XSL 站点地图"
+
+#: view/settings.phtml:629
+#, fuzzy
+msgid "Enable the sitemaps you would like to use for your site."
+msgstr "启用你想用于网站的网站地图。"
+
+#: view/settings.phtml:637
+#, fuzzy
+msgid "Content Sitemap"
+msgstr "内容网站地图"
+
+#: view/settings.phtml:644
+#, fuzzy
+msgid "Product Sitemap"
+msgstr "产品网站地图"
+
+#: view/settings.phtml:651
+msgid "News Sitemap"
+msgstr "新闻网站地图"
+
+#: view/settings.phtml:658
+#, fuzzy
+msgid "Image Sitemap"
+msgstr "图片网站地图"
+
+#: view/settings.phtml:665
+msgid "Video Sitemap"
+msgstr "视频地图"
+
+#: view/settings.phtml:672
+#, fuzzy
+msgid "Content Types Sitemap"
+msgstr "内容类型 网站地图"
+
+#: view/settings.phtml:679
+#, fuzzy
+msgid "Pages Sitemap"
+msgstr "页面 网站地图"
+
+#: view/settings.phtml:693
+#, fuzzy
+msgid "Enable runtime robots.txt"
+msgstr "启用运行时 robots.txt"
+
+#: view/settings.phtml:706
+#, fuzzy
+msgid "Allow search engines to crawl this site"
+msgstr "允许搜索引擎爬取本网站"
+
+#: view/settings.phtml:719
+#, fuzzy
+msgid "Include sitemap URL"
+msgstr "包含网站地图网址"
+
+#: view/settings.phtml:724
+#, fuzzy
+msgid "Custom Robots Rules"
+msgstr "自定义机器人规则"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "Leave empty to use the default"
+msgstr "保持空位以使用默认"
+
+#: view/settings.phtml:733
+#, fuzzy
+msgid "These rules apply only to the current site."
+msgstr "这些规则仅适用于当前网站。"
+
+#: view/settings.phtml:738
+#, fuzzy
+msgid "Runtime URL:"
+msgstr "运行时网址："
+
+#: view/settings.phtml:749
+#, fuzzy
+msgid "Save SEO Settings"
+msgstr "保存SEO设置"
+
+#: view/settings.phtml:762
+#, fuzzy
+msgid "Crawl Diagnostics"
+msgstr "爬行诊断"
+
+#: view/settings.phtml:788
+#, fuzzy
+msgid "No diagnostics available."
+msgstr "没有诊断方法。"
+
+#: view/settings.phtml:798
+msgid "Import/Export"
+msgstr "导入/导出"
+
+#: view/settings.phtml:803
+#, fuzzy
+msgid ""
+"Export SEO settings as JSON or import settings from another Devflow site.\n"
+"                            OAuth connection tokens are not exported."
+msgstr ""
+"导出SEO设置为JSON，或从其他Devflow网站导入设置。\n"
+"                            OAuth 连接令牌不会被导出。"
+
+#: view/settings.phtml:810
+msgid "Export Settings"
+msgstr "导出设置"
+
+#: view/settings.phtml:821
+#, fuzzy
+msgid "Import Settings JSON"
+msgstr "导入设置 JSON"
+
+#: view/settings.phtml:830
+msgid "Import Settings"
+msgstr "导入设置"
+
+#: view/settings.phtml:838
+#, fuzzy
+msgid "Submit URL for Indexing"
+msgstr "提交URL进行索引"
+
+#~ msgid "Warning:"
+#~ msgstr "警告："
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "                                                                The Analytics "
+#~ "and Tag Manager feature is considered \n"
+#~ "                                                                experimental "
+#~ "and may not work 100% under some \n"
+#~ "                                                                circumstances. "
+#~ "Make sure to do extensive testing \n"
+#~ "                                                                before "
+#~ "enabling on a production site. Nevertheless, \n"
+#~ "                                                                by following "
+#~ "the instructions below, you will enable \n"
+#~ "                                                                your theme/"
+#~ "layout to load the meta tags generated by \n"
+#~ "                                                                the plugin.\n"
+#~ "                                                            "
+#~ msgstr ""
+#~ "\n"
+#~ "分析和标签管理器功能被考虑在考虑中\n"
+#~ "                                                                实验性质，可能"
+#~ "100 % u 也没用\n"
+#~ "                                                                情况。一定要做"
+#~ "充分的测试\n"
+#~ "                                                                然后先在生产站"
+#~ "点启用。尽管如此，\n"
+#~ "                                                                按照以下说明操"
+#~ "作，您将实现\n"
+#~ "                                                                你的主题/布局来"
+#~ "加载由\n"
+#~ "                                                                插件。\n"
+#~ "                                                            "
+
+#~ msgid "Note:"
+#~ msgstr "注意："
+
+#, fuzzy
+#~ msgid ""
+#~ "Because Devflow loads tracking through the asset system, the GTM body script "
+#~ "is not a true\n"
+#~ "                                                            no-JavaScript "
+#~ "fallback. A true GTM <code>&lt;noscript&gt;</code> fallback requires direct "
+#~ "HTML output\n"
+#~ "                                                            immediately after "
+#~ "the opening <code>&lt;body&gt;</code>"
+#~ msgstr ""
+#~ "由于Devflow通过资产系统加载跟踪，GTM主体脚本并非真正的\n"
+#~ "                                                            无JavaScript的备"
+#~ "选。真正的GTM <code>&lt;noscript&gt;</code> 缓冲需要直接输出HTML。\n"
+#~ "                                                            开幕后立即 "
+#~ "<code>&lt;body&gt;</code>"
+
+#, fuzzy
+#~ msgid "Tracking settings are fetched from a Simple SEO JSON config route."
+#~ msgstr "追踪设置是从 Simple SEO JSON 配置路由获取的。"
+
+#~ msgid "Remove Settings"
+#~ msgstr "删除设置"

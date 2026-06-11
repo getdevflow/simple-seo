@@ -1,0 +1,144 @@
+<?php
+
+use App\Application\Devflow;
+use App\Shared\Services\Registry;
+
+use function App\Shared\Helpers\admin_url;
+use function App\Shared\Helpers\site_url;
+use function Qubus\Security\Helpers\esc_attr;
+use function Qubus\Security\Helpers\esc_html__;
+
+$this->parent('framework::backend/layouts/admin-layout');
+$this->block('backend', function () {
+
+Registry::getInstance()->{'set'}('screen_parent', 'simple-seo');
+Registry::getInstance()->{'set'}('screen_child', 'simple-seo');
+$r = Registry::getInstance()->get('simple-seo');
+?>
+
+    <div class="content-wrapper">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-magnifying-glass"></i>
+                <h3 class="box-title"><?= esc_html__('Manual URL & Sitemap Submission', $r['id']); ?></h3>
+
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" onclick="window.location='<?= admin_url('plugin/simple-seo/search-console/');?>'"><i class="fa fa-chart-line"></i> <?=esc_html__('Search Console', $r['id']);?></button>
+                    <button type="button" class="btn btn-danger" onclick="window.location='<?= admin_url('plugin/simple-seo/');?>'"><i class="fa fa-magnifying-glass"></i> <?=esc_html__('Seo Settings', $r['id']);?></button>
+                    <button type="button" class="btn btn-warning" onclick="window.location='<?= admin_url('plugin/simple-seo/redirects/');?>'"><i class="fa fa-diamond-turn-right"></i> <?=esc_html__('Redirects', $r['id']);?></button>
+                    <button type="button" class="btn btn-dark" onclick="window.location='<?= admin_url('plugin/simple-seo/404-monitor/');?>'"><i class="fa fa-binoculars"></i> <?=esc_html__('404 Monitor', $r['id']);?></button>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <?= Devflow::$PHP->flash->display(); ?>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <form id="devflow-seo-submit-url-form"
+                                  method="post"
+                                  action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/url/')); ?>">
+
+
+                                <h4><?= esc_html__('Submit Single URL', $r['id']); ?></h4>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('URL', $r['id']); ?></label>
+                                    <input type="url"
+                                           class="form-control"
+                                           name="url"
+                                           placeholder="<?= esc_attr(site_url()); ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('Submit To', $r['id']); ?></label>
+                                    <select name="engine" class="form-control">
+                                        <option value="both">IndexNow + Google</option>
+                                        <option value="indexnow">IndexNow</option>
+                                        <option value="google"><?= esc_html__('Google Indexing API', $r['id']); ?></option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"><?= esc_html__('Submit URL', $r['id']); ?></button>
+
+                                <div class="devflow-seo-result" style="margin-top:15px;"></div>
+                            </form>
+
+                            <hr>
+
+                            <form id="devflow-seo-submit-urls-form"
+                                  method="post"
+                                  action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/urls/')); ?>">
+
+                                <h4><?= esc_html__('Submit Multiple URLs', $r['id']); ?></h4>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('URLs', $r['id']); ?></label>
+                                    <textarea class="form-control"
+                                              name="urls"
+                                              rows="6"
+                                              placeholder="https://example.com/post-1/&#10;https://example.com/post-2/"></textarea>
+                                    <p class="help-block"><?= esc_html__('Enter one URL per line.', $r['id']); ?></p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('Submit To', $r['id']); ?></label>
+                                    <select name="engine" class="form-control">
+                                        <option value="both">IndexNow + Google</option>
+                                        <option value="indexnow">IndexNow</option>
+                                        <option value="google"><?= esc_html__('Google Indexing API', $r['id']); ?></option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"><?= esc_html__('Submit URLs', $r['id']); ?></button>
+
+                                <div class="devflow-seo-result" style="margin-top:15px;"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><?= esc_html__('Manual Sitemap Submission', $r['id']); ?></h3>
+                        </div>
+
+                        <div class="box-body">
+                            <form id="devflow-seo-submit-sitemap-form"
+                                  method="post"
+                                  action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/sitemap/')); ?>">
+
+                                <h4><?= esc_html__('Submit Sitemap', $r['id']); ?></h4>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('Sitemap URL', $r['id']); ?></label>
+                                    <input type="url"
+                                           class="form-control"
+                                           name="sitemap_url"
+                                           value="<?= esc_attr(rtrim(site_url(), '/') . '/sitemap.xml'); ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?= esc_html__('Submit To', $r['id']); ?></label>
+                                    <select name="engine" class="form-control">
+                                        <option value="both"><?= esc_html__('IndexNow + Google Search Console', $r['id']); ?></option>
+                                        <option value="indexnow">IndexNow</option>
+                                        <option value="google"><?= esc_html__('Google Search Console', $r['id']); ?></option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"><?= esc_html__('Submit Sitemap', $r['id']); ?></button>
+
+                                <div class="devflow-seo-result" style="margin-top:15px;"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<?php }); ?>
