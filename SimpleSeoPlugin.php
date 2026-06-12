@@ -44,6 +44,7 @@ use Qubus\Routing\Psr7Router;
 use ReflectionException;
 
 use function App\Shared\Helpers\add_admin_menu;
+use function App\Shared\Helpers\add_admin_submenu;
 use function App\Shared\Helpers\add_plugins_submenu;
 use function App\Shared\Helpers\cms_enqueue_css;
 use function App\Shared\Helpers\cms_enqueue_js;
@@ -80,7 +81,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.0.0',
+            'version' => '1.0.1',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -129,19 +130,21 @@ final class SimpleSeoPlugin extends Plugin
     {
         Action::getInstance()->addAction('extension_plugins_menu', function (): void {
             echo add_admin_menu(
-                location: 'plugins',
+                location: $this->id(),
                 menuTitle: $this->meta()['name'],
                 screen: 'simple-seo',
                 icon: 'fa fa-search',
                 permission: 'manage:plugins',
                 children: function () {
-                    return add_plugins_submenu(
+                    return add_admin_submenu(
+                        location: $this->id(),
                         menuTitle: $this->meta()['name'],
                         menuRoute: 'plugin/' . $this->meta()['id'],
                         screen: $this->meta()['id'],
                         permission: 'manage:plugins'
                     ) .
-                    add_plugins_submenu(
+                    add_admin_submenu(
+                        location: $this->id(),
                         menuTitle: esc_html__(string: 'SEO Routes', domain: 'simple-seo'),
                         menuRoute: 'plugin/' . $this->meta()['id'] . '/routes',
                         screen: $this->meta()['id'] . '-routes',
