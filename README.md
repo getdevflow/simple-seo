@@ -14,6 +14,9 @@ Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, tech
 
 > __License:__ GPLv2-only
 
+## Documentation
+
+Check out the [wiki](wiki) documentation on how to configure the plugin and setup your theme or layout.
 
 ## Screenshots
 
