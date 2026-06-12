@@ -10,7 +10,7 @@ Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, tech
 
 > __Requires PHP:__ 8.4+
 
-> __Stable Tag:__ 1.0.0
+> __Stable Tag:__ 1.0.1
 
 > __License:__ GPLv2-only
 
