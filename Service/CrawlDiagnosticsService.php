@@ -6,6 +6,7 @@ namespace Plugin\SimpleSeo\Service;
 
 use Plugin\SimpleSeo\Repository\NotFoundRepository;
 use Plugin\SimpleSeo\Repository\RedirectRepository;
+use Plugin\SimpleSeo\Repository\SubmissionQueueRepository;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 
 use function App\Shared\Helpers\get_content;
@@ -36,6 +37,7 @@ final readonly class CrawlDiagnosticsService
         private GoogleOAuthService $googleOAuth,
         private SitemapService $sitemaps,
         private NotFoundRepository $notFound,
+        private SubmissionQueueRepository $submissionQueue,
     ) {
     }
 
@@ -108,6 +110,11 @@ final readonly class CrawlDiagnosticsService
                     'published_products',
                     t__('Published product count', 'simple-seo'),
                     $this->publishedProductCount()
+                ),
+                $this->metric(
+                    'submission_queue_pending',
+                    t__('Pending URL submissions', 'simple-seo'),
+                    $this->submissionQueue->countPending()
                 ),
                 $this->metric('redirect_hits', t__('Redirect hit count', 'simple-seo'), $this->redirectHitCount()),
                 $this->metric('not_found_hits', t__('404 count', 'simple-seo'), $this->notFoundCount()),

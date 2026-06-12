@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Plugin\SimpleSeo\Repository;
 
 use App\Application\Devflow;
+use Qubus\EventDispatcher\ActionFilter\Action;
 use Qubus\Expressive\Database;
 use Qubus\ValueObjects\Identity\Ulid;
 
@@ -12,7 +13,6 @@ use function date;
 use function json_decode;
 use function json_encode;
 use function parse_url;
-use function Qubus\Security\Helpers\t__;
 use function trim;
 
 use const JSON_UNESCAPED_SLASHES;
@@ -57,6 +57,16 @@ final readonly class RouteSeoRepository
         ) ?: false;
     }
 
+    /**
+     * @param string $routePath
+     * @param string $label
+     * @param array $seo
+     * @param string|null $id
+     * @param bool $enabled
+     * @return string
+     * @throws \Qubus\Exception\Exception
+     * @throws \ReflectionException
+     */
     public function save(
         string $routePath,
         string $label,
@@ -90,6 +100,8 @@ final readonly class RouteSeoRepository
                 )
             );
 
+            //Action::getInstance()->doAction('create_seo_route', $id);
+
             return $id;
         }
 
@@ -110,6 +122,8 @@ final readonly class RouteSeoRepository
             )
         );
 
+        //Action::getInstance()->doAction('update_seo_route', $id);
+
         return $id;
     }
 
@@ -124,6 +138,8 @@ final readonly class RouteSeoRepository
                 )
             );
             $this->dfdb->commit();
+
+            Action::getInstance()->doAction('delete_seo_route', $id);
 
             Devflow::$PHP->flash->success(Devflow::$PHP->flash->notice(200));
         } catch (\Exception $e) {
