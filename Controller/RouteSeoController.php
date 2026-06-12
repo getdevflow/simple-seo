@@ -8,7 +8,9 @@ use App\Application\Devflow;
 use Exception;
 use Plugin\SimpleSeo\Repository\RouteSeoRepository;
 use Psr\Http\Message\ResponseInterface;
+use Qubus\EventDispatcher\ActionFilter\Action;
 use Qubus\Http\ServerRequest;
+use ReflectionException;
 
 use function App\Shared\Helpers\admin_url;
 use function App\Shared\Helpers\site_url;
@@ -96,6 +98,7 @@ final readonly class RouteSeoController
      * @param string|null $id
      * @return ResponseInterface
      * @throws \Qubus\Exception\Exception
+     * @throws ReflectionException
      */
     private function save(ServerRequest $request, ?string $id = null): ResponseInterface
     {
@@ -123,6 +126,14 @@ final readonly class RouteSeoController
             );
 
             $result = $this->routes->findById($id);
+
+            if ($result !== false) {
+                Action::getInstance()->doAction(
+                    $id === null ? 'create_seo_route' : 'update_seo_route',
+                    $result,
+                );
+            }
+
             match ($result) {
                 false => Devflow::$PHP->flash->error(t__('Error occurred.', 'simple-seo')),
                 default => Devflow::$PHP->flash->success(Devflow::$PHP->flash->notice(200)),
@@ -132,6 +143,11 @@ final readonly class RouteSeoController
         return redirect(admin_url('plugin/simple-seo/routes/'));
     }
 
+    /**
+     * @param object|null $route
+     * @return array
+     * @throws \Qubus\Exception\Exception
+     */
     private function formData(?object $route = null): array
     {
         $seo = $route !== null

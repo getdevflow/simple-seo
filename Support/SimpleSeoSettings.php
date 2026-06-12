@@ -62,7 +62,8 @@ final class SimpleSeoSettings
             'robots_indexing_enabled' => true,
             'robots_custom_rules' => '',
             'robots_include_sitemap' => true,
-            'auto_submit_sitemaps' => false,
+            'auto_submit_urls' => false,
+            'auto_submit_engine' => 'indexnow', // indexnow, google, both
             'sitemap_changefreq' => 'weekly',
             'sitemap_priority_content' => '0.7',
             'sitemap_priority_products' => '0.8',

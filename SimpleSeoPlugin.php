@@ -23,10 +23,13 @@ use Plugin\SimpleSeo\Controller\SettingsController;
 use Plugin\SimpleSeo\Controller\SitemapController;
 use Plugin\SimpleSeo\Repository\RouteSeoRepository;
 use Plugin\SimpleSeo\Routing\SeoRedirectBootManager;
+use Plugin\SimpleSeo\Service\AutoSubmissionService;
+use Plugin\SimpleSeo\Service\EntityUrlResolver;
 use Plugin\SimpleSeo\Service\IndexingSyncService;
 use Plugin\SimpleSeo\Service\MetaRendererService;
 use Plugin\SimpleSeo\Service\NotFoundMonitor;
 use Plugin\SimpleSeo\Service\RedirectSyncService;
+use Plugin\SimpleSeo\Service\SubmissionQueueProcessor;
 use Plugin\SimpleSeo\Service\TrackingCodeRendererService;
 use Plugin\SimpleSeo\Support\AdminFields;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
@@ -38,6 +41,7 @@ use Qubus\EventDispatcher\ActionFilter\Filter;
 use Qubus\Exception\Data\TypeException;
 use Qubus\Exception\Exception;
 use Qubus\Expressive\Schema\CreateTable;
+use Qubus\Http\Factories\JsonResponseFactory;
 use Qubus\Http\ServerRequest;
 use Qubus\Routing\Exceptions\TooLateToAddNewRouteException;
 use Qubus\Routing\Psr7Router;
@@ -45,7 +49,6 @@ use ReflectionException;
 
 use function App\Shared\Helpers\add_admin_menu;
 use function App\Shared\Helpers\add_admin_submenu;
-use function App\Shared\Helpers\add_plugins_submenu;
 use function App\Shared\Helpers\cms_enqueue_css;
 use function App\Shared\Helpers\cms_enqueue_js;
 use function App\Shared\Helpers\compare_releases;
@@ -81,7 +84,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.0.1',
+            'version' => '1.1.0',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -110,6 +113,8 @@ final class SimpleSeoPlugin extends Plugin
             return;
         }
 
+        $action = Action::getInstance();
+
         $this->registerAdminFields();
         $this->registerFrontendOutput();
         $this->registerRoutes();
@@ -118,8 +123,9 @@ final class SimpleSeoPlugin extends Plugin
         $this->registerIndexingSyncs();
         $this->register404Monitor();
         $this->registerTrackingOutput();
-        Action::getInstance()->addAction(hook: 'cms_admin_head', callback: [$this, 'registerAdminCss'], priority: 1);
-        Action::getInstance()->addAction(hook: 'cms_admin_footer', callback: [$this, 'registerAdminJs'], priority: 1);
+        $this->registerAutoSubmissionHooks();
+        $action->addAction(hook: 'cms_admin_head', callback: [$this, 'registerAdminCss'], priority: 1);
+        $action->addAction(hook: 'cms_admin_footer', callback: [$this, 'registerAdminJs'], priority: 1);
     }
 
     /**
@@ -178,7 +184,9 @@ final class SimpleSeoPlugin extends Plugin
     private function registerAdminFields(): void
     {
         $fields = new AdminFields();
-        Filter::getInstance()->addFilter(
+        $filter = Filter::getInstance();
+
+        $filter->addFilter(
             'content_attribute_box_extended',
             function ($html, string $type, ?string $id = null) use ($fields) {
                 return $fields->contentExtended('', $type, $id);
@@ -187,7 +195,7 @@ final class SimpleSeoPlugin extends Plugin
             4
         );
 
-        Filter::getInstance()->addFilter(
+        $filter->addFilter(
             'content_attribute_box_side',
             function ($html, string $type, ?string $id = null) use ($fields) {
                 return $fields->contentSide('', $type, $id);
@@ -196,7 +204,7 @@ final class SimpleSeoPlugin extends Plugin
             4
         );
 
-        Filter::getInstance()->addFilter(
+        $filter->addFilter(
             'product_attribute_box_extended',
             function ($html, ?string $id = null) use ($fields) {
                 return $fields->productExtended('', $id);
@@ -205,7 +213,7 @@ final class SimpleSeoPlugin extends Plugin
             2
         );
 
-        Filter::getInstance()->addFilter(
+        $filter->addFilter(
             'product_attribute_box_side',
             function ($html, ?string $id = null) use ($fields) {
                 return $fields->productSide('', $id);
@@ -214,7 +222,7 @@ final class SimpleSeoPlugin extends Plugin
             2
         );
 
-        Filter::getInstance()->addFilter(
+        $filter->addFilter(
             'page_attribute_box_extended',
             function ($html = '', string|int|null $id = null) use ($fields) {
                 return $fields->pageExtended('', $id);
@@ -223,7 +231,7 @@ final class SimpleSeoPlugin extends Plugin
             2
         );
 
-        Filter::getInstance()->addFilter(
+        $filter->addFilter(
             'page_attribute_box_side',
             function ($html = '', string|int|null $id = null) use ($fields) {
                 return $fields->pageSide('', $id);
@@ -321,25 +329,23 @@ final class SimpleSeoPlugin extends Plugin
     {
         /** @var RedirectSyncService $sync */
         $sync = Devflow::$PHP->make(name: RedirectSyncService::class);
+        $action = Action::getInstance();
 
-        Action::getInstance()->addAction('create_content', function (Content $content) use ($sync) {
+        $action->addAction('create_content', function (Content $content) use ($sync) {
             $sync->syncContent($content->id);
         });
-        Action::getInstance()->addAction('update_content', function (string $id, Content $content) use ($sync) {
+        $action->addAction('update_content', function (string $id, Content $content) use ($sync) {
             $sync->syncContent($id);
         }, arguments: 2);
 
-        Action::getInstance()->addAction('create_product', function (Product $product) use ($sync) {
+        $action->addAction('create_product', function (Product $product) use ($sync) {
             $sync->syncProduct($product->id);
         });
-        Action::getInstance()->addAction('update_product', function (string $id, Product $product) use ($sync) {
+        $action->addAction('update_product', function (string $id, Product $product) use ($sync) {
             $sync->syncProduct($id);
         }, arguments: 2);
 
-        Action::getInstance()->addAction('create_page', function ($page) use ($sync) {
-            $sync->syncPage($page->getId());
-        });
-        Action::getInstance()->addAction('update_page', function ($page) use ($sync) {
+        $action->addAction('update_page', function ($page) use ($sync) {
             $sync->syncPage($page->getId());
         });
     }
@@ -352,25 +358,23 @@ final class SimpleSeoPlugin extends Plugin
     {
         /** @var IndexingSyncService $sync */
         $sync = Devflow::$PHP->make(name: IndexingSyncService::class);
+        $action = Action::getInstance();
 
-        Action::getInstance()->addAction('create_content', function (Content $content) use ($sync) {
+        $action->addAction('create_content', function (Content $content) use ($sync) {
             $sync->syncContent($content->id);
         });
-        Action::getInstance()->addAction('update_content', function (string $id, Content $content) use ($sync) {
+        $action->addAction('update_content', function (string $id, Content $content) use ($sync) {
             $sync->syncContent($id);
         }, arguments: 2);
 
-        Action::getInstance()->addAction('create_product', function (Product $product) use ($sync) {
+        $action->addAction('create_product', function (Product $product) use ($sync) {
             $sync->syncProduct($product->id);
         });
-        Action::getInstance()->addAction('update_product', function (string $id, Product $product) use ($sync) {
+        $action->addAction('update_product', function (string $id, Product $product) use ($sync) {
             $sync->syncProduct($id);
         }, arguments: 2);
 
-        Action::getInstance()->addAction('create_page', function ($page) use ($sync) {
-            $sync->syncPage($page->getId());
-        });
-        Action::getInstance()->addAction('update_page', function ($page) use ($sync) {
+        $action->addAction('update_page', function ($page) use ($sync) {
             $sync->syncPage($page->getId());
         });
     }
@@ -448,17 +452,118 @@ final class SimpleSeoPlugin extends Plugin
 
     private function registerTrackingOutput(): void
     {
-        Action::getInstance()->addAction('cms_head', function (): void {
+        $action = Action::getInstance();
+
+        $action->addAction('cms_head', function (): void {
             echo Devflow::$PHP->make(name: TrackingCodeRendererService::class)->renderHead();
         }, 1);
 
-        Action::getInstance()->addAction('cms_footer', function (): void {
+        $action->addAction('cms_footer', function (): void {
             echo Devflow::$PHP->make(name: TrackingCodeRendererService::class)->renderFooter();
         }, 99);
 
-        Action::getInstance()->addAction('cms_body_open', function (): void {
+        $action->addAction('cms_body_open', function (): void {
             echo Devflow::$PHP->make(name: TrackingCodeRendererService::class)->renderBodyOpen();
         }, 1);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    private function registerAutoSubmissionHooks(): void
+    {
+        $action = Action::getInstance();
+
+        $action->addAction('create_content', function ($content) {
+            $this->autoSubmitContent($content);
+        }, 20, 1);
+        $action->addAction('update_content', function ($id, $content) {
+            $this->autoSubmitContent($content);
+        }, 20, 2);
+
+        $action->addAction('create_product', function ($product) {
+            $this->autoSubmitProduct($product);
+        }, 20, 1);
+        $action->addAction('update_product', function ($id, $product) {
+            $this->autoSubmitProduct($product);
+        }, 20, 2);
+
+        $action->addAction('update_page', [$this, 'autoSubmitPage'], 20, 1);
+
+        $action->addAction('create_seo_route', [$this, 'autoSubmitCustomRoute'], 20, 1);
+        $action->addAction('update_seo_route', [$this, 'autoSubmitCustomRoute'], 20, 1);
+    }
+
+    public function autoSubmitContent(mixed $content): void
+    {
+        $id = is_object($content)
+            ? (string) ($content->id ?? $content->content_id ?? '')
+            : $content;
+
+        if ($id === '') {
+            return;
+        }
+
+        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
+        $url = $resolver->contentUrl($id);
+
+        if ($url !== null) {
+            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        }
+    }
+
+    public function autoSubmitProduct(mixed $product): void
+    {
+        $id = is_object($product)
+            ? (string) ($product->id ?? $product->product_id ?? '')
+            : (string) ($product['id'] ?? $product['product_id'] ?? '');
+
+        if ($id === '') {
+            return;
+        }
+
+        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
+        $url = $resolver->productUrl($id);
+
+        if ($url !== null) {
+            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        }
+    }
+
+    public function autoSubmitPage(mixed $page): void
+    {
+        $id = is_object($page)
+            ? (string) ($page->getId() ?? '')
+            : (string) ($page['id'] ?? '');
+
+        if ($id === '') {
+            return;
+        }
+
+        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
+        $url = $resolver->pageUrl($id);
+
+        if ($url !== null) {
+            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        }
+    }
+
+    public function autoSubmitCustomRoute(mixed $route): void
+    {
+        $id = is_object($route)
+            ? (string) ($route->id ?? '')
+            : (string) ($route['id'] ?? '');
+
+        if ($id === '') {
+            return;
+        }
+
+        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
+        $url = $resolver->customRouteUrl($id);
+
+        if ($url !== null) {
+            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        }
     }
 
     /**
@@ -702,6 +807,13 @@ final class SimpleSeoPlugin extends Plugin
             }
         )->middleware(['gate:manage:plugins, /admin/']);
 
+        $router->get(
+            uri: '/admin/plugin/simple-seo/process-submission-queue/',
+            callback: function (SubmissionQueueProcessor $processor) {
+                return JsonResponseFactory::create($processor->process(10));
+            }
+        );
+
         $router->get(uri: '/robots.txt', callback: function (RobotsController $controller) {
             return $controller->index();
         });
@@ -856,6 +968,29 @@ final class SimpleSeoPlugin extends Plugin
                     }
                 );
         };
+
+        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_submission_queue')) {
+            $this->dfdb->schema()
+                ->create(
+                    table: $this->dfdb->prefix . 'seo_submission_queue',
+                    callback: function (CreateTable $table) {
+                        $table->string(name: 'id', length: 36)
+                            ->primary();
+                        $table->string(name: 'url', length: 500)->notNull();
+                        $table->string(name: 'engine', length: 50)->notNull()->defaultValue('both');
+                        $table->string(name: 'status', length: 50)->notNull()->defaultValue('pending');
+                        $table->integer(name: 'attempts')
+                            ->size('small')
+                            ->notNull()
+                            ->defaultValue(0);
+                        $table->text(name: 'last_error')->size('big');
+                        $table->dateTime(name: 'created_at')->notNull();
+                        $table->dateTime(name: 'updated_at')->notNull();
+                        $table->dateTime(name: 'processed_at');
+                        $table->unique(['url', 'engine', 'status']);
+                    }
+                );
+        };
     }
 
     /**
@@ -874,6 +1009,10 @@ final class SimpleSeoPlugin extends Plugin
 
         if ($this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_route')) {
             $this->dfdb->schema()->drop(table: $this->dfdb->prefix . 'seo_route');
+        }
+
+        if ($this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_submission_queue')) {
+            $this->dfdb->schema()->drop(table: $this->dfdb->prefix . 'seo_submission_queue');
         }
     }
 }
