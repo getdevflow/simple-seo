@@ -336,14 +336,20 @@ final readonly class SitemapService
             }
             $xml->writeElement(
                 'changefreq',
-                $seo['sitemap_changefreq'] ?: SimpleSeoSettings::get('sitemap_changefreq', 'weekly')
+                !empty($seo['sitemap_changefreq'])
+                    ? (string) $seo['sitemap_changefreq']
+                    : (string) SimpleSeoSettings::get('sitemap_changefreq', 'weekly')
             );
+            $defaultPriority = match ($row['kind'] ?? 'content') {
+                'product' => SimpleSeoSettings::get('sitemap_priority_products', '0.8'),
+                'page' => SimpleSeoSettings::get('sitemap_priority_pages', '0.6'),
+                default => SimpleSeoSettings::get('sitemap_priority_content', '0.7'),
+            };
             $xml->writeElement(
                 'priority',
-                $seo['sitemap_priority']
-                    ?: ($row['kind'] === 'product'
-                    ? SimpleSeoSettings::get('sitemap_priority_products', '0.8')
-                    : SimpleSeoSettings::get('sitemap_priority_content', '0.7'))
+                (string) (!empty($seo['sitemap_priority'])
+                    ? $seo['sitemap_priority']
+                    : $defaultPriority)
             );
             if ($includeImages) {
                 foreach ($this->lines($seo['image_urls'] ?? '') as $image) {
