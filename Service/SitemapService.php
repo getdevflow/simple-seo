@@ -151,7 +151,7 @@ final readonly class SitemapService
         $xml->startDocument('1.0', 'UTF-8');
         $this->stylesheetPi($xml);
         $xml->startElement('sitemapindex');
-        $xml->writeAttribute('xmlns', 'https://www.sitemaps.org/schemas/sitemap/0.9');
+        $xml->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
         foreach ($maps as $map) {
             $xml->startElement('sitemap');
             $xml->writeElement('loc', $base . '/' . $map);
@@ -309,15 +309,15 @@ final readonly class SitemapService
         $xml->startDocument('1.0', 'UTF-8');
         $this->stylesheetPi($xml);
         $xml->startElement('urlset');
-        $xml->writeAttribute('xmlns', 'https://www.sitemaps.org/schemas/sitemap/0.9');
+        $xml->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
         if ($includeImages) {
-            $xml->writeAttribute('xmlns:image', 'https://www.google.com/schemas/sitemap-image/1.1');
+            $xml->writeAttribute('xmlns:image', 'http://www.google.com/schemas/sitemap-image/1.1');
         }
         if ($includeVideos) {
-            $xml->writeAttribute('xmlns:video', 'https://www.google.com/schemas/sitemap-video/1.1');
+            $xml->writeAttribute('xmlns:video', 'http://www.google.com/schemas/sitemap-video/1.1');
         }
         if ($news) {
-            $xml->writeAttribute('xmlns:news', 'https://www.google.com/schemas/sitemap-news/0.9');
+            $xml->writeAttribute('xmlns:news', 'http://www.google.com/schemas/sitemap-news/0.9');
         }
 
         foreach ($rows as $row) {
@@ -436,10 +436,10 @@ final readonly class SitemapService
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:sitemap="https://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:image="https://www.google.com/schemas/sitemap-image/1.1"
-    xmlns:video="https://www.google.com/schemas/sitemap-video/1.1"
-    xmlns:news="https://www.google.com/schemas/sitemap-news/0.9">
+    xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+    xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+    xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 
     <xsl:output method="html" encoding="UTF-8" indent="yes"/>
 

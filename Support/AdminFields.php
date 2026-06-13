@@ -27,7 +27,7 @@ final class AdminFields
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
      */
-    public function contentExtended(string $html, string $contentType, ?string $contentId = null): string
+    public function contentExtended(mixed $html, string $contentType, ?string $contentId = null): string
     {
         return $html . $this->tabs('content', $contentId, ['content_type' => $contentType]);
     }
@@ -43,7 +43,7 @@ final class AdminFields
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
      */
-    public function contentSide(string $html, string $contentType, ?string $contentId = null): string
+    public function contentSide(mixed $html, string $contentType, ?string $contentId = null): string
     {
         return $html . $this->side('content', $contentId, ['content_type' => $contentType]);
     }
@@ -58,7 +58,7 @@ final class AdminFields
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
      */
-    public function productExtended(string $html, ?string $productId = null): string
+    public function productExtended(mixed $html, ?string $productId = null): string
     {
         return $html . $this->tabs('product', $productId);
     }
@@ -73,7 +73,7 @@ final class AdminFields
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
      */
-    public function productSide(string $html, ?string $productId = null): string
+    public function productSide(mixed $html, ?string $productId = null): string
     {
         return $html . $this->side('product', $productId);
     }
@@ -88,7 +88,7 @@ final class AdminFields
      * @throws NotFoundExceptionInterface
      * @throws ReflectionException
      */
-    public function pageExtended(string $html, int|string|null $pageId = null): string
+    public function pageExtended(mixed $html, int|string|null $pageId = null): string
     {
         return $html . $this->tabs('page', $pageId !== null ? (string) $pageId : null);
     }
@@ -103,7 +103,7 @@ final class AdminFields
      * @throws NotFoundExceptionInterface
      * @throws ReflectionException
      */
-    public function pageSide(string $html, int|string|null $pageId = null): string
+    public function pageSide(mixed $html, int|string|null $pageId = null): string
     {
         return $html . $this->side('page', $pageId !== null ? (string) $pageId : null);
     }
