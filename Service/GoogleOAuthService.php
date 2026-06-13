@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Plugin\SimpleSeo\Service;
 
+use Exception;
+use Plugin\SimpleSeo\Support\GoogleTokenStore;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 
 use function App\Shared\Helpers\admin_url;
@@ -60,12 +62,11 @@ final class GoogleOAuthService
             throw new \RuntimeException(t__('Google did not return a refresh token.', 'simple-seo'));
         }
 
-        $settings = SimpleSeoSettings::all();
-        $settings['google_oauth_access_token'] = $response['access_token'] ?? '';
-        $settings['google_oauth_refresh_token'] = $response['refresh_token'];
-        $settings['google_oauth_token_expires'] = (string) (time() + (int) ($response['expires_in'] ?? 3600));
-
-        SimpleSeoSettings::save($settings);
+        GoogleTokenStore::set([
+            'access_token' => $response['access_token'] ?? '',
+            'refresh_token' => $response['refresh_token'],
+            'expires_at' => (string) (time() + (int) ($response['expires_in'] ?? 3600)),
+        ]);
 
         return $response;
     }
@@ -78,8 +79,8 @@ final class GoogleOAuthService
      */
     public function accessToken(): string
     {
-        $accessToken = trim((string) SimpleSeoSettings::get('google_oauth_access_token', ''));
-        $expires = (int) SimpleSeoSettings::get('google_oauth_token_expires', 0);
+        $accessToken = trim((string) GoogleTokenStore::get('access_token', ''));
+        $expires = (int) GoogleTokenStore::get('expires_at', 0);
 
         if ($accessToken !== '' && $expires > time() + 60) {
             return $accessToken;
@@ -97,7 +98,7 @@ final class GoogleOAuthService
      */
     public function refreshAccessToken(): string
     {
-        $refreshToken = trim((string) SimpleSeoSettings::get('google_oauth_refresh_token', ''));
+        $refreshToken = trim((string) GoogleTokenStore::get('refresh_token', ''));
 
         if ($refreshToken === '') {
             throw new \RuntimeException(t__('Google account is not connected.', 'simple-seo'));
@@ -116,30 +117,21 @@ final class GoogleOAuthService
             throw new \RuntimeException(t__('Google did not return an access token.', 'simple-seo'));
         }
 
-        $settings = SimpleSeoSettings::all();
-        $settings['google_oauth_access_token'] = $accessToken;
-        $settings['google_oauth_token_expires'] = (string) (time() + (int) ($response['expires_in'] ?? 3600));
-
-        SimpleSeoSettings::save($settings);
+        GoogleTokenStore::set([
+            'access_token' => $accessToken,
+            'expires_at' => (string) (time() + (int) ($response['expires_in'] ?? 3600)),
+        ]);
 
         return $accessToken;
     }
 
     /**
      * @return void
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Qubus\Exception\Data\TypeException
-     * @throws \Qubus\Exception\Exception
-     * @throws \ReflectionException
+     * @throws Exception
      */
     public function disconnect(): void
     {
-        $settings = SimpleSeoSettings::all();
-        $settings['google_oauth_access_token'] = '';
-        $settings['google_oauth_refresh_token'] = '';
-        $settings['google_oauth_token_expires'] = '';
-
-        SimpleSeoSettings::save($settings);
+        GoogleTokenStore::clear();
     }
 
     /**
@@ -150,7 +142,7 @@ final class GoogleOAuthService
      */
     public function isConnected(): bool
     {
-        return trim((string) SimpleSeoSettings::get('google_oauth_refresh_token', '')) !== '';
+        return trim((string) GoogleTokenStore::get('refresh_token', '')) !== '';
     }
 
     /**
@@ -214,13 +206,59 @@ final class GoogleOAuthService
         curl_close($ch);
 
         if ($body === false || $status < 200 || $status >= 300) {
+            $decoded = json_decode((string) $body, true);
+
+            $googleError = is_array($decoded)
+                ? (($decoded['error'] ?? '') . ': ' . ($decoded['error_description'] ?? ''))
+                : (string) $body;
+
             throw new \RuntimeException(
-                t__('Google OAuth request failed with HTTP ', 'simple-seo') . $status . ($error ? ': ' . $error : '.')
+                t__('Google OAuth request failed with HTTP ', 'simple-seo')
+                . $status
+                . ($googleError !== ': ' ? ' - ' . trim($googleError) : ($error ? ': ' . $error : '.'))
             );
         }
 
         $decoded = json_decode((string) $body, true);
 
         return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * @return void
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Qubus\Exception\Data\TypeException
+     * @throws \Qubus\Exception\Exception
+     * @throws \ReflectionException
+     */
+    public function migrateLegacyTokens(): void
+    {
+        $tokens = GoogleTokenStore::all();
+
+        if (!empty($tokens['refresh_token'])) {
+            return;
+        }
+
+        $settings = SimpleSeoSettings::all();
+
+        $refreshToken = trim((string) ($settings['google_oauth_refresh_token'] ?? ''));
+
+        if ($refreshToken === '') {
+            return;
+        }
+
+        GoogleTokenStore::set([
+            'access_token' => (string) ($settings['google_oauth_access_token'] ?? ''),
+            'refresh_token' => $refreshToken,
+            'expires_at' => (string) ($settings['google_oauth_token_expires'] ?? ''),
+        ]);
+
+        unset(
+            $settings['google_oauth_access_token'],
+            $settings['google_oauth_refresh_token'],
+            $settings['google_oauth_token_expires']
+        );
+
+        SimpleSeoSettings::save($settings);
     }
 }

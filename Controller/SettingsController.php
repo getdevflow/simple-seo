@@ -6,6 +6,7 @@ namespace Plugin\SimpleSeo\Controller;
 
 use Exception;
 use Plugin\SimpleSeo\Service\CrawlDiagnosticsService;
+use Plugin\SimpleSeo\Support\GoogleTokenStore;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 use Psr\Http\Message\ResponseInterface;
 use Qubus\Http\ServerRequest;
@@ -33,6 +34,7 @@ final readonly class SettingsController
         return view('plugin::SimpleSeo/view/settings', [
             'title' => t__('Simple SEO', 'simple-seo'),
             'settings' => SimpleSeoSettings::all(),
+            'googleConnected' => trim((string) GoogleTokenStore::get('refresh_token', '')) !== '',
             'diagnostics' => $this->diagnostics->report(),
         ]);
     }

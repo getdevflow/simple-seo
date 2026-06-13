@@ -509,7 +509,7 @@ $schemaTypes = [
 
                                         <h4><?=esc_html__('Google Search Console', $r['id']);?></h4>
 
-                                        <?php elseif (!empty($param['settings']['google_oauth_refresh_token'])): ?>
+                                        <?php elseif (!empty($param['googleConnected'])): ?>
 
                                             <div class="alert alert-success">
                                                 <?=esc_html__('Google Search Console is connected.', $r['id']);?>

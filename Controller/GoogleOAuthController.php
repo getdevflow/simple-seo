@@ -6,8 +6,13 @@ namespace Plugin\SimpleSeo\Controller;
 
 use Plugin\SimpleSeo\Service\GoogleOAuthService;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Data\TypeException;
+use Qubus\Exception\Exception;
 use Qubus\Http\Factories\RedirectResponseFactory;
 use Qubus\Http\ServerRequest;
+
+use ReflectionException;
 
 use function App\Shared\Helpers\admin_url;
 use function Qubus\Routing\Helpers\redirect;
@@ -26,7 +31,10 @@ final readonly class GoogleOAuthController
     /**
      * @param ServerRequest $request
      * @return ResponseInterface
-     * @throws \Qubus\Exception\Exception
+     * @throws InvalidArgumentException
+     * @throws TypeException
+     * @throws Exception
+     * @throws ReflectionException
      */
     public function callback(ServerRequest $request): ResponseInterface
     {
@@ -42,7 +50,10 @@ final readonly class GoogleOAuthController
 
     /**
      * @return ResponseInterface
-     * @throws \Qubus\Exception\Exception
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws TypeException
      */
     public function disconnect(): ResponseInterface
     {

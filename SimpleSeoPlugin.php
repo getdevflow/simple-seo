@@ -32,6 +32,7 @@ use Plugin\SimpleSeo\Service\RedirectSyncService;
 use Plugin\SimpleSeo\Service\SubmissionQueueProcessor;
 use Plugin\SimpleSeo\Service\TrackingCodeRendererService;
 use Plugin\SimpleSeo\Support\AdminFields;
+use Plugin\SimpleSeo\Support\GoogleTokenStore;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -84,7 +85,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.1.0',
+            'version' => '1.1.1',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -856,6 +857,7 @@ final class SimpleSeoPlugin extends Plugin
         }
 
         delete_option(key: $settings::OPTION_KEY);
+        GoogleTokenStore::clear();
 
         $this->migrateDown();
 
