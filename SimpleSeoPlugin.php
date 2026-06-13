@@ -85,7 +85,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.1.1',
+            'version' => '1.1.2',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -188,54 +188,54 @@ final class SimpleSeoPlugin extends Plugin
         $filter = Filter::getInstance();
 
         $filter->addFilter(
-            'content_attribute_box_extended',
+            'content.attribute.box.extended',
             function ($html, string $type, ?string $id = null) use ($fields) {
-                return $fields->contentExtended('', $type, $id);
+                return $fields->contentExtended($html, $type, $id);
             },
             10,
-            4
+            3
         );
 
         $filter->addFilter(
-            'content_attribute_box_side',
+            'content.attribute.box.side',
             function ($html, string $type, ?string $id = null) use ($fields) {
-                return $fields->contentSide('', $type, $id);
+                return $fields->contentSide($html, $type, $id);
             },
             10,
-            4
+            3
         );
 
         $filter->addFilter(
-            'product_attribute_box_extended',
+            'product.attribute.box.extended',
             function ($html, ?string $id = null) use ($fields) {
-                return $fields->productExtended('', $id);
+                return $fields->productExtended($html, $id);
             },
             10,
             2
         );
 
         $filter->addFilter(
-            'product_attribute_box_side',
+            'product.attribute.box.side',
             function ($html, ?string $id = null) use ($fields) {
-                return $fields->productSide('', $id);
+                return $fields->productSide($html, $id);
             },
             10,
             2
         );
 
         $filter->addFilter(
-            'page_attribute_box_extended',
-            function ($html = '', string|int|null $id = null) use ($fields) {
-                return $fields->pageExtended('', $id);
+            'page.attribute.box.extended',
+            function ($html, string|int|null $id = null) use ($fields) {
+                return $fields->pageExtended($html, $id);
             },
             10,
             2
         );
 
         $filter->addFilter(
-            'page_attribute_box_side',
-            function ($html = '', string|int|null $id = null) use ($fields) {
-                return $fields->pageSide('', $id);
+            'page.attribute.box.side',
+            function ($html, string|int|null $id = null) use ($fields) {
+                return $fields->pageSide($html, $id);
             },
             10,
             2
