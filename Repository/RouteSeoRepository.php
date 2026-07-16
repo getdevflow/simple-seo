@@ -13,6 +13,7 @@ use function date;
 use function json_decode;
 use function json_encode;
 use function parse_url;
+use function Qubus\Security\Helpers\t__;
 use function trim;
 
 use const JSON_UNESCAPED_SLASHES;
@@ -64,8 +65,6 @@ final readonly class RouteSeoRepository
      * @param string|null $id
      * @param bool $enabled
      * @return string
-     * @throws \Qubus\Exception\Exception
-     * @throws \ReflectionException
      */
     public function save(
         string $routePath,
@@ -100,8 +99,6 @@ final readonly class RouteSeoRepository
                 )
             );
 
-            //Action::getInstance()->doAction('create_seo_route', $id);
-
             return $id;
         }
 
@@ -121,8 +118,6 @@ final readonly class RouteSeoRepository
                 ]
             )
         );
-
-        //Action::getInstance()->doAction('update_seo_route', $id);
 
         return $id;
     }
@@ -163,9 +158,19 @@ final readonly class RouteSeoRepository
             return '/';
         }
 
-        $route = parse_url($route, PHP_URL_PATH) ?: $route;
+        $path = parse_url($route, PHP_URL_PATH);
 
-        return '/' . trim($route, '/') . '/';
+        if (!is_string($path) || $path === '') {
+            return '/';
+        }
+
+        $path = '/' . trim($path, '/') . '/';
+
+        if (!preg_match('#^/[A-Za-z0-9/_\-\.]+/$#', $path)) {
+            throw new \InvalidArgumentException(t__('Invalid route path.', 'simple-seo'));
+        }
+
+        return $path;
     }
 
     private function table(): string

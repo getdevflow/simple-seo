@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Plugin\SimpleSeo\Controller;
 
 use Plugin\SimpleSeo\Service\GoogleOAuthService;
+use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Qubus\Exception\Data\TypeException;
 use Qubus\Exception\Exception;
 use Qubus\Http\Factories\RedirectResponseFactory;
 use Qubus\Http\ServerRequest;
-
 use ReflectionException;
 
 use function App\Shared\Helpers\admin_url;
@@ -23,6 +23,14 @@ final readonly class GoogleOAuthController
     {
     }
 
+    /**
+     * @return ResponseInterface
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws TypeException
+     * @throws \Random\RandomException
+     */
     public function connect(): ResponseInterface
     {
         return RedirectResponseFactory::create($this->oauth->authUrl());
@@ -39,6 +47,14 @@ final readonly class GoogleOAuthController
     public function callback(ServerRequest $request): ResponseInterface
     {
         $query = $request->getQueryParams();
+
+        $state = (string) ($query['state'] ?? '');
+        $saved = (string) SimpleSeoSettings::get('google_oauth_state', '');
+
+        if ($state === '' || !hash_equals($saved, $state)) {
+            throw new \RuntimeException('Invalid Google OAuth state.');
+        }
+
         $code = (string) ($query['code'] ?? '');
 
         if ($code !== '') {
@@ -51,9 +67,7 @@ final readonly class GoogleOAuthController
     /**
      * @return ResponseInterface
      * @throws Exception
-     * @throws InvalidArgumentException
-     * @throws ReflectionException
-     * @throws TypeException
+     * @throws \Exception
      */
     public function disconnect(): ResponseInterface
     {

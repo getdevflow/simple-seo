@@ -73,7 +73,13 @@ final readonly class SitemapService
         }
 
         if (SimpleSeoSettings::get('enable_sitemap_pages', false)) {
-            $entry = $this->sitemapEntry('sitemap-pages.xml', $this->rows('page'));
+            $entry = $this->sitemapEntry(
+                'sitemap-pages.xml',
+                array_merge(
+                    $this->rows('page'),
+                    $this->routeRows()
+                )
+            );
 
             if ($entry !== null) {
                 $maps[] = $entry;
@@ -94,7 +100,12 @@ final readonly class SitemapService
         }
 
         if (SimpleSeoSettings::get('enable_sitemap_images', false)) {
-            $rows = array_merge($this->content(), $this->products(), $this->rows('page'));
+            $rows = array_merge(
+                $this->content(),
+                $this->products(),
+                $this->rows('page'),
+                $this->routeRows()
+            );
 
             $rows = array_filter($rows, function ($row) {
                 $seo = $row['seo'] ?? [];
@@ -111,7 +122,12 @@ final readonly class SitemapService
         }
 
         if (SimpleSeoSettings::get('enable_sitemap_videos', false)) {
-            $rows = array_merge($this->content(), $this->products(), $this->rows('page'));
+            $rows = array_merge(
+                $this->content(),
+                $this->products(),
+                $this->rows('page'),
+                $this->routeRows()
+            );
 
             $rows = array_filter($rows, function ($row) {
                 return !empty(($row['seo'] ?? [])['video_urls']);
@@ -342,7 +358,7 @@ final readonly class SitemapService
             );
             $defaultPriority = match ($row['kind'] ?? 'content') {
                 'product' => SimpleSeoSettings::get('sitemap_priority_products', '0.8'),
-                'page' => SimpleSeoSettings::get('sitemap_priority_pages', '0.6'),
+                'page', 'route' => SimpleSeoSettings::get('sitemap_priority_pages', '0.6'),
                 default => SimpleSeoSettings::get('sitemap_priority_content', '0.7'),
             };
             $xml->writeElement(
@@ -423,7 +439,10 @@ final readonly class SitemapService
         }
 
         return $this->urlset(
-            $this->rows('page'),
+            array_merge(
+                $this->rows('page'),
+                $this->routeRows()
+            ),
             false,
             false,
             false
@@ -718,6 +737,54 @@ XSL;
                 'seo' => $seo
             ];
         }
+        return $out;
+    }
+
+    private function routeRows(): array
+    {
+        $table = $this->dfdb->prefix . 'seo_route';
+
+        try {
+            $items = $this->dfdb->getResults(
+                "SELECT id, route_path, route_label, seo_data, enabled, updated_at, created_at
+             FROM {$table}
+             WHERE enabled = 1
+             ORDER BY updated_at DESC"
+            );
+        } catch (\Throwable) {
+            return [];
+        }
+
+        if (!is_array($items)) {
+            return [];
+        }
+
+        $out = [];
+
+        foreach ($items as $row) {
+            $seo = json_decode((string) ($row->seo_data ?? ''), true);
+
+            if (!is_array($seo)) {
+                $seo = [];
+            }
+
+            $routePath = trim((string) ($row->route_path ?? ''), '/');
+
+            $out[] = [
+                'kind' => 'route',
+                'id' => (string) ($row->id ?? ''),
+                'title' => (string) ($row->route_label ?? $routePath),
+                'description' => (string) ($seo['meta_description'] ?? ''),
+                'url' => $routePath === ''
+                    ? rtrim($this->baseUrl(), '/') . '/'
+                    : rtrim($this->baseUrl(), '/') . '/' . $routePath . '/',
+                'image' => (string) ($seo['facebook_image'] ?? $seo['twitter_image'] ?? ''),
+                'created_at' => (string) ($row->created_at ?? ''),
+                'updated_at' => (string) ($row->updated_at ?? ''),
+                'seo' => $seo,
+            ];
+        }
+
         return $out;
     }
 

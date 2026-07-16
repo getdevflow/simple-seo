@@ -85,7 +85,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.1.3',
+            'version' => '1.2.0',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -451,6 +451,10 @@ final class SimpleSeoPlugin extends Plugin
         return $renderer->renderHome();
     }
 
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
     private function registerTrackingOutput(): void
     {
         $action = Action::getInstance();

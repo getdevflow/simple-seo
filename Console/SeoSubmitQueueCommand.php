@@ -63,6 +63,15 @@ final class SeoSubmitQueueCommand extends ConsoleCommand
                         $site['domain'] ?? $site['key'] ?? ''
                     )
                 );
+
+                foreach ($result['errors'] ?? [] as $error) {
+                    $this->output->writeln(sprintf(
+                        '<error>Failed URL: %s | Engine: %s | Error: %s</error>',
+                        $error['url'],
+                        $error['engine'],
+                        $error['error']
+                    ));
+                }
             } catch (\Throwable $e) {
                 $this->output->writeln(sprintf(
                     '<error>IndexNow queue failed for site %s: %s</error>',

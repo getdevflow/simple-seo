@@ -454,6 +454,13 @@ $schemaTypes = [
                                             <label>IndexNow key</label>
                                             <input class="form-control" name="seo_settings[indexnow_key]" value="<?= SimpleSeoHelper::text($param['settings']['indexnow_key']) ?>">
                                         </div>
+                                        <div class="form-group">
+                                            <label>IndexNow host</label>
+                                            <input class="form-control" name="seo_settings[indexnow_host]" value="<?= SimpleSeoHelper::text($param['settings']['indexnow_host']) ?>">
+                                            <p class="help-block">
+                                                <?=esc_html__('i.e. example.com (without the beginning protocol)', $r['id']);?>
+                                            </p>
+                                        </div>
                                         <div class="checkbox">
                                             <input type="checkbox"
                                                    class="js-switch"

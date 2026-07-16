@@ -26,8 +26,22 @@ final class GoogleOAuthService
     private const string AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
     private const string TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
+    /**
+     * @return string
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Qubus\Exception\Data\TypeException
+     * @throws \Qubus\Exception\Exception
+     * @throws \Random\RandomException
+     * @throws \ReflectionException
+     */
     public function authUrl(): string
     {
+        $state = bin2hex(random_bytes(16));
+
+        $settings = SimpleSeoSettings::all();
+        $settings['google_oauth_state'] = $state;
+        SimpleSeoSettings::save($settings);
+
         return self::AUTH_URL . '?' . http_build_query([
             'client_id' => $this->clientId(),
             'redirect_uri' => $this->redirectUri(),
@@ -37,6 +51,7 @@ final class GoogleOAuthService
             ]),
             'access_type' => 'offline',
             'prompt' => 'consent',
+            'state' => $state,
         ]);
     }
 
@@ -67,6 +82,10 @@ final class GoogleOAuthService
             'refresh_token' => $response['refresh_token'],
             'expires_at' => (string) (time() + (int) ($response['expires_in'] ?? 3600)),
         ]);
+
+        $settings = SimpleSeoSettings::all();
+        unset($settings['google_oauth_state']);
+        SimpleSeoSettings::save($settings);
 
         return $response;
     }
