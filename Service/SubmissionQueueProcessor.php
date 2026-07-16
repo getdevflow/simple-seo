@@ -19,23 +19,36 @@ final readonly class SubmissionQueueProcessor
     {
         $processed = 0;
         $failed = 0;
+        $errors = [];
 
         foreach ($this->queue->pending($limit) as $item) {
             $this->queue->markProcessing((string) $item->id);
 
             try {
                 $this->submit((string) $item->url, (string) $item->engine);
+
                 $this->queue->markDone((string) $item->id);
                 $processed++;
             } catch (\Throwable $e) {
-                $this->queue->markFailed((string) $item->id, $e->getMessage());
+                $message = $e->getMessage();
+
+                $this->queue->markFailed((string) $item->id, $message);
+
                 $failed++;
+
+                $errors[] = [
+                    'id' => (string) $item->id,
+                    'url' => (string) $item->url,
+                    'engine' => (string) $item->engine,
+                    'error' => $message,
+                ];
             }
         }
 
         return [
             'processed' => $processed,
             'failed' => $failed,
+            'errors' => $errors,
         ];
     }
 

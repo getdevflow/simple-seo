@@ -8,6 +8,10 @@ use Melbahja\Seo\Schema;
 use Melbahja\Seo\Schema\Thing;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 
+use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Exception;
+use ReflectionException;
+
 use function App\Shared\Helpers\site_url;
 use function array_filter;
 use function function_exists;
@@ -40,10 +44,10 @@ final class SchemaFactoryService
         }
 
         if (!empty($seo['schema_json'])) {
-            $decoded = json_decode((string) $seo['schema_json'], true);
+            $decoded = $this->validSchemaJson((string) $seo['schema_json']);
 
-            if (is_array($decoded)) {
-                $type = (string) ($decoded['@type'] ?? 'Thing');
+            if ($decoded !== null) {
+                $type = (string) $decoded['@type'];
                 unset($decoded['@context'], $decoded['@type']);
 
                 return new Schema(new Thing($type, $decoded));
@@ -324,7 +328,9 @@ final class SchemaFactoryService
 
     /**
      * @return string
-     * @throws \Qubus\Exception\Exception
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws ReflectionException
      */
     private function organizationId(): string
     {
@@ -333,5 +339,26 @@ final class SchemaFactoryService
             'LocalBusiness' => rtrim(site_url(), '/') . '/#localbusiness',
             default => rtrim(site_url(), '/') . '/#organization',
         };
+    }
+
+    private function validSchemaJson(string $json): ?array
+    {
+        $decoded = json_decode($json, true);
+
+        if (!is_array($decoded)) {
+            return null;
+        }
+
+        if (empty($decoded['@type']) || !is_string($decoded['@type'])) {
+            return null;
+        }
+
+        $type = $decoded['@type'];
+
+        if (!preg_match('/^[A-Za-z]+$/', $type)) {
+            return null;
+        }
+
+        return $decoded;
     }
 }

@@ -10,11 +10,7 @@ use function Qubus\Security\Helpers\t__;
 
 final class SettingsImportExportService
 {
-    private const array EXCLUDED_KEYS = [
-        'google_oauth_access_token',
-        'google_oauth_refresh_token',
-        'google_oauth_token_expires',
-    ];
+    private const array EXCLUDED_KEYS = [];
 
     /**
      * @return string
@@ -32,7 +28,7 @@ final class SettingsImportExportService
 
         return json_encode([
             'plugin' => 'simple-seo',
-            'version' => '1.0',
+            'version' => '1.2.0',
             'exported_at' => date('c'),
             'settings' => $settings,
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '{}';
@@ -63,6 +59,13 @@ final class SettingsImportExportService
         foreach (self::EXCLUDED_KEYS as $key) {
             unset($settings[$key]);
         }
+
+        $allowed = array_keys(SimpleSeoSettings::defaults());
+
+        $settings = array_intersect_key(
+            $settings,
+            array_flip($allowed)
+        );
 
         $current = SimpleSeoSettings::all();
 

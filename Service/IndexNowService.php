@@ -6,14 +6,13 @@ namespace Plugin\SimpleSeo\Service;
 
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
 
-use function App\Shared\Helpers\site_url;
+use function App\Shared\Helpers\is_ssl;
 use function array_values;
 use function Codefy\Framework\Helpers\env;
 use function json_encode;
 use function parse_url;
 use function Qubus\Security\Helpers\t__;
 use function rawurlencode;
-use function rtrim;
 use function trim;
 
 use const CURLINFO_RESPONSE_CODE;
@@ -67,22 +66,26 @@ final class IndexNowService
             throw new \RuntimeException(t__('No URLs provided.', 'simple-seo'));
         }
 
-        $siteUrl = rtrim(site_url(), '/');
+        $firstUrl = (string) ($urls[0] ?? '');
 
-        $host = SimpleSeoSettings::get('indexnow_host', '');
+        $host = trim((string) SimpleSeoSettings::get('indexnow_host', ''));
 
         if ($host === '') {
-            $host = parse_url($siteUrl, PHP_URL_HOST) ?: '';
+            $host = parse_url($firstUrl, PHP_URL_HOST) ?: '';
         }
 
         if ($host === '') {
-            throw new \RuntimeException(t__('Unable to determine IndexNow host.', 'simple-seo'));
+            throw new \RuntimeException(
+                t__('Unable to determine IndexNow host for URL: ', 'simple-seo') . $firstUrl
+            );
         }
+
+        $keyLocation = is_ssl() ? 'https://' : 'http://' . $host . '/' . rawurlencode($key) . '.txt';
 
         $payload = json_encode([
             'host' => $host,
             'key' => $key,
-            'keyLocation' => $siteUrl . '/' . rawurlencode($key) . '.txt',
+            'keyLocation' => $keyLocation,
             'urlList' => $urls,
         ], JSON_UNESCAPED_SLASHES);
 

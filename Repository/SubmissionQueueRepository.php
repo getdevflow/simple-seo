@@ -27,22 +27,38 @@ final readonly class SubmissionQueueRepository
             ? $engine
             : 'indexnow';
 
+        $now = date('Y-m-d H:i:s');
+
         $existing = $this->dfdb->getRow(
             $this->dfdb->prepare(
                 "SELECT * FROM {$this->table()}
                  WHERE url = ?
                  AND engine = ?
-                 AND status = 'pending'
+                 AND status IN('pending','done')
                  LIMIT 1",
                 [$url, $engine]
             )
         );
 
         if ($existing !== false && $existing !== null) {
+            $this->dfdb->query(
+                $this->dfdb->prepare(
+                    "UPDATE {$this->table()}
+                     SET status = 'pending',
+                     attempts = 0,
+                     last_error = NULL,
+                     updated_at = ?,
+                     processed_at = NULL
+                     WHERE id = ?",
+                    [
+                        $now,
+                        (string) $existing->id,
+                    ]
+                )
+            );
+
             return;
         }
-
-        $now = date('Y-m-d H:i:s');
 
         $this->dfdb->query(
             $this->dfdb->prepare(

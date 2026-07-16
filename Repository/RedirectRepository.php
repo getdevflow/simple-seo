@@ -298,8 +298,28 @@ final readonly class RedirectRepository
             return '/';
         }
 
+        $scheme = parse_url($targetUrl, PHP_URL_SCHEME);
+
+        if ($scheme !== null && !in_array(strtolower($scheme), ['http', 'https'], true)) {
+            throw new \InvalidArgumentException(
+                t__(
+                    'Invalid redirect URL scheme.',
+                    'simple-seo'
+                )
+            );
+        }
+
         if (str_starts_with($targetUrl, 'http://') || str_starts_with($targetUrl, 'https://')) {
             return $targetUrl;
+        }
+
+        if (str_starts_with($targetUrl, '//')) {
+            throw new \InvalidArgumentException(
+                t__(
+                    'Protocol-relative redirects are not allowed.',
+                    'simple-seo'
+                )
+            );
         }
 
         return '/' . trim($targetUrl, '/') . '/';
