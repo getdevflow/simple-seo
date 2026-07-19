@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Simple SEO\n"
-"POT-Creation-Date: 2026-06-11 14:01-0600\n"
-"PO-Revision-Date: 2026-06-11 14:01-0600\n"
+"POT-Creation-Date: 2026-07-18 17:29-0700\n"
+"PO-Revision-Date: 2026-07-18 17:29-0700\n"
 "Last-Translator: \n"
 "Language-Team: Joshua Parker\n"
 "Language: zh_CN\n"
@@ -102,16 +102,16 @@ msgstr "检测到重定向环路。源头和目标不能互相引导回去，也
 msgid "A redirect already exists for this source URL."
 msgstr "该源URL已经存在重定向。"
 
-#: Controller/RouteSeoController.php:33
+#: Controller/RouteSeoController.php:35
 #, fuzzy
 msgid "Custom Route SEO"
 msgstr "定制路线SEO"
 
-#: Controller/RouteSeoController.php:64
+#: Controller/RouteSeoController.php:66
 msgid "Not found"
 msgstr "未找到"
 
-#: Controller/RouteSeoController.php:127
+#: Controller/RouteSeoController.php:138
 msgid "Error occurred."
 msgstr "发生错误。"
 
@@ -124,7 +124,7 @@ msgstr "搜索统计"
 msgid "Google Search Console connected successfully."
 msgstr "Google 搜索控制台成功连接。"
 
-#: Controller/SettingsController.php:34
+#: Controller/SettingsController.php:35
 #, fuzzy
 msgid "Simple SEO"
 msgstr "简单的SEO"
@@ -139,72 +139,92 @@ msgstr "钥匙错了。"
 msgid "No sitemap."
 msgstr "没有网站地图。"
 
-#: Service/CrawlDiagnosticsService.php:56
+#: Repository/RedirectRepository.php:306
+#, fuzzy
+msgid "Invalid redirect URL scheme."
+msgstr "无效的重定向URL方案。"
+
+#: Repository/RedirectRepository.php:319
+#, fuzzy
+msgid "Protocol-relative redirects are not allowed."
+msgstr "不允许协议相对重定向。"
+
+#: Repository/RouteSeoRepository.php:170
+#, fuzzy
+msgid "Invalid route path."
+msgstr "路由路径无效。"
+
+#: Service/CrawlDiagnosticsService.php:58
 #, fuzzy
 msgid "robots.txt is reachable."
 msgstr "robots.txt是可以联系到的。"
 
-#: Service/CrawlDiagnosticsService.php:63
+#: Service/CrawlDiagnosticsService.php:65
 #, fuzzy
 msgid "sitemap.xml is reachable."
 msgstr "sitemap.xml是可以联系到的。"
 
-#: Service/CrawlDiagnosticsService.php:75
+#: Service/CrawlDiagnosticsService.php:77
 #, fuzzy
 msgid "IndexNow is configured."
 msgstr "IndexNow 已配置好。"
 
-#: Service/CrawlDiagnosticsService.php:82
+#: Service/CrawlDiagnosticsService.php:84
 #, fuzzy
 msgid "Google OAuth is connected."
 msgstr "谷歌 OAuth 是连接的。"
 
-#: Service/CrawlDiagnosticsService.php:88
+#: Service/CrawlDiagnosticsService.php:90
 #, fuzzy
 msgid "Search Console Site URL is configured."
 msgstr "搜索控制台站点URL已配置。"
 
-#: Service/CrawlDiagnosticsService.php:94
+#: Service/CrawlDiagnosticsService.php:96
 #, fuzzy
 msgid "Active sitemap count"
 msgstr "活跃站点地图计数"
 
-#: Service/CrawlDiagnosticsService.php:99
+#: Service/CrawlDiagnosticsService.php:101
 #, fuzzy
 msgid "Published content count"
 msgstr "已发布内容数量"
 
-#: Service/CrawlDiagnosticsService.php:104
+#: Service/CrawlDiagnosticsService.php:106
 #, fuzzy
 msgid "Published page count"
 msgstr "已出版页数"
 
-#: Service/CrawlDiagnosticsService.php:109
+#: Service/CrawlDiagnosticsService.php:111
 #, fuzzy
 msgid "Published product count"
 msgstr "已发表产品数量"
 
-#: Service/CrawlDiagnosticsService.php:112
+#: Service/CrawlDiagnosticsService.php:116
+#, fuzzy
+msgid "Pending URL submissions"
+msgstr "待提交的网址"
+
+#: Service/CrawlDiagnosticsService.php:119
 #, fuzzy
 msgid "Redirect hit count"
 msgstr "重定向命中计数"
 
-#: Service/CrawlDiagnosticsService.php:113
+#: Service/CrawlDiagnosticsService.php:120
 #, fuzzy
 msgid "404 count"
 msgstr "404人"
 
-#: Service/CrawlDiagnosticsService.php:114
+#: Service/CrawlDiagnosticsService.php:121
 #, fuzzy
 msgid "Redirects total"
 msgstr "重定向总数"
 
-#: Service/CrawlDiagnosticsService.php:115
+#: Service/CrawlDiagnosticsService.php:122
 #, fuzzy
 msgid "Active redirects"
 msgstr "活跃重定向"
 
-#: Service/CrawlDiagnosticsService.php:125
+#: Service/CrawlDiagnosticsService.php:132
 #, fuzzy
 msgid "Needs attention"
 msgstr "需要关注"
@@ -238,58 +258,98 @@ msgstr "谷歌令牌验证失败"
 msgid "Google Indexing request failed with HTTP "
 msgstr "Google 索引请求在 HTTP 下失败"
 
-#: Service/GoogleOAuthService.php:60
+#: Service/GoogleOAuthService.php:77
 #, fuzzy
 msgid "Google did not return a refresh token."
 msgstr "谷歌没有返回刷新令牌。"
 
-#: Service/GoogleOAuthService.php:103
+#: Service/GoogleOAuthService.php:123
 msgid "Google account is not connected."
 msgstr "谷歌账户未连接。"
 
-#: Service/GoogleOAuthService.php:116
+#: Service/GoogleOAuthService.php:136
 #, fuzzy
 msgid "Google did not return an access token."
 msgstr "谷歌没有返回访问令牌。"
 
-#: Service/GoogleOAuthService.php:176
+#: Service/GoogleOAuthService.php:187
 #, fuzzy
 msgid "Missing Google Client ID."
 msgstr "缺少谷歌客户端ID。"
 
-#: Service/GoogleOAuthService.php:193
+#: Service/GoogleOAuthService.php:204
 #, fuzzy
 msgid "Missing Google Client Secret."
 msgstr "缺少谷歌客户端秘密。"
 
-#: Service/GoogleOAuthService.php:218
+#: Service/GoogleOAuthService.php:235
 #, fuzzy
 msgid "Google OAuth request failed with HTTP "
 msgstr "Google OAuth 请求在 HTTP 上失败"
 
-#: Service/IndexNowService.php:52
+#: Service/IndexNowService.php:51
 #, fuzzy
 msgid "IndexNow is disabled."
 msgstr "IndexNow 已被禁用。"
 
-#: Service/IndexNowService.php:58
+#: Service/IndexNowService.php:57
 #, fuzzy
 msgid "Missing IndexNow key."
 msgstr "缺少IndexNow关键点。"
 
-#: Service/IndexNowService.php:67
+#: Service/IndexNowService.php:66
 msgid "No URLs provided."
 msgstr "未提供网址。"
 
 #: Service/IndexNowService.php:79
 #, fuzzy
-msgid "Unable to determine IndexNow host."
-msgstr "无法确定IndexNow的主机。"
+msgid "Unable to determine IndexNow host for URL: "
+msgstr "无法确定 IndexNow 的 URL 托管："
 
-#: Service/IndexNowService.php:126
+#: Service/IndexNowService.php:129
 #, fuzzy
 msgid "IndexNow request failed with HTTP "
 msgstr "IndexNow 请求在 HTTP 问题下失败"
+
+#: Service/Indexing/ContentIndexEligibility.php:57
+#, fuzzy
+msgid "The content ID is empty."
+msgstr "内容ID是空的。"
+
+#: Service/Indexing/ContentIndexEligibility.php:67
+#, fuzzy, php-format
+msgid "The content could not be loaded: %s"
+msgstr "内容无法加载：%s"
+
+#: Service/Indexing/ContentIndexEligibility.php:77
+#, fuzzy
+msgid "The content does not exist."
+msgstr "内容不存在。"
+
+#: Service/Indexing/ContentIndexEligibility.php:86
+#, fuzzy, php-format
+msgid "Content status \"%s\" is not eligible for index submission."
+msgstr "内容状态“%s”不符合索引提交资格。"
+
+#: Service/Indexing/ContentIndexEligibility.php:94
+#, fuzzy
+msgid "The content is configured with a noindex directive."
+msgstr "内容配置为noindex指令。"
+
+#: Service/Indexing/ContentIndexEligibility.php:104
+#, fuzzy, php-format
+msgid "The content URL could not be resolved: %s"
+msgstr "内容URL无法解析：%s"
+
+#: Service/Indexing/ContentIndexEligibility.php:114
+#, fuzzy
+msgid "The content does not have a public URL."
+msgstr "该内容没有公开网址。"
+
+#: Service/Indexing/ContentIndexEligibility.php:123
+#, fuzzy, php-format
+msgid "The resolved content URL is invalid: %s"
+msgstr "已解析的内容URL无效：%s"
 
 #: Service/SearchConsoleService.php:99
 #, fuzzy
@@ -316,22 +376,42 @@ msgstr "缺少网站地图网址。"
 msgid "Google sitemap submission failed with HTTP "
 msgstr "谷歌网站地图提交失败，HTTP问题"
 
-#: Service/SettingsImportExportService.php:54
+#: Service/SettingsImportExportService.php:50
 #, fuzzy
 msgid "Invalid JSON file."
 msgstr "JSON文件无效。"
 
-#: Service/SettingsImportExportService.php:60
+#: Service/SettingsImportExportService.php:56
 #, fuzzy
 msgid "Import file does not contain settings."
 msgstr "导入文件不包含设置。"
 
-#: SimpleSeoPlugin.php:79
+#: Service/SubmissionQueueProcessor.php:79
+#, fuzzy
+msgid "SEO submission skipped because the entity is no longer indexable."
+msgstr "由于该实体不再可索引，SEO提交被跳过。"
+
+#: Service/SubmissionQueueProcessor.php:162
+#, fuzzy
+msgid "The content queue item does not contain an entity ID."
+msgstr "内容队列项目不包含实体ID。"
+
+#: Service/SubmissionQueueProcessor.php:176
+#, fuzzy
+msgid "The queue item does not contain a valid URL."
+msgstr "队列项目不包含有效的 URL。"
+
+#: Service/SubmissionQueueProcessor.php:199
+#, fuzzy, php-format
+msgid "Unsupported indexing engine: %s."
+msgstr "不支持的索引引擎：%s。"
+
+#: SimpleSeoPlugin.php:85
 #, fuzzy
 msgid "Simple Seo"
 msgstr "简单徐"
 
-#: SimpleSeoPlugin.php:84
+#: SimpleSeoPlugin.php:90
 #, fuzzy
 msgid ""
 "Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
@@ -340,13 +420,13 @@ msgstr ""
 "Simple SEO是一套适用于Devflow CMS的SEO管理套件，涵盖页面内SEO、技术SEO、索引、爬取"
 "管理、404监控等诸多内容。"
 
-#: SimpleSeoPlugin.php:145
+#: SimpleSeoPlugin.php:156
 #, fuzzy
 #| msgid "SEO Score"
 msgid "SEO Routes"
 msgstr "SEO路径"
 
-#: SimpleSeoPlugin.php:164
+#: SimpleSeoPlugin.php:175
 #, fuzzy
 msgid ""
 "You must upgrade your system to at least v2.3 in order to use the Simple SEO "
@@ -510,7 +590,7 @@ msgstr "提交"
 msgid "Google Indexing API"
 msgstr "谷歌索引API"
 
-#: view/indexing.phtml:64 view/settings.phtml:871
+#: view/indexing.phtml:64 view/settings.phtml:904
 msgid "Submit URL"
 msgstr "提交网址"
 
@@ -551,7 +631,7 @@ msgstr "网站地图网址"
 msgid "IndexNow + Google Search Console"
 msgstr "IndexNow + 谷歌搜索控制台"
 
-#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:517
 msgid "Google Search Console"
 msgstr "谷歌搜索控制台"
 
@@ -643,7 +723,7 @@ msgid "Description"
 msgstr "描述"
 
 #: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
-#: view/settings.phtml:172 view/settings.phtml:572
+#: view/settings.phtml:172 view/settings.phtml:571
 msgid "Browse"
 msgstr "浏览"
 
@@ -1252,191 +1332,191 @@ msgstr "百度验证"
 msgid "Enable IndexNow"
 msgstr "启用IndexNow。"
 
-#: view/settings.phtml:462
+#: view/settings.phtml:461
+#, fuzzy
+msgid "i.e. example.com (without the beginning protocol)"
+msgstr "即 example.com（不含起始协议）"
+
+#: view/settings.phtml:469
 #, fuzzy
 msgid "Enable Google Indexing API"
 msgstr "启用谷歌索引API"
 
-#: view/settings.phtml:466
+#: view/settings.phtml:473
 msgid "Google Client ID"
 msgstr "Google客户端ID"
 
-#: view/settings.phtml:476
+#: view/settings.phtml:483
 msgid "Google Client Secret"
 msgstr "Google客户端秘密"
 
-#: view/settings.phtml:486
+#: view/settings.phtml:493
 #, fuzzy
 msgid "Search Console Site URL"
 msgstr "搜索控制台网站网址"
 
-#: view/settings.phtml:504
+#: view/settings.phtml:511
 #, fuzzy
 msgid "Missing Credentials"
 msgstr "缺失的证件"
 
-#: view/settings.phtml:505
+#: view/settings.phtml:512
 #, fuzzy
 msgid ""
 "Enter your Google Client ID and Client Secret, then save settings before "
 "connecting."
 msgstr "输入你的 Google 客户端 ID 和客户端秘密，然后在连接前保存设置。"
 
-#: view/settings.phtml:515
+#: view/settings.phtml:522
 #, fuzzy
 msgid "Google Search Console is connected."
 msgstr "Google 搜索控制台已连接。"
 
-#: view/settings.phtml:521
+#: view/settings.phtml:528
 #, fuzzy
 msgid "Disconnect Google"
 msgstr "断开谷歌连接"
 
-#: view/settings.phtml:528
+#: view/settings.phtml:535
 msgid "No Connection"
 msgstr "无连接"
 
-#: view/settings.phtml:529
+#: view/settings.phtml:536
 #, fuzzy
 msgid "Connect your Google account to access Search Console statistics."
 msgstr "连接您的 Google 账户以访问 Search Console 的统计数据。"
 
-#: view/settings.phtml:534
+#: view/settings.phtml:541
 #, fuzzy
 msgid "Connect Google"
 msgstr "连接谷歌"
 
-#: view/settings.phtml:544
-#, fuzzy
-msgid "Auto submit sitemap URLs"
-msgstr "自动提交网站地图网址"
-
-#: view/settings.phtml:550
+#: view/settings.phtml:549
 msgid "Organization name"
 msgstr "组织名称"
 
-#: view/settings.phtml:555
+#: view/settings.phtml:554
 msgid "Organization logo"
 msgstr "组织LOGO"
 
-#: view/settings.phtml:578
+#: view/settings.phtml:577
 #, fuzzy
 msgid "Enter a logo URL manually or choose one from the media manager."
 msgstr "手动输入标志网址，或从媒体管理器中选择一个。"
 
-#: view/settings.phtml:592
+#: view/settings.phtml:591
 #, fuzzy
 msgid "Organization phone"
 msgstr "组织电话"
 
-#: view/settings.phtml:597
+#: view/settings.phtml:596
 #, fuzzy
 msgid "Default schema type"
 msgstr "默认模式类型"
 
-#: view/settings.phtml:617
+#: view/settings.phtml:616
 #, fuzzy
 msgid "Enable styling for sitemaps."
 msgstr "启用网站地图的样式。"
 
-#: view/settings.phtml:625
+#: view/settings.phtml:624
 #, fuzzy
 msgid "Sitemap XSL"
 msgstr "XSL 站点地图"
 
-#: view/settings.phtml:629
+#: view/settings.phtml:628
 #, fuzzy
 msgid "Enable the sitemaps you would like to use for your site."
 msgstr "启用你想用于网站的网站地图。"
 
-#: view/settings.phtml:637
+#: view/settings.phtml:636
 #, fuzzy
 msgid "Content Sitemap"
 msgstr "内容网站地图"
 
-#: view/settings.phtml:644
+#: view/settings.phtml:643
 #, fuzzy
 msgid "Product Sitemap"
 msgstr "产品网站地图"
 
-#: view/settings.phtml:651
+#: view/settings.phtml:650
 msgid "News Sitemap"
 msgstr "新闻网站地图"
 
-#: view/settings.phtml:658
+#: view/settings.phtml:657
 #, fuzzy
 msgid "Image Sitemap"
 msgstr "图片网站地图"
 
-#: view/settings.phtml:665
+#: view/settings.phtml:664
 msgid "Video Sitemap"
 msgstr "视频地图"
 
-#: view/settings.phtml:672
+#: view/settings.phtml:671
 #, fuzzy
 msgid "Content Types Sitemap"
 msgstr "内容类型 网站地图"
 
-#: view/settings.phtml:679
+#: view/settings.phtml:678
 #, fuzzy
 msgid "Pages Sitemap"
 msgstr "页面 网站地图"
 
-#: view/settings.phtml:693
+#: view/settings.phtml:726
 #, fuzzy
 msgid "Enable runtime robots.txt"
 msgstr "启用运行时 robots.txt"
 
-#: view/settings.phtml:706
+#: view/settings.phtml:739
 #, fuzzy
 msgid "Allow search engines to crawl this site"
 msgstr "允许搜索引擎爬取本网站"
 
-#: view/settings.phtml:719
+#: view/settings.phtml:752
 #, fuzzy
 msgid "Include sitemap URL"
 msgstr "包含网站地图网址"
 
-#: view/settings.phtml:724
+#: view/settings.phtml:757
 #, fuzzy
 msgid "Custom Robots Rules"
 msgstr "自定义机器人规则"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "Leave empty to use the default"
 msgstr "保持空位以使用默认"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "These rules apply only to the current site."
 msgstr "这些规则仅适用于当前网站。"
 
-#: view/settings.phtml:738
+#: view/settings.phtml:771
 #, fuzzy
 msgid "Runtime URL:"
 msgstr "运行时网址："
 
-#: view/settings.phtml:749
+#: view/settings.phtml:782
 #, fuzzy
 msgid "Save SEO Settings"
 msgstr "保存SEO设置"
 
-#: view/settings.phtml:762
+#: view/settings.phtml:795
 #, fuzzy
 msgid "Crawl Diagnostics"
 msgstr "爬行诊断"
 
-#: view/settings.phtml:788
+#: view/settings.phtml:821
 #, fuzzy
 msgid "No diagnostics available."
 msgstr "没有诊断方法。"
 
-#: view/settings.phtml:798
+#: view/settings.phtml:831
 msgid "Import/Export"
 msgstr "导入/导出"
 
-#: view/settings.phtml:803
+#: view/settings.phtml:836
 #, fuzzy
 msgid ""
 "Export SEO settings as JSON or import settings from another Devflow site.\n"
@@ -1445,23 +1525,27 @@ msgstr ""
 "导出SEO设置为JSON，或从其他Devflow网站导入设置。\n"
 "                            OAuth 连接令牌不会被导出。"
 
-#: view/settings.phtml:810
+#: view/settings.phtml:843
 msgid "Export Settings"
 msgstr "导出设置"
 
-#: view/settings.phtml:821
+#: view/settings.phtml:854
 #, fuzzy
 msgid "Import Settings JSON"
 msgstr "导入设置 JSON"
 
-#: view/settings.phtml:830
+#: view/settings.phtml:863
 msgid "Import Settings"
 msgstr "导入设置"
 
-#: view/settings.phtml:838
+#: view/settings.phtml:871
 #, fuzzy
 msgid "Submit URL for Indexing"
 msgstr "提交URL进行索引"
+
+#, fuzzy
+#~ msgid "Auto submit sitemap URLs"
+#~ msgstr "自动提交网站地图网址"
 
 #~ msgid "Warning:"
 #~ msgstr "警告："

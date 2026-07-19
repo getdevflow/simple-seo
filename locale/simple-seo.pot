@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Simple SEO\n"
-"POT-Creation-Date: 2026-06-11 14:01-0600\n"
+"POT-Creation-Date: 2026-07-18 17:28-0700\n"
 "PO-Revision-Date: 2024-11-29 13:36-0800\n"
 "Last-Translator: \n"
 "Language-Team: Joshua Parker\n"
@@ -90,15 +90,15 @@ msgstr ""
 msgid "A redirect already exists for this source URL."
 msgstr ""
 
-#: Controller/RouteSeoController.php:33
+#: Controller/RouteSeoController.php:35
 msgid "Custom Route SEO"
 msgstr ""
 
-#: Controller/RouteSeoController.php:64
+#: Controller/RouteSeoController.php:66
 msgid "Not found"
 msgstr ""
 
-#: Controller/RouteSeoController.php:127
+#: Controller/RouteSeoController.php:138
 msgid "Error occurred."
 msgstr ""
 
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Google Search Console connected successfully."
 msgstr ""
 
-#: Controller/SettingsController.php:34
+#: Controller/SettingsController.php:35
 msgid "Simple SEO"
 msgstr ""
 
@@ -122,59 +122,75 @@ msgstr ""
 msgid "No sitemap."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:56
+#: Repository/RedirectRepository.php:306
+msgid "Invalid redirect URL scheme."
+msgstr ""
+
+#: Repository/RedirectRepository.php:319
+msgid "Protocol-relative redirects are not allowed."
+msgstr ""
+
+#: Repository/RouteSeoRepository.php:170
+msgid "Invalid route path."
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:58
 msgid "robots.txt is reachable."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:63
+#: Service/CrawlDiagnosticsService.php:65
 msgid "sitemap.xml is reachable."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:75
+#: Service/CrawlDiagnosticsService.php:77
 msgid "IndexNow is configured."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:82
+#: Service/CrawlDiagnosticsService.php:84
 msgid "Google OAuth is connected."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:88
+#: Service/CrawlDiagnosticsService.php:90
 msgid "Search Console Site URL is configured."
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:94
+#: Service/CrawlDiagnosticsService.php:96
 msgid "Active sitemap count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:99
+#: Service/CrawlDiagnosticsService.php:101
 msgid "Published content count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:104
+#: Service/CrawlDiagnosticsService.php:106
 msgid "Published page count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:109
+#: Service/CrawlDiagnosticsService.php:111
 msgid "Published product count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:112
+#: Service/CrawlDiagnosticsService.php:116
+msgid "Pending URL submissions"
+msgstr ""
+
+#: Service/CrawlDiagnosticsService.php:119
 msgid "Redirect hit count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:113
+#: Service/CrawlDiagnosticsService.php:120
 msgid "404 count"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:114
+#: Service/CrawlDiagnosticsService.php:121
 msgid "Redirects total"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:115
+#: Service/CrawlDiagnosticsService.php:122
 msgid "Active redirects"
 msgstr ""
 
-#: Service/CrawlDiagnosticsService.php:125
+#: Service/CrawlDiagnosticsService.php:132
 msgid "Needs attention"
 msgstr ""
 
@@ -200,48 +216,84 @@ msgstr ""
 msgid "Google Indexing request failed with HTTP "
 msgstr ""
 
-#: Service/GoogleOAuthService.php:60
+#: Service/GoogleOAuthService.php:77
 msgid "Google did not return a refresh token."
 msgstr ""
 
-#: Service/GoogleOAuthService.php:103
+#: Service/GoogleOAuthService.php:123
 msgid "Google account is not connected."
 msgstr ""
 
-#: Service/GoogleOAuthService.php:116
+#: Service/GoogleOAuthService.php:136
 msgid "Google did not return an access token."
 msgstr ""
 
-#: Service/GoogleOAuthService.php:176
+#: Service/GoogleOAuthService.php:187
 msgid "Missing Google Client ID."
 msgstr ""
 
-#: Service/GoogleOAuthService.php:193
+#: Service/GoogleOAuthService.php:204
 msgid "Missing Google Client Secret."
 msgstr ""
 
-#: Service/GoogleOAuthService.php:218
+#: Service/GoogleOAuthService.php:235
 msgid "Google OAuth request failed with HTTP "
 msgstr ""
 
-#: Service/IndexNowService.php:52
+#: Service/IndexNowService.php:51
 msgid "IndexNow is disabled."
 msgstr ""
 
-#: Service/IndexNowService.php:58
+#: Service/IndexNowService.php:57
 msgid "Missing IndexNow key."
 msgstr ""
 
-#: Service/IndexNowService.php:67
+#: Service/IndexNowService.php:66
 msgid "No URLs provided."
 msgstr ""
 
 #: Service/IndexNowService.php:79
-msgid "Unable to determine IndexNow host."
+msgid "Unable to determine IndexNow host for URL: "
 msgstr ""
 
-#: Service/IndexNowService.php:126
+#: Service/IndexNowService.php:129
 msgid "IndexNow request failed with HTTP "
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:57
+msgid "The content ID is empty."
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:67
+#, php-format
+msgid "The content could not be loaded: %s"
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:77
+msgid "The content does not exist."
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:86
+#, php-format
+msgid "Content status \"%s\" is not eligible for index submission."
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:94
+msgid "The content is configured with a noindex directive."
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:104
+#, php-format
+msgid "The content URL could not be resolved: %s"
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:114
+msgid "The content does not have a public URL."
+msgstr ""
+
+#: Service/Indexing/ContentIndexEligibility.php:123
+#, php-format
+msgid "The resolved content URL is invalid: %s"
 msgstr ""
 
 #: Service/SearchConsoleService.php:99
@@ -264,29 +316,46 @@ msgstr ""
 msgid "Google sitemap submission failed with HTTP "
 msgstr ""
 
-#: Service/SettingsImportExportService.php:54
+#: Service/SettingsImportExportService.php:50
 msgid "Invalid JSON file."
 msgstr ""
 
-#: Service/SettingsImportExportService.php:60
+#: Service/SettingsImportExportService.php:56
 msgid "Import file does not contain settings."
 msgstr ""
 
-#: SimpleSeoPlugin.php:79
+#: Service/SubmissionQueueProcessor.php:79
+msgid "SEO submission skipped because the entity is no longer indexable."
+msgstr ""
+
+#: Service/SubmissionQueueProcessor.php:162
+msgid "The content queue item does not contain an entity ID."
+msgstr ""
+
+#: Service/SubmissionQueueProcessor.php:176
+msgid "The queue item does not contain a valid URL."
+msgstr ""
+
+#: Service/SubmissionQueueProcessor.php:199
+#, php-format
+msgid "Unsupported indexing engine: %s."
+msgstr ""
+
+#: SimpleSeoPlugin.php:85
 msgid "Simple Seo"
 msgstr ""
 
-#: SimpleSeoPlugin.php:84
+#: SimpleSeoPlugin.php:90
 msgid ""
 "Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
 "technical SEO, indexing, crawl management, 404 monitoring, and so much more."
 msgstr ""
 
-#: SimpleSeoPlugin.php:145
+#: SimpleSeoPlugin.php:156
 msgid "SEO Routes"
 msgstr ""
 
-#: SimpleSeoPlugin.php:164
+#: SimpleSeoPlugin.php:175
 msgid ""
 "You must upgrade your system to at least v2.3 in order to use the Simple SEO "
 "plugin."
@@ -438,7 +507,7 @@ msgstr ""
 msgid "Google Indexing API"
 msgstr ""
 
-#: view/indexing.phtml:64 view/settings.phtml:871
+#: view/indexing.phtml:64 view/settings.phtml:904
 msgid "Submit URL"
 msgstr ""
 
@@ -474,7 +543,7 @@ msgstr ""
 msgid "IndexNow + Google Search Console"
 msgstr ""
 
-#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:517
 msgid "Google Search Console"
 msgstr ""
 
@@ -560,7 +629,7 @@ msgid "Description"
 msgstr ""
 
 #: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
-#: view/settings.phtml:172 view/settings.phtml:572
+#: view/settings.phtml:172 view/settings.phtml:571
 msgid "Browse"
 msgstr ""
 
@@ -1086,178 +1155,178 @@ msgstr ""
 msgid "Enable IndexNow"
 msgstr ""
 
-#: view/settings.phtml:462
+#: view/settings.phtml:461
+msgid "i.e. example.com (without the beginning protocol)"
+msgstr ""
+
+#: view/settings.phtml:469
 msgid "Enable Google Indexing API"
 msgstr ""
 
-#: view/settings.phtml:466
+#: view/settings.phtml:473
 msgid "Google Client ID"
 msgstr ""
 
-#: view/settings.phtml:476
+#: view/settings.phtml:483
 msgid "Google Client Secret"
 msgstr ""
 
-#: view/settings.phtml:486
+#: view/settings.phtml:493
 msgid "Search Console Site URL"
 msgstr ""
 
-#: view/settings.phtml:504
+#: view/settings.phtml:511
 msgid "Missing Credentials"
 msgstr ""
 
-#: view/settings.phtml:505
+#: view/settings.phtml:512
 msgid ""
 "Enter your Google Client ID and Client Secret, then save settings before "
 "connecting."
 msgstr ""
 
-#: view/settings.phtml:515
+#: view/settings.phtml:522
 msgid "Google Search Console is connected."
 msgstr ""
 
-#: view/settings.phtml:521
+#: view/settings.phtml:528
 msgid "Disconnect Google"
 msgstr ""
 
-#: view/settings.phtml:528
+#: view/settings.phtml:535
 msgid "No Connection"
 msgstr ""
 
-#: view/settings.phtml:529
+#: view/settings.phtml:536
 msgid "Connect your Google account to access Search Console statistics."
 msgstr ""
 
-#: view/settings.phtml:534
+#: view/settings.phtml:541
 msgid "Connect Google"
 msgstr ""
 
-#: view/settings.phtml:544
-msgid "Auto submit sitemap URLs"
-msgstr ""
-
-#: view/settings.phtml:550
+#: view/settings.phtml:549
 msgid "Organization name"
 msgstr ""
 
-#: view/settings.phtml:555
+#: view/settings.phtml:554
 msgid "Organization logo"
 msgstr ""
 
-#: view/settings.phtml:578
+#: view/settings.phtml:577
 msgid "Enter a logo URL manually or choose one from the media manager."
 msgstr ""
 
-#: view/settings.phtml:592
+#: view/settings.phtml:591
 msgid "Organization phone"
 msgstr ""
 
-#: view/settings.phtml:597
+#: view/settings.phtml:596
 msgid "Default schema type"
 msgstr ""
 
-#: view/settings.phtml:617
+#: view/settings.phtml:616
 msgid "Enable styling for sitemaps."
 msgstr ""
 
-#: view/settings.phtml:625
+#: view/settings.phtml:624
 msgid "Sitemap XSL"
 msgstr ""
 
-#: view/settings.phtml:629
+#: view/settings.phtml:628
 msgid "Enable the sitemaps you would like to use for your site."
 msgstr ""
 
-#: view/settings.phtml:637
+#: view/settings.phtml:636
 msgid "Content Sitemap"
 msgstr ""
 
-#: view/settings.phtml:644
+#: view/settings.phtml:643
 msgid "Product Sitemap"
 msgstr ""
 
-#: view/settings.phtml:651
+#: view/settings.phtml:650
 msgid "News Sitemap"
 msgstr ""
 
-#: view/settings.phtml:658
+#: view/settings.phtml:657
 msgid "Image Sitemap"
 msgstr ""
 
-#: view/settings.phtml:665
+#: view/settings.phtml:664
 msgid "Video Sitemap"
 msgstr ""
 
-#: view/settings.phtml:672
+#: view/settings.phtml:671
 msgid "Content Types Sitemap"
 msgstr ""
 
-#: view/settings.phtml:679
+#: view/settings.phtml:678
 msgid "Pages Sitemap"
 msgstr ""
 
-#: view/settings.phtml:693
+#: view/settings.phtml:726
 msgid "Enable runtime robots.txt"
 msgstr ""
 
-#: view/settings.phtml:706
+#: view/settings.phtml:739
 msgid "Allow search engines to crawl this site"
 msgstr ""
 
-#: view/settings.phtml:719
+#: view/settings.phtml:752
 msgid "Include sitemap URL"
 msgstr ""
 
-#: view/settings.phtml:724
+#: view/settings.phtml:757
 msgid "Custom Robots Rules"
 msgstr ""
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 msgid "Leave empty to use the default"
 msgstr ""
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 msgid "These rules apply only to the current site."
 msgstr ""
 
-#: view/settings.phtml:738
+#: view/settings.phtml:771
 msgid "Runtime URL:"
 msgstr ""
 
-#: view/settings.phtml:749
+#: view/settings.phtml:782
 msgid "Save SEO Settings"
 msgstr ""
 
-#: view/settings.phtml:762
+#: view/settings.phtml:795
 msgid "Crawl Diagnostics"
 msgstr ""
 
-#: view/settings.phtml:788
+#: view/settings.phtml:821
 msgid "No diagnostics available."
 msgstr ""
 
-#: view/settings.phtml:798
+#: view/settings.phtml:831
 msgid "Import/Export"
 msgstr ""
 
-#: view/settings.phtml:803
+#: view/settings.phtml:836
 msgid ""
 "Export SEO settings as JSON or import settings from another Devflow site.\n"
 "                            OAuth connection tokens are not exported."
 msgstr ""
 
-#: view/settings.phtml:810
+#: view/settings.phtml:843
 msgid "Export Settings"
 msgstr ""
 
-#: view/settings.phtml:821
+#: view/settings.phtml:854
 msgid "Import Settings JSON"
 msgstr ""
 
-#: view/settings.phtml:830
+#: view/settings.phtml:863
 msgid "Import Settings"
 msgstr ""
 
-#: view/settings.phtml:838
+#: view/settings.phtml:871
 msgid "Submit URL for Indexing"
 msgstr ""

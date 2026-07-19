@@ -6,7 +6,10 @@ namespace Plugin\SimpleSeo\Service\Indexing;
 
 use Plugin\SimpleSeo\Repository\SubmissionQueueRepository;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Data\TypeException;
 use Qubus\Exception\Exception;
 use ReflectionException;
 
@@ -19,9 +22,13 @@ final readonly class ContentIndexSubmission
     }
 
     /**
-     * @throws ReflectionException
-     * @throws InvalidArgumentException
+     * @param string $contentId
      * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws TypeException
      */
     public function enqueue(string $contentId): void
     {
