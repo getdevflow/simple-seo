@@ -6,8 +6,11 @@ namespace Plugin\SimpleSeo\Service;
 
 use Plugin\SimpleSeo\Repository\SubmissionQueueRepository;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
+use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Exception;
+use ReflectionException;
 
-final class AutoSubmissionService
+final readonly class AutoSubmissionService
 {
     public function __construct(private SubmissionQueueRepository $queue)
     {
@@ -15,19 +18,32 @@ final class AutoSubmissionService
 
     /**
      * @param string $url
+     * @param string|null $entityType
+     * @param string|null $entityId
      * @return void
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Qubus\Exception\Exception
-     * @throws \ReflectionException
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws ReflectionException
      */
-    public function enqueueUrl(string $url): void
-    {
+    public function enqueueUrl(
+        string $url,
+        ?string $entityType = null,
+        ?string $entityId = null
+    ): void {
         if (!SimpleSeoSettings::get('auto_submit_urls', false)) {
             return;
         }
 
-        $engine = (string) SimpleSeoSettings::get('auto_submit_engine', 'indexnow');
+        $engine = (string) SimpleSeoSettings::get(
+            'auto_submit_engine',
+            'indexnow'
+        );
 
-        $this->queue->enqueue($url, $engine);
+        $this->queue->enqueue(
+            url: $url,
+            engine: $engine,
+            entityType: $entityType,
+            entityId: $entityId
+        );
     }
 }

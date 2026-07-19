@@ -25,6 +25,7 @@ use Plugin\SimpleSeo\Repository\RouteSeoRepository;
 use Plugin\SimpleSeo\Routing\SeoRedirectBootManager;
 use Plugin\SimpleSeo\Service\AutoSubmissionService;
 use Plugin\SimpleSeo\Service\EntityUrlResolver;
+use Plugin\SimpleSeo\Service\Indexing\ContentIndexSubmission;
 use Plugin\SimpleSeo\Service\IndexingSyncService;
 use Plugin\SimpleSeo\Service\MetaRendererService;
 use Plugin\SimpleSeo\Service\NotFoundMonitor;
@@ -85,7 +86,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.2.0',
+            'version' => '1.2.1',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -501,20 +502,19 @@ final class SimpleSeoPlugin extends Plugin
 
     public function autoSubmitContent(mixed $content): void
     {
-        $id = is_object($content)
+        $contentId = is_object($content)
             ? (string) ($content->id ?? $content->content_id ?? '')
-            : $content;
+            : (string) $content;
 
-        if ($id === '') {
+        $contentId = trim($contentId);
+
+        if ($contentId === '') {
             return;
         }
 
-        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
-        $url = $resolver->contentUrl($id);
-
-        if ($url !== null) {
-            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
-        }
+        Devflow::$PHP
+            ->make(name: ContentIndexSubmission::class)
+            ->enqueue($contentId);
     }
 
     public function autoSubmitProduct(mixed $product): void
@@ -523,16 +523,27 @@ final class SimpleSeoPlugin extends Plugin
             ? (string) ($product->id ?? $product->product_id ?? '')
             : (string) ($product['id'] ?? $product['product_id'] ?? '');
 
+        $id = trim($id);
+
         if ($id === '') {
             return;
         }
 
-        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
-        $url = $resolver->productUrl($id);
+        $url = Devflow::$PHP
+            ->make(name: EntityUrlResolver::class)
+            ->productUrl($id);
 
-        if ($url !== null) {
-            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        if ($url === null) {
+            return;
         }
+
+        Devflow::$PHP
+            ->make(name: AutoSubmissionService::class)
+            ->enqueueUrl(
+                url: $url,
+                entityType: 'product',
+                entityId: $id
+            );
     }
 
     public function autoSubmitPage(mixed $page): void
@@ -541,16 +552,27 @@ final class SimpleSeoPlugin extends Plugin
             ? (string) ($page->getId() ?? '')
             : (string) ($page['id'] ?? '');
 
+        $id = trim($id);
+
         if ($id === '') {
             return;
         }
 
-        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
-        $url = $resolver->pageUrl($id);
+        $url = Devflow::$PHP
+            ->make(name: EntityUrlResolver::class)
+            ->pageUrl($id);
 
-        if ($url !== null) {
-            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        if ($url === null) {
+            return;
         }
+
+        Devflow::$PHP
+            ->make(name: AutoSubmissionService::class)
+            ->enqueueUrl(
+                url: $url,
+                entityType: 'page',
+                entityId: $id
+            );
     }
 
     public function autoSubmitCustomRoute(mixed $route): void
@@ -559,16 +581,27 @@ final class SimpleSeoPlugin extends Plugin
             ? (string) ($route->id ?? '')
             : (string) ($route['id'] ?? '');
 
+        $id = trim($id);
+
         if ($id === '') {
             return;
         }
 
-        $resolver = Devflow::$PHP->make(name: EntityUrlResolver::class);
-        $url = $resolver->customRouteUrl($id);
+        $url = Devflow::$PHP
+            ->make(name: EntityUrlResolver::class)
+            ->customRouteUrl($id);
 
-        if ($url !== null) {
-            Devflow::$PHP->make(name: AutoSubmissionService::class)->enqueueUrl($url);
+        if ($url === null) {
+            return;
         }
+
+        Devflow::$PHP
+            ->make(name: AutoSubmissionService::class)
+            ->enqueueUrl(
+                url: $url,
+                entityType: 'route',
+                entityId: $id
+            );
     }
 
     /**
@@ -984,6 +1017,8 @@ final class SimpleSeoPlugin extends Plugin
                             ->primary();
                         $table->string(name: 'url', length: 500)->notNull();
                         $table->string(name: 'engine', length: 50)->notNull()->defaultValue('both');
+                        $table->string(name: 'entity_type', length: 50)->index();
+                        $table->string(name: 'entity_id', length: 36)->index();
                         $table->string(name: 'status', length: 50)->notNull()->defaultValue('pending');
                         $table->integer(name: 'attempts')
                             ->size('small')
