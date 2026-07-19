@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Plugin\SimpleSeo\Service;
 
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
+use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Exception;
+use ReflectionException;
 
 use function Codefy\Framework\Helpers\env;
-use function getenv;
 use function json_encode;
 use function Qubus\Security\Helpers\t__;
 use function rawurlencode;
@@ -23,6 +25,14 @@ use const JSON_UNESCAPED_SLASHES;
 
 final class GoogleIndexingService
 {
+    /**
+     * @param string $url
+     * @param string $type
+     * @return void
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
     public function submitUrl(string $url, string $type = 'URL_UPDATED'): void
     {
         $url = trim($url);
@@ -49,8 +59,8 @@ final class GoogleIndexingService
         $this->verifyToken($accessToken);
 
         $payload = json_encode([
-                'url' => $url,
-                'type' => $type,
+            'url' => $url,
+            'type' => $type,
         ], JSON_UNESCAPED_SLASHES);
 
         $this->postJson(
@@ -60,6 +70,11 @@ final class GoogleIndexingService
         );
     }
 
+    /**
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
     public function accessToken(): string
     {
         return trim((string) SimpleSeoSettings::get(
@@ -75,8 +90,8 @@ final class GoogleIndexingService
         );
 
         curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT => 10,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
         ]);
 
         $body = curl_exec($ch);
@@ -97,11 +112,11 @@ final class GoogleIndexingService
         $ch = curl_init($endpoint);
 
         curl_setopt_array($ch, [
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => $payload,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT => 15,
-                CURLOPT_HTTPHEADER => array_merge(['Content-Type: application/json'], $headers),
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_HTTPHEADER => array_merge(['Content-Type: application/json'], $headers),
         ]);
 
         $body = curl_exec($ch);
