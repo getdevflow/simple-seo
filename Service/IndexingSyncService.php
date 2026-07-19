@@ -14,6 +14,8 @@ use function App\Shared\Helpers\get_content_by;
 use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_product_by;
 use function App\Shared\Helpers\site_url;
+use function Codefy\Framework\Helpers\logger;
+use function Qubus\Security\Helpers\esc_html__;
 use function rtrim;
 use function trim;
 
@@ -58,16 +60,34 @@ final readonly class IndexingSyncService
         if (SimpleSeoSettings::get('enable_indexnow', false)) {
             try {
                 $this->indexNow->submitUrl($url);
-            } catch (\Throwable) {
-                // Do not break content/product/page saves.
+            } catch (\Throwable $e) {
+                logger(
+                    'error',
+                    esc_html__('IndexNow synchronization failed.', 'simple-seo'),
+                    [
+                        'entity_type' => $entityType,
+                        'entity_id' => (string) $entityId,
+                        'url' => $url,
+                        'error' => $e->getMessage(),
+                    ]
+                );
             }
         }
 
         if (SimpleSeoSettings::get('enable_google_indexing', false)) {
             try {
                 $this->googleIndexing->submitUrl($url);
-            } catch (\Throwable) {
-                // Do not break content/product/page saves.
+            } catch (\Throwable $e) {
+                logger(
+                    'error',
+                    esc_html__('IndexNow synchronization failed.', 'simple-seo'),
+                    [
+                        'entity_type' => $entityType,
+                        'entity_id' => (string) $entityId,
+                        'url' => $url,
+                        'error' => $e->getMessage(),
+                    ]
+                );
             }
         }
     }
@@ -114,6 +134,16 @@ final readonly class IndexingSyncService
         $this->sync('page', $pageId);
     }
 
+    /**
+     * @param string $entityType
+     * @param int|string $entityId
+     * @return string
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Qubus\Exception\Exception
+     * @throws \ReflectionException
+     */
     private function resolveUrl(string $entityType, int|string $entityId): string
     {
         return match ($entityType) {
