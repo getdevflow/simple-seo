@@ -7,13 +7,17 @@ namespace Plugin\SimpleSeo\Service;
 use Plugin\SimpleSeo\Repository\SubmissionQueueRepository;
 use Plugin\SimpleSeo\Service\Indexing\ContentIndexEligibility;
 use Plugin\SimpleSeo\Service\Indexing\ContentIndexEligibilityResult;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
+use Qubus\Exception\Data\TypeException;
 use Qubus\Exception\Exception;
 use ReflectionException;
 use Throwable;
 
 use function Codefy\Framework\Helpers\logger;
 use function filter_var;
+use function Qubus\Security\Helpers\esc_html__;
 use function sprintf;
 use function trim;
 
@@ -71,7 +75,10 @@ final readonly class SubmissionQueueProcessor
 
                     logger(
                         level: 'info',
-                        message: 'SEO submission skipped because the entity is no longer indexable.',
+                        message: esc_html__(
+                            'SEO submission skipped because the entity is no longer indexable.',
+                            'simple-seo'
+                        ),
                         context: [
                             'queue_id' => $id,
                             'entity_type' => $item->entity_type ?? null,
@@ -135,6 +142,12 @@ final readonly class SubmissionQueueProcessor
 
     /**
      * @param object<string, mixed> $item
+     * @return ContentIndexEligibilityResult
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws TypeException
      */
     private function checkEligibility(object $item): ContentIndexEligibilityResult
     {
@@ -145,7 +158,10 @@ final readonly class SubmissionQueueProcessor
         if ($entityType === 'content') {
             if ($entityId === '') {
                 return ContentIndexEligibilityResult::ineligible(
-                    reason: 'The content queue item does not contain an entity ID.'
+                    reason: esc_html__(
+                        'The content queue item does not contain an entity ID.',
+                        'simple-seo'
+                    )
                 );
             }
 
@@ -157,7 +173,7 @@ final readonly class SubmissionQueueProcessor
                 || filter_var($url, FILTER_VALIDATE_URL) === false
         ) {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The queue item does not contain a valid URL.'
+                reason: esc_html__('The queue item does not contain a valid URL.', 'simple-seo')
             );
         }
 
@@ -180,7 +196,7 @@ final readonly class SubmissionQueueProcessor
             'both' => $this->submitToBoth($url),
 
             default => throw new \RuntimeException(
-                sprintf('Unsupported indexing engine: %s', $engine)
+                sprintf(esc_html__('Unsupported indexing engine: %s.', 'simple-seo'), $engine)
             ),
         };
     }

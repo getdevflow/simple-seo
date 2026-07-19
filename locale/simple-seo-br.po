@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Simple SEO\n"
-"POT-Creation-Date: 2026-06-11 14:01-0600\n"
-"PO-Revision-Date: 2026-06-11 14:01-0600\n"
+"POT-Creation-Date: 2026-07-18 17:28-0700\n"
+"PO-Revision-Date: 2026-07-18 17:28-0700\n"
 "Last-Translator: \n"
 "Language-Team: Joshua Parker\n"
 "Language: pt\n"
@@ -105,16 +105,16 @@ msgstr ""
 msgid "A redirect already exists for this source URL."
 msgstr "Já existe um redirecionamento para essa URL de origem."
 
-#: Controller/RouteSeoController.php:33
+#: Controller/RouteSeoController.php:35
 #, fuzzy
 msgid "Custom Route SEO"
 msgstr "SEO de rotas personalizadas"
 
-#: Controller/RouteSeoController.php:64
+#: Controller/RouteSeoController.php:66
 msgid "Not found"
 msgstr "Não encontrado"
 
-#: Controller/RouteSeoController.php:127
+#: Controller/RouteSeoController.php:138
 msgid "Error occurred."
 msgstr "Ocorreu um erro."
 
@@ -127,7 +127,7 @@ msgstr "Estatísticas de pesquisa"
 msgid "Google Search Console connected successfully."
 msgstr "O Google Search Console conectou-se com sucesso."
 
-#: Controller/SettingsController.php:34
+#: Controller/SettingsController.php:35
 #, fuzzy
 msgid "Simple SEO"
 msgstr "SEO simples"
@@ -142,72 +142,92 @@ msgstr "Chave errada."
 msgid "No sitemap."
 msgstr "Sem sitemap."
 
-#: Service/CrawlDiagnosticsService.php:56
+#: Repository/RedirectRepository.php:306
+#, fuzzy
+msgid "Invalid redirect URL scheme."
+msgstr "Esquema de URL de redirecionamento inválido."
+
+#: Repository/RedirectRepository.php:319
+#, fuzzy
+msgid "Protocol-relative redirects are not allowed."
+msgstr "Redirecionamentos relativos ao protocolo não são permitidos."
+
+#: Repository/RouteSeoRepository.php:170
+#, fuzzy
+msgid "Invalid route path."
+msgstr "Caminho de rota inválido."
+
+#: Service/CrawlDiagnosticsService.php:58
 #, fuzzy
 msgid "robots.txt is reachable."
 msgstr "robots.txt está acessível."
 
-#: Service/CrawlDiagnosticsService.php:63
+#: Service/CrawlDiagnosticsService.php:65
 #, fuzzy
 msgid "sitemap.xml is reachable."
 msgstr "sitemap.xml está acessível."
 
-#: Service/CrawlDiagnosticsService.php:75
+#: Service/CrawlDiagnosticsService.php:77
 #, fuzzy
 msgid "IndexNow is configured."
 msgstr "O IndexNow está configurado."
 
-#: Service/CrawlDiagnosticsService.php:82
+#: Service/CrawlDiagnosticsService.php:84
 #, fuzzy
 msgid "Google OAuth is connected."
 msgstr "O Google OAuth está conectado."
 
-#: Service/CrawlDiagnosticsService.php:88
+#: Service/CrawlDiagnosticsService.php:90
 #, fuzzy
 msgid "Search Console Site URL is configured."
 msgstr "A URL do Site do Search Console está configurada."
 
-#: Service/CrawlDiagnosticsService.php:94
+#: Service/CrawlDiagnosticsService.php:96
 #, fuzzy
 msgid "Active sitemap count"
 msgstr "Contagem ativa do sitemap"
 
-#: Service/CrawlDiagnosticsService.php:99
+#: Service/CrawlDiagnosticsService.php:101
 #, fuzzy
 msgid "Published content count"
 msgstr "Contagem de conteúdo publicado"
 
-#: Service/CrawlDiagnosticsService.php:104
+#: Service/CrawlDiagnosticsService.php:106
 #, fuzzy
 msgid "Published page count"
 msgstr "Contagem de páginas publicadas"
 
-#: Service/CrawlDiagnosticsService.php:109
+#: Service/CrawlDiagnosticsService.php:111
 #, fuzzy
 msgid "Published product count"
 msgstr "Contagem de produtos publicados"
 
-#: Service/CrawlDiagnosticsService.php:112
+#: Service/CrawlDiagnosticsService.php:116
+#, fuzzy
+msgid "Pending URL submissions"
+msgstr "Submissão de URL pendente"
+
+#: Service/CrawlDiagnosticsService.php:119
 #, fuzzy
 msgid "Redirect hit count"
 msgstr "Contagem de acertos redirecionados"
 
-#: Service/CrawlDiagnosticsService.php:113
+#: Service/CrawlDiagnosticsService.php:120
 #, fuzzy
 msgid "404 count"
 msgstr "404 contagem"
 
-#: Service/CrawlDiagnosticsService.php:114
+#: Service/CrawlDiagnosticsService.php:121
 #, fuzzy
 msgid "Redirects total"
 msgstr "Redirecionamentos no total"
 
-#: Service/CrawlDiagnosticsService.php:115
+#: Service/CrawlDiagnosticsService.php:122
 #, fuzzy
 msgid "Active redirects"
 msgstr "Redirecionamentos ativos"
 
-#: Service/CrawlDiagnosticsService.php:125
+#: Service/CrawlDiagnosticsService.php:132
 msgid "Needs attention"
 msgstr "Precisa de atenção"
 
@@ -240,59 +260,99 @@ msgstr "A verificação do token do Google falhou"
 msgid "Google Indexing request failed with HTTP "
 msgstr "A solicitação de indexação do Google falhou com HTTP "
 
-#: Service/GoogleOAuthService.php:60
+#: Service/GoogleOAuthService.php:77
 #, fuzzy
 msgid "Google did not return a refresh token."
 msgstr "O Google não retornou um token de atualização."
 
-#: Service/GoogleOAuthService.php:103
+#: Service/GoogleOAuthService.php:123
 #, fuzzy
 msgid "Google account is not connected."
 msgstr "A conta do Google não está conectada."
 
-#: Service/GoogleOAuthService.php:116
+#: Service/GoogleOAuthService.php:136
 #, fuzzy
 msgid "Google did not return an access token."
 msgstr "O Google não devolveu um token de acesso."
 
-#: Service/GoogleOAuthService.php:176
+#: Service/GoogleOAuthService.php:187
 #, fuzzy
 msgid "Missing Google Client ID."
 msgstr "Falta o ID do Cliente do Google."
 
-#: Service/GoogleOAuthService.php:193
+#: Service/GoogleOAuthService.php:204
 #, fuzzy
 msgid "Missing Google Client Secret."
 msgstr "Falta o segredo do cliente do Google."
 
-#: Service/GoogleOAuthService.php:218
+#: Service/GoogleOAuthService.php:235
 #, fuzzy
 msgid "Google OAuth request failed with HTTP "
 msgstr "A requisição OAuth do Google falhou com HTTP "
 
-#: Service/IndexNowService.php:52
+#: Service/IndexNowService.php:51
 #, fuzzy
 msgid "IndexNow is disabled."
 msgstr "O IndexNow está desativado."
 
-#: Service/IndexNowService.php:58
+#: Service/IndexNowService.php:57
 #, fuzzy
 msgid "Missing IndexNow key."
 msgstr "Falta a chave IndexNow."
 
-#: Service/IndexNowService.php:67
+#: Service/IndexNowService.php:66
 msgid "No URLs provided."
 msgstr "Nenhuma URL fornecida."
 
 #: Service/IndexNowService.php:79
 #, fuzzy
-msgid "Unable to determine IndexNow host."
-msgstr "Não foi possível determinar o host do IndexNow."
+msgid "Unable to determine IndexNow host for URL: "
+msgstr "Não foi possível determinar o host do IndexNow para URL: "
 
-#: Service/IndexNowService.php:126
+#: Service/IndexNowService.php:129
 #, fuzzy
 msgid "IndexNow request failed with HTTP "
 msgstr "A requisição IndexNow falhou com HTTP "
+
+#: Service/Indexing/ContentIndexEligibility.php:57
+#, fuzzy
+msgid "The content ID is empty."
+msgstr "O ID de conteúdo está vazio."
+
+#: Service/Indexing/ContentIndexEligibility.php:67
+#, fuzzy, php-format
+msgid "The content could not be loaded: %s"
+msgstr "O conteúdo não pôde ser carregado: %s"
+
+#: Service/Indexing/ContentIndexEligibility.php:77
+#, fuzzy
+msgid "The content does not exist."
+msgstr "O conteúdo não existe."
+
+#: Service/Indexing/ContentIndexEligibility.php:86
+#, fuzzy, php-format
+msgid "Content status \"%s\" is not eligible for index submission."
+msgstr "O status de conteúdo \"%s\" não é elegível para envio de índices."
+
+#: Service/Indexing/ContentIndexEligibility.php:94
+#, fuzzy
+msgid "The content is configured with a noindex directive."
+msgstr "O conteúdo é configurado com uma diretiva noindex."
+
+#: Service/Indexing/ContentIndexEligibility.php:104
+#, fuzzy, php-format
+msgid "The content URL could not be resolved: %s"
+msgstr "A URL do conteúdo não pôde ser resolvida: %s"
+
+#: Service/Indexing/ContentIndexEligibility.php:114
+#, fuzzy
+msgid "The content does not have a public URL."
+msgstr "O conteúdo não possui uma URL pública."
+
+#: Service/Indexing/ContentIndexEligibility.php:123
+#, fuzzy, php-format
+msgid "The resolved content URL is invalid: %s"
+msgstr "A URL do conteúdo resolvida é inválida: %s"
 
 #: Service/SearchConsoleService.php:99
 #, fuzzy
@@ -319,21 +379,41 @@ msgstr "URL do sitemap faltando."
 msgid "Google sitemap submission failed with HTTP "
 msgstr "A submissão do sitemap do Google falhou com HTTP "
 
-#: Service/SettingsImportExportService.php:54
+#: Service/SettingsImportExportService.php:50
 msgid "Invalid JSON file."
 msgstr "Arquivo JSON inválido."
 
-#: Service/SettingsImportExportService.php:60
+#: Service/SettingsImportExportService.php:56
 #, fuzzy
 msgid "Import file does not contain settings."
 msgstr "Importar o arquivo não contém configurações."
 
-#: SimpleSeoPlugin.php:79
+#: Service/SubmissionQueueProcessor.php:79
+#, fuzzy
+msgid "SEO submission skipped because the entity is no longer indexable."
+msgstr "A submissão de SEO foi pulada porque a entidade não é mais indexável."
+
+#: Service/SubmissionQueueProcessor.php:162
+#, fuzzy
+msgid "The content queue item does not contain an entity ID."
+msgstr "O item da fila de conteúdo não contém um ID de entidade."
+
+#: Service/SubmissionQueueProcessor.php:176
+#, fuzzy
+msgid "The queue item does not contain a valid URL."
+msgstr "O item da fila não contém uma URL válida."
+
+#: Service/SubmissionQueueProcessor.php:199
+#, fuzzy, php-format
+msgid "Unsupported indexing engine: %s."
+msgstr "Motor de indexação não suportado: %s."
+
+#: SimpleSeoPlugin.php:85
 #, fuzzy
 msgid "Simple Seo"
 msgstr "SEO simples"
 
-#: SimpleSeoPlugin.php:84
+#: SimpleSeoPlugin.php:90
 #, fuzzy
 msgid ""
 "Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
@@ -343,13 +423,13 @@ msgstr ""
 "page, SEO técnico, indexação, gerenciamento de rastreamento, monitoramento 404 e "
 "muito mais."
 
-#: SimpleSeoPlugin.php:145
+#: SimpleSeoPlugin.php:156
 #, fuzzy
 #| msgid "SEO Score"
 msgid "SEO Routes"
 msgstr "Rotas SEO"
 
-#: SimpleSeoPlugin.php:164
+#: SimpleSeoPlugin.php:175
 #, fuzzy
 msgid ""
 "You must upgrade your system to at least v2.3 in order to use the Simple SEO "
@@ -516,7 +596,7 @@ msgstr "Enviar para"
 msgid "Google Indexing API"
 msgstr "API de Indexação do Google"
 
-#: view/indexing.phtml:64 view/settings.phtml:871
+#: view/indexing.phtml:64 view/settings.phtml:904
 #, fuzzy
 msgid "Submit URL"
 msgstr "Enviar URL"
@@ -559,7 +639,7 @@ msgstr "URL do sitemap"
 msgid "IndexNow + Google Search Console"
 msgstr "IndexNow + Google Search Console"
 
-#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:517
 msgid "Google Search Console"
 msgstr "Google Search Console"
 
@@ -656,7 +736,7 @@ msgid "Description"
 msgstr "Descrição"
 
 #: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
-#: view/settings.phtml:172 view/settings.phtml:572
+#: view/settings.phtml:172 view/settings.phtml:571
 msgid "Browse"
 msgstr "Procurar"
 
@@ -1274,30 +1354,35 @@ msgstr "Verificação do Baidu"
 msgid "Enable IndexNow"
 msgstr "Ativar o IndexNow"
 
-#: view/settings.phtml:462
+#: view/settings.phtml:461
+#, fuzzy
+msgid "i.e. example.com (without the beginning protocol)"
+msgstr "ou seja, example.com (sem o protocolo inicial)"
+
+#: view/settings.phtml:469
 #, fuzzy
 msgid "Enable Google Indexing API"
 msgstr "Habilitar a API de Indexação do Google"
 
-#: view/settings.phtml:466
+#: view/settings.phtml:473
 msgid "Google Client ID"
 msgstr "Google Client ID"
 
-#: view/settings.phtml:476
+#: view/settings.phtml:483
 msgid "Google Client Secret"
 msgstr "Google Client Secret"
 
-#: view/settings.phtml:486
+#: view/settings.phtml:493
 #, fuzzy
 msgid "Search Console Site URL"
 msgstr "Search Console Site URL"
 
-#: view/settings.phtml:504
+#: view/settings.phtml:511
 #, fuzzy
 msgid "Missing Credentials"
 msgstr "Credenciais Ausentes"
 
-#: view/settings.phtml:505
+#: view/settings.phtml:512
 #, fuzzy
 msgid ""
 "Enter your Google Client ID and Client Secret, then save settings before "
@@ -1306,161 +1391,156 @@ msgstr ""
 "Insira seu ID de Cliente do Google e seu Secret do Cliente, depois salve as "
 "configurações antes de conectar."
 
-#: view/settings.phtml:515
+#: view/settings.phtml:522
 #, fuzzy
 msgid "Google Search Console is connected."
 msgstr "O Google Search Console está conectado."
 
-#: view/settings.phtml:521
+#: view/settings.phtml:528
 #, fuzzy
 msgid "Disconnect Google"
 msgstr "Desconecte o Google"
 
-#: view/settings.phtml:528
+#: view/settings.phtml:535
 msgid "No Connection"
 msgstr "Sem ligação"
 
-#: view/settings.phtml:529
+#: view/settings.phtml:536
 #, fuzzy
 msgid "Connect your Google account to access Search Console statistics."
 msgstr "Conecte sua conta do Google para acessar as estatísticas do Search Console."
 
-#: view/settings.phtml:534
+#: view/settings.phtml:541
 #, fuzzy
 msgid "Connect Google"
 msgstr "Conecte o Google"
 
-#: view/settings.phtml:544
-#, fuzzy
-msgid "Auto submit sitemap URLs"
-msgstr "Envie automaticamente URLs do sitemap"
-
-#: view/settings.phtml:550
+#: view/settings.phtml:549
 msgid "Organization name"
 msgstr "Nome da Empresa"
 
-#: view/settings.phtml:555
+#: view/settings.phtml:554
 msgid "Organization logo"
 msgstr "Logotipo da organização"
 
-#: view/settings.phtml:578
+#: view/settings.phtml:577
 #, fuzzy
 msgid "Enter a logo URL manually or choose one from the media manager."
 msgstr "Insira manualmente a URL do logo ou escolha uma no gerenciador de mídia."
 
-#: view/settings.phtml:592
+#: view/settings.phtml:591
 #, fuzzy
 msgid "Organization phone"
 msgstr "Telefone da organização"
 
-#: view/settings.phtml:597
+#: view/settings.phtml:596
 #, fuzzy
 msgid "Default schema type"
 msgstr "Tipo padrão de esquema"
 
-#: view/settings.phtml:617
+#: view/settings.phtml:616
 #, fuzzy
 msgid "Enable styling for sitemaps."
 msgstr "Ative o estilo para os sitemaps."
 
-#: view/settings.phtml:625
+#: view/settings.phtml:624
 #, fuzzy
 msgid "Sitemap XSL"
 msgstr "Sitemap XSL"
 
-#: view/settings.phtml:629
+#: view/settings.phtml:628
 #, fuzzy
 msgid "Enable the sitemaps you would like to use for your site."
 msgstr "Ative os sitemaps que você deseja usar para o seu site."
 
-#: view/settings.phtml:637
+#: view/settings.phtml:636
 #, fuzzy
 msgid "Content Sitemap"
 msgstr "Sitemap de conteúdo"
 
-#: view/settings.phtml:644
+#: view/settings.phtml:643
 #, fuzzy
 msgid "Product Sitemap"
 msgstr "Mapa do site do produto"
 
-#: view/settings.phtml:651
+#: view/settings.phtml:650
 msgid "News Sitemap"
 msgstr "Sitemap de Notícias"
 
-#: view/settings.phtml:658
+#: view/settings.phtml:657
 #, fuzzy
 msgid "Image Sitemap"
 msgstr "Sitemap de imagem"
 
-#: view/settings.phtml:665
+#: view/settings.phtml:664
 msgid "Video Sitemap"
 msgstr "Sitemap de vídeo"
 
-#: view/settings.phtml:672
+#: view/settings.phtml:671
 #, fuzzy
 msgid "Content Types Sitemap"
 msgstr "Tipos de Conteúdo Sitemap"
 
-#: view/settings.phtml:679
+#: view/settings.phtml:678
 #, fuzzy
 msgid "Pages Sitemap"
 msgstr "Sitemap de Páginas"
 
-#: view/settings.phtml:693
+#: view/settings.phtml:726
 #, fuzzy
 msgid "Enable runtime robots.txt"
 msgstr "Ativar o tempo de execução robots.txt"
 
-#: view/settings.phtml:706
+#: view/settings.phtml:739
 #, fuzzy
 msgid "Allow search engines to crawl this site"
 msgstr "Permita que mecanismos de busca rastreiem este site"
 
-#: view/settings.phtml:719
+#: view/settings.phtml:752
 #, fuzzy
 msgid "Include sitemap URL"
 msgstr "Incluir URL do sitemap"
 
-#: view/settings.phtml:724
+#: view/settings.phtml:757
 #, fuzzy
 msgid "Custom Robots Rules"
 msgstr "Regras de Robôs Personalizados"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "Leave empty to use the default"
 msgstr "Deixe vazio para usar o padrão"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "These rules apply only to the current site."
 msgstr "Essas regras se aplicam apenas ao local atual."
 
-#: view/settings.phtml:738
+#: view/settings.phtml:771
 #, fuzzy
 msgid "Runtime URL:"
 msgstr "URL de runtime:"
 
-#: view/settings.phtml:749
+#: view/settings.phtml:782
 #, fuzzy
 msgid "Save SEO Settings"
 msgstr "Salvar Configurações de SEO"
 
-#: view/settings.phtml:762
+#: view/settings.phtml:795
 #, fuzzy
 msgid "Crawl Diagnostics"
 msgstr "Diagnósticos de Rastreamento"
 
-#: view/settings.phtml:788
+#: view/settings.phtml:821
 #, fuzzy
 msgid "No diagnostics available."
 msgstr "Nenhum diagnóstico disponível."
 
-#: view/settings.phtml:798
+#: view/settings.phtml:831
 msgid "Import/Export"
 msgstr "Importar/Exportar"
 
-#: view/settings.phtml:803
+#: view/settings.phtml:836
 #, fuzzy
 msgid ""
 "Export SEO settings as JSON or import settings from another Devflow site.\n"
@@ -1470,23 +1550,27 @@ msgstr ""
 "Devflow.\n"
 "                            Tokens de conexão OAuth não são exportados."
 
-#: view/settings.phtml:810
+#: view/settings.phtml:843
 msgid "Export Settings"
 msgstr "Exportar Configurações"
 
-#: view/settings.phtml:821
+#: view/settings.phtml:854
 #, fuzzy
 msgid "Import Settings JSON"
 msgstr "Configurações de Importação em JSON"
 
-#: view/settings.phtml:830
+#: view/settings.phtml:863
 msgid "Import Settings"
 msgstr "Importar Configurações"
 
-#: view/settings.phtml:838
+#: view/settings.phtml:871
 #, fuzzy
 msgid "Submit URL for Indexing"
 msgstr "Enviar URL para Indexação"
+
+#, fuzzy
+#~ msgid "Auto submit sitemap URLs"
+#~ msgstr "Envie automaticamente URLs do sitemap"
 
 #~ msgid "Warning:"
 #~ msgstr "Atenção:"

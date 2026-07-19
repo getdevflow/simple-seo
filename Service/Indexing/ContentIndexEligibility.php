@@ -8,6 +8,7 @@ use Plugin\SimpleSeo\Service\EntityUrlResolver;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Qubus\Exception\Data\TypeException;
+use Qubus\Exception\Exception;
 use ReflectionException;
 use Throwable;
 
@@ -19,6 +20,7 @@ use function is_bool;
 use function is_int;
 use function is_object;
 use function is_string;
+use function Qubus\Security\Helpers\esc_html__;
 use function sprintf;
 use function strtolower;
 use function trim;
@@ -31,7 +33,7 @@ final readonly class ContentIndexEligibility
      * @var list<string>
      */
     private const array INDEXABLE_STATUSES = [
-            'published',
+        'published',
     ];
 
     public function __construct(
@@ -39,13 +41,20 @@ final readonly class ContentIndexEligibility
     ) {
     }
 
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws TypeException
+     */
     public function check(string $contentId): ContentIndexEligibilityResult
     {
         $contentId = trim($contentId);
 
         if ($contentId === '') {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content ID is empty.'
+                reason: esc_html__('The content ID is empty.', 'simple-seo'),
             );
         }
 
@@ -53,14 +62,19 @@ final readonly class ContentIndexEligibility
             $content = get_content_by_id($contentId);
         } catch (Throwable $exception) {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content could not be loaded: '
-                    . $exception->getMessage()
+                reason: sprintf(
+                    esc_html__(
+                        'The content could not be loaded: %s',
+                        'simple-seo'
+                    ),
+                    $exception->getMessage()
+                )
             );
         }
 
         if ($content === false || !is_object($content)) {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content does not exist.'
+                reason: esc_html__('The content does not exist.', 'simple-seo'),
             );
         }
 
@@ -69,7 +83,7 @@ final readonly class ContentIndexEligibility
         if (!in_array($status, self::INDEXABLE_STATUSES, true)) {
             return ContentIndexEligibilityResult::ineligible(
                 reason: sprintf(
-                    'Content status "%s" is not eligible for index submission.',
+                    esc_html__('Content status "%s" is not eligible for index submission.', 'simple-seo'),
                     $status !== '' ? $status : 'unknown'
                 )
             );
@@ -77,7 +91,7 @@ final readonly class ContentIndexEligibility
 
         if (!$this->isAllowedToIndex($contentId)) {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content is configured with a noindex directive.'
+                reason: esc_html__('The content is configured with a noindex directive.', 'simple-seo'),
             );
         }
 
@@ -85,14 +99,19 @@ final readonly class ContentIndexEligibility
             $url = $this->urlResolver->contentUrl($contentId);
         } catch (Throwable $exception) {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content URL could not be resolved: '
-                    . $exception->getMessage()
+                reason: sprintf(
+                    esc_html__(
+                        'The content URL could not be resolved: %s',
+                        'simple-seo'
+                    ),
+                    $exception->getMessage()
+                )
             );
         }
 
         if (!is_string($url) || trim($url) === '') {
             return ContentIndexEligibilityResult::ineligible(
-                reason: 'The content does not have a public URL.'
+                reason: esc_html__('The content does not have a public URL.', 'simple-seo'),
             );
         }
 
@@ -101,7 +120,7 @@ final readonly class ContentIndexEligibility
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
             return ContentIndexEligibilityResult::ineligible(
                 reason: sprintf(
-                    'The resolved content URL is invalid: %s',
+                    esc_html__('The resolved content URL is invalid: %s', 'simple-seo'),
                     $url
                 )
             );
@@ -110,16 +129,9 @@ final readonly class ContentIndexEligibility
         return ContentIndexEligibilityResult::eligible($url);
     }
 
-    public function isEligible(string $contentId): bool
-    {
-        return $this->check($contentId)->eligible;
-    }
-
     private function resolveStatus(object $content): string
     {
-        $status = $content->content_status
-                ?? $content->status
-                ?? '';
+        $status = $content->content_status ?? $content->status ?? '';
 
         return strtolower(trim((string) $status));
     }

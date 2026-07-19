@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Simple SEO\n"
-"POT-Creation-Date: 2026-06-11 14:03-0600\n"
-"PO-Revision-Date: 2026-06-11 14:03-0600\n"
+"POT-Creation-Date: 2026-07-18 17:30-0700\n"
+"PO-Revision-Date: 2026-07-18 17:30-0700\n"
 "Last-Translator: \n"
 "Language-Team: Joshua Parker\n"
 "Language: ja\n"
@@ -106,16 +106,16 @@ msgstr ""
 msgid "A redirect already exists for this source URL."
 msgstr "この送信元URLにはすでにリダイレクトが存在します。"
 
-#: Controller/RouteSeoController.php:33
+#: Controller/RouteSeoController.php:35
 #, fuzzy
 msgid "Custom Route SEO"
 msgstr "カスタムルートSEOです"
 
-#: Controller/RouteSeoController.php:64
+#: Controller/RouteSeoController.php:66
 msgid "Not found"
 msgstr "見つかりません"
 
-#: Controller/RouteSeoController.php:127
+#: Controller/RouteSeoController.php:138
 msgid "Error occurred."
 msgstr "zip エラーが発生しました"
 
@@ -128,7 +128,7 @@ msgstr "検索統計を切断"
 msgid "Google Search Console connected successfully."
 msgstr "Googleサーチコンソールは正常に接続できました。"
 
-#: Controller/SettingsController.php:34
+#: Controller/SettingsController.php:35
 #, fuzzy
 msgid "Simple SEO"
 msgstr "シンプルなSEOです"
@@ -143,72 +143,92 @@ msgstr "鍵が違う。"
 msgid "No sitemap."
 msgstr "サイトマップもありません。"
 
-#: Service/CrawlDiagnosticsService.php:56
+#: Repository/RedirectRepository.php:306
+#, fuzzy
+msgid "Invalid redirect URL scheme."
+msgstr "無効なリダイレクトURLスキーム。"
+
+#: Repository/RedirectRepository.php:319
+#, fuzzy
+msgid "Protocol-relative redirects are not allowed."
+msgstr "プロトコル相対リダイレクトは許可されていません。"
+
+#: Repository/RouteSeoRepository.php:170
+#, fuzzy
+msgid "Invalid route path."
+msgstr "無効なルートパス。"
+
+#: Service/CrawlDiagnosticsService.php:58
 #, fuzzy
 msgid "robots.txt is reachable."
 msgstr "robots.txtは連絡が取れます。"
 
-#: Service/CrawlDiagnosticsService.php:63
+#: Service/CrawlDiagnosticsService.php:65
 #, fuzzy
 msgid "sitemap.xml is reachable."
 msgstr "sitemap.xmlは連絡が取れる。"
 
-#: Service/CrawlDiagnosticsService.php:75
+#: Service/CrawlDiagnosticsService.php:77
 #, fuzzy
 msgid "IndexNow is configured."
 msgstr "IndexNowは設定済みです。"
 
-#: Service/CrawlDiagnosticsService.php:82
+#: Service/CrawlDiagnosticsService.php:84
 #, fuzzy
 msgid "Google OAuth is connected."
 msgstr "Google OAuthは接続されています。"
 
-#: Service/CrawlDiagnosticsService.php:88
+#: Service/CrawlDiagnosticsService.php:90
 #, fuzzy
 msgid "Search Console Site URL is configured."
 msgstr "サーチコンソールのサイトURLは設定済みです。"
 
-#: Service/CrawlDiagnosticsService.php:94
+#: Service/CrawlDiagnosticsService.php:96
 #, fuzzy
 msgid "Active sitemap count"
 msgstr "アクティブサイトマップカウント"
 
-#: Service/CrawlDiagnosticsService.php:99
+#: Service/CrawlDiagnosticsService.php:101
 #, fuzzy
 msgid "Published content count"
 msgstr "公開されたコンテンツ数"
 
-#: Service/CrawlDiagnosticsService.php:104
+#: Service/CrawlDiagnosticsService.php:106
 #, fuzzy
 msgid "Published page count"
 msgstr "公開ページ数"
 
-#: Service/CrawlDiagnosticsService.php:109
+#: Service/CrawlDiagnosticsService.php:111
 #, fuzzy
 msgid "Published product count"
 msgstr "出版製品数"
 
-#: Service/CrawlDiagnosticsService.php:112
+#: Service/CrawlDiagnosticsService.php:116
+#, fuzzy
+msgid "Pending URL submissions"
+msgstr "保留中のURL投稿"
+
+#: Service/CrawlDiagnosticsService.php:119
 #, fuzzy
 msgid "Redirect hit count"
 msgstr "リダイレクトヒットカウント"
 
-#: Service/CrawlDiagnosticsService.php:113
+#: Service/CrawlDiagnosticsService.php:120
 #, fuzzy
 msgid "404 count"
 msgstr "404カウント"
 
-#: Service/CrawlDiagnosticsService.php:114
+#: Service/CrawlDiagnosticsService.php:121
 #, fuzzy
 msgid "Redirects total"
 msgstr "リダイレクト合計"
 
-#: Service/CrawlDiagnosticsService.php:115
+#: Service/CrawlDiagnosticsService.php:122
 #, fuzzy
 msgid "Active redirects"
 msgstr "アクティブなリダイレクト"
 
-#: Service/CrawlDiagnosticsService.php:125
+#: Service/CrawlDiagnosticsService.php:132
 #, fuzzy
 msgid "Needs attention"
 msgstr "注意が必要です"
@@ -242,60 +262,100 @@ msgstr "Googleトークン認証に失敗しました"
 msgid "Google Indexing request failed with HTTP "
 msgstr "GoogleインデックスリクエストがHTTPで失敗しました"
 
-#: Service/GoogleOAuthService.php:60
+#: Service/GoogleOAuthService.php:77
 #, fuzzy
 msgid "Google did not return a refresh token."
 msgstr "Googleはリフレッシュトークンを返しませんでした。"
 
-#: Service/GoogleOAuthService.php:103
+#: Service/GoogleOAuthService.php:123
 #, fuzzy
 msgid "Google account is not connected."
 msgstr "Googleアカウントは連携していません。"
 
-#: Service/GoogleOAuthService.php:116
+#: Service/GoogleOAuthService.php:136
 #, fuzzy
 msgid "Google did not return an access token."
 msgstr "Googleはアクセストークンを返しませんでした。"
 
-#: Service/GoogleOAuthService.php:176
+#: Service/GoogleOAuthService.php:187
 #, fuzzy
 msgid "Missing Google Client ID."
 msgstr "GoogleクライアントIDがありません。"
 
-#: Service/GoogleOAuthService.php:193
+#: Service/GoogleOAuthService.php:204
 #, fuzzy
 msgid "Missing Google Client Secret."
 msgstr "Googleクライアントの秘密が欠けています。"
 
-#: Service/GoogleOAuthService.php:218
+#: Service/GoogleOAuthService.php:235
 #, fuzzy
 msgid "Google OAuth request failed with HTTP "
 msgstr "Google OAuthリクエストはHTTPで失敗しました"
 
-#: Service/IndexNowService.php:52
+#: Service/IndexNowService.php:51
 #, fuzzy
 msgid "IndexNow is disabled."
 msgstr "IndexNowは無効になっています。"
 
-#: Service/IndexNowService.php:58
+#: Service/IndexNowService.php:57
 #, fuzzy
 msgid "Missing IndexNow key."
 msgstr "IndexNowキーが欠落しています。"
 
-#: Service/IndexNowService.php:67
+#: Service/IndexNowService.php:66
 #, fuzzy
 msgid "No URLs provided."
 msgstr "URLは提供されていません。"
 
 #: Service/IndexNowService.php:79
 #, fuzzy
-msgid "Unable to determine IndexNow host."
-msgstr "IndexNowのホストを特定できません。"
+msgid "Unable to determine IndexNow host for URL: "
+msgstr "URLのIndexNowホストが特定できない:"
 
-#: Service/IndexNowService.php:126
+#: Service/IndexNowService.php:129
 #, fuzzy
 msgid "IndexNow request failed with HTTP "
 msgstr "IndexNowリクエストがHTTPで失敗しました"
+
+#: Service/Indexing/ContentIndexEligibility.php:57
+#, fuzzy
+msgid "The content ID is empty."
+msgstr "コンテンツIDは空です。"
+
+#: Service/Indexing/ContentIndexEligibility.php:67
+#, fuzzy, php-format
+msgid "The content could not be loaded: %s"
+msgstr "コンテンツが読み込まれませんでした:%s"
+
+#: Service/Indexing/ContentIndexEligibility.php:77
+#, fuzzy
+msgid "The content does not exist."
+msgstr "その内容は存在しません。"
+
+#: Service/Indexing/ContentIndexEligibility.php:86
+#, fuzzy, php-format
+msgid "Content status \"%s\" is not eligible for index submission."
+msgstr "コンテンツステータス「%s」はインデックス投稿の対象外です。"
+
+#: Service/Indexing/ContentIndexEligibility.php:94
+#, fuzzy
+msgid "The content is configured with a noindex directive."
+msgstr "コンテンツはnoindex指令で構成されています。"
+
+#: Service/Indexing/ContentIndexEligibility.php:104
+#, fuzzy, php-format
+msgid "The content URL could not be resolved: %s"
+msgstr "コンテンツURLは解決できませんでした:%s"
+
+#: Service/Indexing/ContentIndexEligibility.php:114
+#, fuzzy
+msgid "The content does not have a public URL."
+msgstr "このコンテンツには公開URLはありません。"
+
+#: Service/Indexing/ContentIndexEligibility.php:123
+#, fuzzy, php-format
+msgid "The resolved content URL is invalid: %s"
+msgstr "解決されたコンテンツURLは無効です:%s"
 
 #: Service/SearchConsoleService.php:99
 #, fuzzy
@@ -322,22 +382,43 @@ msgstr "サイトマップのURLがありません。"
 msgid "Google sitemap submission failed with HTTP "
 msgstr "Googleサイトマップの送信がHTTPで失敗しました"
 
-#: Service/SettingsImportExportService.php:54
+#: Service/SettingsImportExportService.php:50
 #, fuzzy
 msgid "Invalid JSON file."
 msgstr "無効なJSONファイル。"
 
-#: Service/SettingsImportExportService.php:60
+#: Service/SettingsImportExportService.php:56
 #, fuzzy
 msgid "Import file does not contain settings."
 msgstr "インポートファイルには設定が含まれていません。"
 
-#: SimpleSeoPlugin.php:79
+#: Service/SubmissionQueueProcessor.php:79
+#, fuzzy
+msgid "SEO submission skipped because the entity is no longer indexable."
+msgstr ""
+"SEOの提出は、エンティティがもはやインデックス対象でないためスキップされました。"
+
+#: Service/SubmissionQueueProcessor.php:162
+#, fuzzy
+msgid "The content queue item does not contain an entity ID."
+msgstr "コンテンツキューの項目にはエンティティIDが含まれていません。"
+
+#: Service/SubmissionQueueProcessor.php:176
+#, fuzzy
+msgid "The queue item does not contain a valid URL."
+msgstr "キュー項目には有効なURLが含まれていません。"
+
+#: Service/SubmissionQueueProcessor.php:199
+#, fuzzy, php-format
+msgid "Unsupported indexing engine: %s."
+msgstr "サポートされていないインデックスエンジン:%s。"
+
+#: SimpleSeoPlugin.php:85
 #, fuzzy
 msgid "Simple Seo"
 msgstr "シンプルソ"
 
-#: SimpleSeoPlugin.php:84
+#: SimpleSeoPlugin.php:90
 #, fuzzy
 msgid ""
 "Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, "
@@ -347,13 +428,13 @@ msgstr ""
 "デックス作成、クロール管理、404モニタリングなど多岐にわたる内容をカバーしていま"
 "す。"
 
-#: SimpleSeoPlugin.php:145
+#: SimpleSeoPlugin.php:156
 #, fuzzy
 #| msgid "SEO Score"
 msgid "SEO Routes"
 msgstr "SEOルート"
 
-#: SimpleSeoPlugin.php:164
+#: SimpleSeoPlugin.php:175
 #, fuzzy
 msgid ""
 "You must upgrade your system to at least v2.3 in order to use the Simple SEO "
@@ -524,7 +605,7 @@ msgstr "投稿先"
 msgid "Google Indexing API"
 msgstr "GoogleインデックスAPI"
 
-#: view/indexing.phtml:64 view/settings.phtml:871
+#: view/indexing.phtml:64 view/settings.phtml:904
 #, fuzzy
 msgid "Submit URL"
 msgstr "URLを送信"
@@ -567,7 +648,7 @@ msgstr "サイトマップURL"
 msgid "IndexNow + Google Search Console"
 msgstr "IndexNow + Google Search Console"
 
-#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:510
+#: view/indexing.phtml:129 view/search-console.phtml:105 view/settings.phtml:517
 msgid "Google Search Console"
 msgstr "Google Search Console"
 
@@ -663,7 +744,7 @@ msgid "Description"
 msgstr "説明"
 
 #: view/partial/seo-tabs.phtml:220 view/partial/seo-tabs.phtml:276
-#: view/settings.phtml:172 view/settings.phtml:572
+#: view/settings.phtml:172 view/settings.phtml:571
 msgid "Browse"
 msgstr "参照"
 
@@ -1280,30 +1361,35 @@ msgstr "バイドゥ検証"
 msgid "Enable IndexNow"
 msgstr "IndexNowを有効にする"
 
-#: view/settings.phtml:462
+#: view/settings.phtml:461
+#, fuzzy
+msgid "i.e. example.com (without the beginning protocol)"
+msgstr "すなわち、example.com(初期プロトコルなし)"
+
+#: view/settings.phtml:469
 #, fuzzy
 msgid "Enable Google Indexing API"
 msgstr "GoogleインデックスAPIを有効にする"
 
-#: view/settings.phtml:466
+#: view/settings.phtml:473
 msgid "Google Client ID"
 msgstr "Google クライアント ID"
 
-#: view/settings.phtml:476
+#: view/settings.phtml:483
 msgid "Google Client Secret"
 msgstr "Googleクライアントシークレットキー"
 
-#: view/settings.phtml:486
+#: view/settings.phtml:493
 #, fuzzy
 msgid "Search Console Site URL"
 msgstr "サーチコンソールサイトURL"
 
-#: view/settings.phtml:504
+#: view/settings.phtml:511
 #, fuzzy
 msgid "Missing Credentials"
 msgstr "欠落した資格証明書"
 
-#: view/settings.phtml:505
+#: view/settings.phtml:512
 #, fuzzy
 msgid ""
 "Enter your Google Client ID and Client Secret, then save settings before "
@@ -1312,163 +1398,158 @@ msgstr ""
 "GoogleクライアントIDとクライアントシークレットを入力し、接続前に設定を保存してくだ"
 "さい。"
 
-#: view/settings.phtml:515
+#: view/settings.phtml:522
 #, fuzzy
 msgid "Google Search Console is connected."
 msgstr "Googleサーチコンソールが接続されています。"
 
-#: view/settings.phtml:521
+#: view/settings.phtml:528
 #, fuzzy
 msgid "Disconnect Google"
 msgstr "Googleの接続を切る"
 
-#: view/settings.phtml:528
+#: view/settings.phtml:535
 #, fuzzy
 msgid "No Connection"
 msgstr "関係なし"
 
-#: view/settings.phtml:529
+#: view/settings.phtml:536
 #, fuzzy
 msgid "Connect your Google account to access Search Console statistics."
 msgstr "Googleアカウントに接続してSearch Consoleの統計にアクセスできます。"
 
-#: view/settings.phtml:534
+#: view/settings.phtml:541
 #, fuzzy
 msgid "Connect Google"
 msgstr "Googleを接続してください"
 
-#: view/settings.phtml:544
-#, fuzzy
-msgid "Auto submit sitemap URLs"
-msgstr "サイトマップURLの自動送信"
-
-#: view/settings.phtml:550
+#: view/settings.phtml:549
 msgid "Organization name"
 msgstr "組織名"
 
-#: view/settings.phtml:555
+#: view/settings.phtml:554
 #, fuzzy
 msgid "Organization logo"
 msgstr "組織ロゴ"
 
-#: view/settings.phtml:578
+#: view/settings.phtml:577
 #, fuzzy
 msgid "Enter a logo URL manually or choose one from the media manager."
 msgstr "ロゴのURLを手動で入力するか、メディアマネージャーから選択してください。"
 
-#: view/settings.phtml:592
+#: view/settings.phtml:591
 #, fuzzy
 msgid "Organization phone"
 msgstr "組織電話"
 
-#: view/settings.phtml:597
+#: view/settings.phtml:596
 #, fuzzy
 msgid "Default schema type"
 msgstr "デフォルトのスキーマタイプ"
 
-#: view/settings.phtml:617
+#: view/settings.phtml:616
 #, fuzzy
 msgid "Enable styling for sitemaps."
 msgstr "サイトマップのスタイリングを有効にしてください。"
 
-#: view/settings.phtml:625
+#: view/settings.phtml:624
 #, fuzzy
 msgid "Sitemap XSL"
 msgstr "サイトマップ XSL"
 
-#: view/settings.phtml:629
+#: view/settings.phtml:628
 #, fuzzy
 msgid "Enable the sitemaps you would like to use for your site."
 msgstr "使用したいサイトマップを有効にしてください。"
 
-#: view/settings.phtml:637
+#: view/settings.phtml:636
 #, fuzzy
 msgid "Content Sitemap"
 msgstr "コンテンツサイトマップ"
 
-#: view/settings.phtml:644
+#: view/settings.phtml:643
 #, fuzzy
 msgid "Product Sitemap"
 msgstr "プロダクトサイトマップ"
 
-#: view/settings.phtml:651
+#: view/settings.phtml:650
 msgid "News Sitemap"
 msgstr "ニュースサイトマップ"
 
-#: view/settings.phtml:658
+#: view/settings.phtml:657
 #, fuzzy
 msgid "Image Sitemap"
 msgstr "画像サイトマップ"
 
-#: view/settings.phtml:665
+#: view/settings.phtml:664
 msgid "Video Sitemap"
 msgstr "動画サイトマップ"
 
-#: view/settings.phtml:672
+#: view/settings.phtml:671
 #, fuzzy
 msgid "Content Types Sitemap"
 msgstr "コンテンツタイプ サイトマップ"
 
-#: view/settings.phtml:679
+#: view/settings.phtml:678
 #, fuzzy
 msgid "Pages Sitemap"
 msgstr "ページサイトマップ"
 
-#: view/settings.phtml:693
+#: view/settings.phtml:726
 #, fuzzy
 msgid "Enable runtime robots.txt"
 msgstr "ランタイムrobots.txtを有効にする"
 
-#: view/settings.phtml:706
+#: view/settings.phtml:739
 #, fuzzy
 msgid "Allow search engines to crawl this site"
 msgstr "検索エンジンがこのサイトをクロールできるように"
 
-#: view/settings.phtml:719
+#: view/settings.phtml:752
 #, fuzzy
 msgid "Include sitemap URL"
 msgstr "サイトマップのURLを含める"
 
-#: view/settings.phtml:724
+#: view/settings.phtml:757
 #, fuzzy
 msgid "Custom Robots Rules"
 msgstr "カスタムロボットのルール"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "Leave empty to use the default"
 msgstr "デフォルトを使うには空のままにしてください"
 
-#: view/settings.phtml:733
+#: view/settings.phtml:766
 #, fuzzy
 msgid "These rules apply only to the current site."
 msgstr "これらのルールは現在のサイトにのみ適用されます。"
 
-#: view/settings.phtml:738
+#: view/settings.phtml:771
 #, fuzzy
 msgid "Runtime URL:"
 msgstr "ランタイムURL:"
 
-#: view/settings.phtml:749
+#: view/settings.phtml:782
 #, fuzzy
 msgid "Save SEO Settings"
 msgstr "SEO設定を保存する"
 
-#: view/settings.phtml:762
+#: view/settings.phtml:795
 #, fuzzy
 msgid "Crawl Diagnostics"
 msgstr "クロール・ダイアグノスティクス"
 
-#: view/settings.phtml:788
+#: view/settings.phtml:821
 #, fuzzy
 msgid "No diagnostics available."
 msgstr "診断はできません。"
 
-#: view/settings.phtml:798
+#: view/settings.phtml:831
 msgid "Import/Export"
 msgstr "インポート/エクスポート"
 
-#: view/settings.phtml:803
+#: view/settings.phtml:836
 #, fuzzy
 msgid ""
 "Export SEO settings as JSON or import settings from another Devflow site.\n"
@@ -1478,23 +1559,27 @@ msgstr ""
 "きます。\n"
 "                            OAuth接続トークンはエクスポートされません。"
 
-#: view/settings.phtml:810
+#: view/settings.phtml:843
 msgid "Export Settings"
 msgstr "設定のエクスポート"
 
-#: view/settings.phtml:821
+#: view/settings.phtml:854
 #, fuzzy
 msgid "Import Settings JSON"
 msgstr "インポート設定 JSON"
 
-#: view/settings.phtml:830
+#: view/settings.phtml:863
 msgid "Import Settings"
 msgstr "設定のインポート"
 
-#: view/settings.phtml:838
+#: view/settings.phtml:871
 #, fuzzy
 msgid "Submit URL for Indexing"
 msgstr "インデックス作成のためにURLを送信"
+
+#, fuzzy
+#~ msgid "Auto submit sitemap URLs"
+#~ msgstr "サイトマップURLの自動送信"
 
 #~ msgid "Warning:"
 #~ msgstr "警告:"
