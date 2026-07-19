@@ -23,9 +23,11 @@ use function App\Shared\Helpers\sort_list;
 use function array_filter;
 use function array_map;
 use function array_merge;
+use function array_unshift;
 use function array_values;
 use function date;
 use function gmdate;
+use function in_array;
 use function is_array;
 use function preg_split;
 use function Qubus\Security\Helpers\esc_html;
@@ -100,21 +102,10 @@ final readonly class SitemapService
         }
 
         if (SimpleSeoSettings::get('enable_sitemap_images', false)) {
-            $rows = array_merge(
-                $this->content(),
-                $this->products(),
-                $this->rows('page'),
-                $this->routeRows()
+            $entry = $this->sitemapEntry(
+                filename: 'sitemap-images.xml',
+                rows: $this->imageRows()
             );
-
-            $rows = array_filter($rows, function ($row) {
-                $seo = $row['seo'] ?? [];
-
-                return !empty($seo['image_urls'])
-                        || !empty($row['image']);
-            });
-
-            $entry = $this->sitemapEntry('sitemap-images.xml', $rows);
 
             if ($entry !== null) {
                 $maps[] = $entry;
@@ -122,18 +113,10 @@ final readonly class SitemapService
         }
 
         if (SimpleSeoSettings::get('enable_sitemap_videos', false)) {
-            $rows = array_merge(
-                $this->content(),
-                $this->products(),
-                $this->rows('page'),
-                $this->routeRows()
+            $entry = $this->sitemapEntry(
+                filename: 'sitemap-videos.xml',
+                rows: $this->videoRows()
             );
-
-            $rows = array_filter($rows, function ($row) {
-                return !empty(($row['seo'] ?? [])['video_urls']);
-            });
-
-            $entry = $this->sitemapEntry('sitemap-videos.xml', $rows);
 
             if ($entry !== null) {
                 $maps[] = $entry;
@@ -248,13 +231,10 @@ final readonly class SitemapService
         }
 
         return $this->urlset(
-            array_merge(
-                $this->content(),
-                $this->products()
-            ),
-            true,
-            false,
-            false
+            rows: $this->imageRows(),
+            includeImages: true,
+            includeVideos: false,
+            news: false
         );
     }
 
@@ -273,13 +253,10 @@ final readonly class SitemapService
         }
 
         return $this->urlset(
-            array_merge(
-                $this->content(),
-                $this->products()
-            ),
-            false,
-            true,
-            false
+            rows: $this->videoRows(),
+            includeImages: false,
+            includeVideos: true,
+            news: false
         );
     }
 
@@ -368,7 +345,20 @@ final readonly class SitemapService
                     : $defaultPriority)
             );
             if ($includeImages) {
-                foreach ($this->lines($seo['image_urls'] ?? '') as $image) {
+                $images = $this->lines(
+                    (string) ($seo['image_urls'] ?? '')
+                );
+
+                $featuredImage = trim((string) ($row['image'] ?? ''));
+
+                if (
+                        $featuredImage !== ''
+                        && !in_array($featuredImage, $images, true)
+                ) {
+                    array_unshift($images, $featuredImage);
+                }
+
+                foreach ($images as $image) {
                     $xml->startElement('image:image');
                     $xml->writeElement('image:loc', $image);
                     $xml->endElement();
@@ -924,6 +914,60 @@ XSL;
         }
 
         return false;
+    }
+
+    /**
+     * @return array
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
+     */
+    private function imageRows(): array
+    {
+        $rows = array_merge(
+            $this->content(),
+            $this->products(),
+            $this->rows('page')
+        );
+
+        return array_values(
+            array_filter(
+                $rows,
+                static function (array $row): bool {
+                    $seo = $row['seo'] ?? [];
+
+                    return !empty($seo['image_urls']) || !empty($row['image']);
+                }
+            )
+        );
+    }
+
+    /**
+     * @return array
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
+     */
+    private function videoRows(): array
+    {
+        $rows = array_merge(
+            $this->content(),
+            $this->products(),
+            $this->rows('page')
+        );
+
+        return array_values(
+            array_filter(
+                $rows,
+                static function (array $row): bool {
+                    $seo = $row['seo'] ?? [];
+
+                    return !empty($seo['video_urls']);
+                }
+            )
+        );
     }
 
     private function sitemapEntry(string $filename, array $rows): ?string
