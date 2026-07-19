@@ -15,9 +15,15 @@ final readonly class SubmissionQueueRepository
     {
     }
 
-    public function enqueue(string $url, string $engine = 'indexnow'): void
-    {
+    public function enqueue(
+        string $url,
+        string $engine = 'indexnow',
+        ?string $entityType = null,
+        ?string $entityId = null
+    ): void {
         $url = trim($url);
+        $entityType = $this->normalizeNullableString($entityType);
+        $entityId = $this->normalizeNullableString($entityId);
 
         if ($url === '') {
             return;
@@ -27,48 +33,34 @@ final readonly class SubmissionQueueRepository
             ? $engine
             : 'indexnow';
 
-        $now = date('Y-m-d H:i:s');
-
         $existing = $this->dfdb->getRow(
             $this->dfdb->prepare(
-                "SELECT * FROM {$this->table()}
+                "SELECT id FROM {$this->table()}
                  WHERE url = ?
                  AND engine = ?
-                 AND status IN('pending','done')
+                 AND status IN('pending','processing')
                  LIMIT 1",
                 [$url, $engine]
             )
         );
 
         if ($existing !== false && $existing !== null) {
-            $this->dfdb->query(
-                $this->dfdb->prepare(
-                    "UPDATE {$this->table()}
-                     SET status = 'pending',
-                     attempts = 0,
-                     last_error = NULL,
-                     updated_at = ?,
-                     processed_at = NULL
-                     WHERE id = ?",
-                    [
-                        $now,
-                        (string) $existing->id,
-                    ]
-                )
-            );
-
             return;
         }
+
+        $now = date('Y-m-d H:i:s');
 
         $this->dfdb->query(
             $this->dfdb->prepare(
                 "INSERT INTO {$this->table()}
-                 (id, url, engine, status, attempts, last_error, created_at, updated_at, processed_at)
-                 VALUES (?, ?, ?, 'pending', 0, NULL, ?, ?, NULL)",
+                 (id, url, engine, entity_type, entity_id, status, attempts, last_error, created_at, updated_at, processed_at)
+                 VALUES (?, ?, ?, ?, ?, 'pending', 0, NULL, ?, ?, NULL)",
                 [
                     Ulid::generateAsString(),
                     $url,
                     $engine,
+                    $entityType,
+                    $entityId,
                     $now,
                     $now,
                 ]
@@ -76,6 +68,9 @@ final readonly class SubmissionQueueRepository
         );
     }
 
+    /**
+     * @return list<object>
+     */
     public function pending(int $limit = 10): array
     {
         $limit = max(1, min(100, $limit));
@@ -99,7 +94,8 @@ final readonly class SubmissionQueueRepository
                  SET status = 'processing',
                      attempts = attempts + 1,
                      updated_at = ?
-                 WHERE id = ?",
+                 WHERE id = ? 
+                 AND status = 'pending'",
                 [date('Y-m-d H:i:s'), $id]
             )
         );
@@ -143,11 +139,58 @@ final readonly class SubmissionQueueRepository
         );
     }
 
+    public function delete(string $id): void
+    {
+        $this->dfdb->query(
+            $this->dfdb->prepare(
+                "DELETE FROM {$this->table()}
+                WHERE id = ?",
+                [$id]
+            )
+        );
+    }
+
+    public function deletePendingForEntity(
+        string $entityType,
+        string $entityId
+    ): void {
+        $entityType = trim($entityType);
+        $entityId = trim($entityId);
+
+        if ($entityType === '' || $entityId === '') {
+            return;
+        }
+
+        $this->dfdb->query(
+            $this->dfdb->prepare(
+                "DELETE FROM {$this->table()}
+                WHERE entity_type = ?
+                AND entity_id = ?
+                AND status IN ('pending', 'processing')",
+                [
+                    $entityType,
+                    $entityId,
+                ]
+            )
+        );
+    }
+
     public function countPending(): int
     {
         return (int) $this->dfdb->getVar(
             "SELECT COUNT(*) FROM {$this->table()} WHERE status = 'pending'"
         );
+    }
+
+    private function normalizeNullableString(?string $value = null): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $value = trim($value);
+
+        return $value !== '' ? $value : null;
     }
 
     private function table(): string
