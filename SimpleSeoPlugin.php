@@ -86,7 +86,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.2.1',
+            'version' => '1.2.2',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -638,7 +638,7 @@ final class SimpleSeoPlugin extends Plugin
             return $controller->images();
         });
         $router->get(uri: '/sitemap-videos.xml', callback: function (SitemapController $controller) {
-            $controller->videos();
+            return $controller->videos();
         });
         $router->get(uri: '/sitemap.xsl', callback: function (SitemapController $controller) {
             return $controller->stylesheet();
