@@ -9,8 +9,7 @@ use Plugin\SimpleSeo\Repository\RouteSeoRepository;
 use function App\Shared\Helpers\get_content_by;
 use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_product_by;
-use function App\Shared\Helpers\site_url;
-use function rtrim;
+use function App\Shared\Helpers\home_url;
 use function trim;
 
 final readonly class EntityUrlResolver
@@ -37,14 +36,14 @@ final readonly class EntityUrlResolver
         }
 
         if (!empty($content->relativeUrl)) {
-            return rtrim(site_url(), '/') . '/' . trim((string) $content->relativeUrl, '/') . '/';
+            return $this->normalizePublicUrl(
+                (string) $content->relativeUrl
+            );
         }
 
-        if (!empty($content->slug)) {
-            return rtrim(site_url(), '/') . '/' . trim((string) $content->slug, '/') . '/';
-        }
-
-        return null;
+        return $this->normalizePublicUrl(
+            '/' . trim((string) $content->slug, '/') . '/'
+        );
     }
 
     /**
@@ -64,7 +63,9 @@ final readonly class EntityUrlResolver
             return null;
         }
 
-        return rtrim(site_url(), '/') . '/product/' . trim((string) $product->slug, '/') . '/';
+        return $this->normalizePublicUrl(
+            '/product/' . trim((string) $product->slug, '/') . '/'
+        );
     }
 
     /**
@@ -84,15 +85,12 @@ final readonly class EntityUrlResolver
 
         $route = trim((string) ($page->route ?? ''), '/');
 
-        return $route === ''
-            ? rtrim(site_url(), '/') . '/'
-            : rtrim(site_url(), '/') . '/' . $route . '/';
+        return $this->normalizePublicUrl($route);
     }
 
     /**
      * @param string $id
      * @return string|null
-     * @throws \Qubus\Exception\Exception
      */
     public function customRouteUrl(string $id): ?string
     {
@@ -102,6 +100,25 @@ final readonly class EntityUrlResolver
             return null;
         }
 
-        return rtrim(site_url(), '/') . $this->routes->normalizeRoute((string) $route->route_path);
+        return $this->normalizePublicUrl((string) $route->route_path);
+    }
+
+    private function normalizePublicUrl(?string $url): ?string
+    {
+        if ($url === null) {
+            return null;
+        }
+
+        $url = trim($url);
+
+        if ($url === '') {
+            return null;
+        }
+
+        if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
+            return $url;
+        }
+
+        return home_url('/' . ltrim($url, '/'));
     }
 }
