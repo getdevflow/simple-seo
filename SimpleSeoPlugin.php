@@ -26,7 +26,6 @@ use Plugin\SimpleSeo\Routing\SeoRedirectBootManager;
 use Plugin\SimpleSeo\Service\AutoSubmissionService;
 use Plugin\SimpleSeo\Service\EntityUrlResolver;
 use Plugin\SimpleSeo\Service\Indexing\ContentIndexSubmission;
-use Plugin\SimpleSeo\Service\IndexingSyncService;
 use Plugin\SimpleSeo\Service\MetaRendererService;
 use Plugin\SimpleSeo\Service\NotFoundMonitor;
 use Plugin\SimpleSeo\Service\RedirectSyncService;
@@ -86,7 +85,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.2.4',
+            'version' => '1.2.5',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -122,7 +121,6 @@ final class SimpleSeoPlugin extends Plugin
         $this->registerRoutes();
         $this->registerAdminMenu();
         $this->registerSeoRedirectSyncs();
-        $this->registerIndexingSyncs();
         $this->register404Monitor();
         $this->registerTrackingOutput();
         $this->registerAutoSubmissionHooks();
@@ -331,35 +329,6 @@ final class SimpleSeoPlugin extends Plugin
     {
         /** @var RedirectSyncService $sync */
         $sync = Devflow::$PHP->make(name: RedirectSyncService::class);
-        $action = Action::getInstance();
-
-        $action->addAction('create_content', function (Content $content) use ($sync) {
-            $sync->syncContent($content->id);
-        });
-        $action->addAction('update_content', function (string $id, Content $content) use ($sync) {
-            $sync->syncContent($id);
-        }, arguments: 2);
-
-        $action->addAction('create_product', function (Product $product) use ($sync) {
-            $sync->syncProduct($product->id);
-        });
-        $action->addAction('update_product', function (string $id, Product $product) use ($sync) {
-            $sync->syncProduct($id);
-        }, arguments: 2);
-
-        $action->addAction('update_page', function ($page) use ($sync) {
-            $sync->syncPage($page->getId());
-        });
-    }
-
-    /**
-     * @return void
-     * @throws ReflectionException
-     */
-    private function registerIndexingSyncs(): void
-    {
-        /** @var IndexingSyncService $sync */
-        $sync = Devflow::$PHP->make(name: IndexingSyncService::class);
         $action = Action::getInstance();
 
         $action->addAction('create_content', function (Content $content) use ($sync) {
