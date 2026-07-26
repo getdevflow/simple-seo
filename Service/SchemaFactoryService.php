@@ -7,14 +7,12 @@ namespace Plugin\SimpleSeo\Service;
 use Melbahja\Seo\Schema;
 use Melbahja\Seo\Schema\Thing;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
-
 use Psr\SimpleCache\InvalidArgumentException;
 use Qubus\Exception\Exception;
 use ReflectionException;
 
 use function App\Shared\Helpers\site_url;
 use function array_filter;
-use function function_exists;
 use function is_array;
 use function json_decode;
 use function rtrim;
@@ -118,6 +116,14 @@ final class SchemaFactoryService
         return $timestamp === false ? $date : date('c', $timestamp);
     }
 
+    /**
+     * @param string $url
+     * @param string $type
+     * @return string
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
     private function schemaId(string $url, string $type): string
     {
         $entityUrl = rtrim($url !== '' ? $url : site_url(), '/') . '/';
@@ -149,6 +155,9 @@ final class SchemaFactoryService
             '@id' => rtrim(site_url(), '/') . '/#website',
             'url' => rtrim(site_url(), '/') . '/',
             'name' => SimpleSeoSettings::get('site_name', $this->title($item, $seo)),
+            'publisher' => [
+                '@id' => $this->organizationId(),
+            ],
         ];
     }
 
@@ -157,6 +166,7 @@ final class SchemaFactoryService
      * @param array $seo
      * @return array
      * @throws \Qubus\Exception\Exception
+     * @throws ReflectionException
      */
     private function webpage(array $item, array $seo): array
     {
@@ -173,6 +183,14 @@ final class SchemaFactoryService
         ];
     }
 
+    /**
+     * @param array $item
+     * @param array $seo
+     * @return array
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
     private function product(array $item, array $seo): array
     {
         $url = (string) ($item['url'] ?? '');
@@ -193,6 +211,15 @@ final class SchemaFactoryService
         ];
     }
 
+    /**
+     * @param array $item
+     * @param array $seo
+     * @param string $type
+     * @return array
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
     private function articleLike(array $item, array $seo, string $type): array
     {
         $url = (string) ($item['url'] ?? '');

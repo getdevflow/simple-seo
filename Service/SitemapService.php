@@ -7,6 +7,7 @@ namespace Plugin\SimpleSeo\Service;
 use Codefy\QueryBus\UnresolvableQueryHandlerException;
 use Plugin\SimpleSeo\Support\AttributeStore;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
+use Plugin\SimpleSeo\Support\VideoSitemapEntry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -25,12 +26,14 @@ use function array_map;
 use function array_merge;
 use function array_unshift;
 use function array_values;
+use function Codefy\Framework\Helpers\logger;
 use function date;
 use function gmdate;
 use function in_array;
 use function is_array;
 use function preg_split;
 use function Qubus\Security\Helpers\esc_html;
+use function Qubus\Security\Helpers\esc_html__;
 use function Qubus\Security\Helpers\esc_url;
 use function Qubus\Security\Helpers\purify_html;
 use function rtrim;
@@ -56,25 +59,32 @@ final readonly class SitemapService
     public function index(): string
     {
         $base = rtrim($this->baseUrl(), '/');
+        $settings = SimpleSeoSettings::all();
         $maps = [];
 
-        if (SimpleSeoSettings::get('enable_sitemap_content', false)) {
-            $entry = $this->sitemapEntry('sitemap-content.xml', $this->content());
+        if ($this->settingEnabled($settings, 'enable_sitemap_content')) {
+            $entry = $this->sitemapEntry(
+                'sitemap-content.xml',
+                $this->content()
+            );
 
             if ($entry !== null) {
                 $maps[] = $entry;
             }
         }
 
-        if (SimpleSeoSettings::get('enable_sitemap_products', false)) {
-            $entry = $this->sitemapEntry('sitemap-products.xml', $this->products());
+        if ($this->settingEnabled($settings, 'enable_sitemap_products')) {
+            $entry = $this->sitemapEntry(
+                'sitemap-products.xml',
+                $this->products()
+            );
 
             if ($entry !== null) {
                 $maps[] = $entry;
             }
         }
 
-        if (SimpleSeoSettings::get('enable_sitemap_pages', false)) {
+        if ($this->settingEnabled($settings, 'enable_sitemap_pages')) {
             $entry = $this->sitemapEntry(
                 'sitemap-pages.xml',
                 array_merge(
@@ -88,23 +98,15 @@ final readonly class SitemapService
             }
         }
 
-        if (SimpleSeoSettings::get('enable_sitemap_news', false)) {
+        if ($this->settingEnabled($settings, 'enable_sitemap_news')) {
             $rows = array_filter(
                 $this->content(),
-                fn($r) => !empty($r['seo']['news_enabled'])
+                static fn(array $row): bool => !empty($row['seo']['news_enabled'])
             );
 
-            $entry = $this->sitemapEntry('sitemap-news.xml', $rows);
-
-            if ($entry !== null) {
-                $maps[] = $entry;
-            }
-        }
-
-        if (SimpleSeoSettings::get('enable_sitemap_images', false)) {
             $entry = $this->sitemapEntry(
-                filename: 'sitemap-images.xml',
-                rows: $this->imageRows()
+                'sitemap-news.xml',
+                $rows
             );
 
             if ($entry !== null) {
@@ -112,10 +114,10 @@ final readonly class SitemapService
             }
         }
 
-        if (SimpleSeoSettings::get('enable_sitemap_videos', false)) {
+        if ($this->settingEnabled($settings, 'enable_sitemap_images')) {
             $entry = $this->sitemapEntry(
-                filename: 'sitemap-videos.xml',
-                rows: $this->videoRows()
+                'sitemap-images.xml',
+                $this->imageRows()
             );
 
             if ($entry !== null) {
@@ -123,17 +125,34 @@ final readonly class SitemapService
             }
         }
 
-        if (SimpleSeoSettings::get('enable_sitemap_content_types', false)) {
+        if ($this->settingEnabled($settings, 'enable_sitemap_videos')) {
+            $entry = $this->sitemapEntry(
+                'sitemap-videos.xml',
+                $this->videoRows()
+            );
+
+            if ($entry !== null) {
+                $maps[] = $entry;
+            }
+        }
+
+        if (
+            $this->settingEnabled(
+                $settings,
+                'enable_sitemap_content_types'
+            )
+        ) {
             foreach (get_all_content_types() as $type) {
-                $slug = $type['slug'] ?? '';
+                $slug = trim((string) ($type['slug'] ?? ''));
 
                 if ($slug === '') {
                     continue;
                 }
 
-                $rows = $this->rows('content', $slug);
-
-                $entry = $this->sitemapEntry('sitemap-' . $slug . '.xml', $rows);
+                $entry = $this->sitemapEntry(
+                    'sitemap-' . $slug . '.xml',
+                    $this->rows('content', $slug)
+                );
 
                 if ($entry !== null) {
                     $maps[] = $entry;
@@ -149,15 +168,22 @@ final readonly class SitemapService
         $xml->openMemory();
         $xml->startDocument('1.0', 'UTF-8');
         $this->stylesheetPi($xml);
+
         $xml->startElement('sitemapindex');
-        $xml->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+        $xml->writeAttribute(
+            'xmlns',
+            'http://www.sitemaps.org/schemas/sitemap/0.9'
+        );
+
         foreach ($maps as $map) {
             $xml->startElement('sitemap');
             $xml->writeElement('loc', $base . '/' . $map);
             $xml->writeElement('lastmod', gmdate('c'));
             $xml->endElement();
         }
+
         $xml->endElement();
+
         return $xml->outputMemory();
     }
 
@@ -177,8 +203,8 @@ final readonly class SitemapService
         }
 
         if (
-                ($kind === 'product' || $kind === 'products')
-                && !SimpleSeoSettings::get('enable_sitemap_products', false)
+            ($kind === 'product' || $kind === 'products')
+            && !SimpleSeoSettings::get('enable_sitemap_products', false)
         ) {
             return '';
         }
@@ -188,7 +214,7 @@ final readonly class SitemapService
             default => $this->content(),
         };
 
-        return $this->urlset($rows, includeImages: false, includeVideos: false, news: false);
+        return $this->urlset($rows, includeImages: false, news: false);
     }
 
     /**
@@ -211,7 +237,6 @@ final readonly class SitemapService
                 fn($r) => !empty($r['seo']['news_enabled'])
             ),
             false,
-            false,
             true
         );
     }
@@ -233,7 +258,6 @@ final readonly class SitemapService
         return $this->urlset(
             rows: $this->imageRows(),
             includeImages: true,
-            includeVideos: false,
             news: false
         );
     }
@@ -248,15 +272,17 @@ final readonly class SitemapService
      */
     public function videos(): string
     {
-        if (!SimpleSeoSettings::get('enable_sitemap_videos', false)) {
+        if (
+            !SimpleSeoSettings::get(
+                'enable_sitemap_videos',
+                false
+            )
+        ) {
             return '';
         }
 
-        return $this->urlset(
-            rows: $this->videoRows(),
-            includeImages: false,
-            includeVideos: true,
-            news: false
+        return $this->videoUrlset(
+            $this->videoRows()
         );
     }
 
@@ -278,7 +304,6 @@ final readonly class SitemapService
         return $this->urlset(
             $this->rows('content', $contentType),
             false,
-            false,
             false
         );
     }
@@ -286,14 +311,13 @@ final readonly class SitemapService
     /**
      * @param array $rows
      * @param bool $includeImages
-     * @param bool $includeVideos
      * @param bool $news
      * @return string
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
      */
-    private function urlset(array $rows, bool $includeImages, bool $includeVideos, bool $news): string
+    private function urlset(array $rows, bool $includeImages, bool $news): string
     {
         $written = 0;
 
@@ -305,9 +329,6 @@ final readonly class SitemapService
         $xml->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
         if ($includeImages) {
             $xml->writeAttribute('xmlns:image', 'http://www.google.com/schemas/sitemap-image/1.1');
-        }
-        if ($includeVideos) {
-            $xml->writeAttribute('xmlns:video', 'http://www.google.com/schemas/sitemap-video/1.1');
         }
         if ($news) {
             $xml->writeAttribute('xmlns:news', 'http://www.google.com/schemas/sitemap-news/0.9');
@@ -364,19 +385,6 @@ final readonly class SitemapService
                     $xml->endElement();
                 }
             }
-            if ($includeVideos) {
-                foreach ($this->lines($seo['video_urls'] ?? '') as $video) {
-                    $xml->startElement('video:video');
-                    $xml->writeElement(
-                        'video:thumbnail_loc',
-                        $row['image'] ?: SimpleSeoSettings::get('default_social_image', '')
-                    );
-                    $xml->writeElement('video:title', $row['title']);
-                    $xml->writeElement('video:description', $row['description'] ?: $row['title']);
-                    $xml->writeElement('video:content_loc', $video);
-                    $xml->endElement();
-                }
-            }
             if ($news) {
                 $xml->startElement('news:news');
                 $xml->startElement('news:publication');
@@ -400,6 +408,70 @@ final readonly class SitemapService
             return '';
         }
         return $xml->outputMemory();
+    }
+
+    /**
+     * @param array<string, mixed> $seo
+     * @return list<string>
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
+     */
+    public static function validateVideos(array $seo): array
+    {
+        $videos = $seo['videos'] ?? [];
+
+        if (!is_array($videos)) {
+            return [];
+        }
+
+        $errors = [];
+
+        foreach (array_values($videos) as $index => $video) {
+            if (!is_array($video)) {
+                $errors[] = sprintf(
+                    esc_html__('Video %d has invalid data.', 'simple-seo'),
+                    $index + 1
+                );
+
+                continue;
+            }
+
+            if (self::videoRowIsEmpty($video)) {
+                continue;
+            }
+
+            $entry = VideoSitemapEntry::fromArray($video);
+
+            if (!$entry->isValid()) {
+                $errors[] = sprintf(
+                    esc_html__(
+                        'Video %d requires a valid source URL, thumbnail URL, title, and description.',
+                        'simple-seo'
+                    ),
+                    $index + 1
+                );
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * @param array<string, mixed> $video
+     */
+    private static function videoRowIsEmpty(array $video): bool
+    {
+        return array_all([
+            'content_url',
+            'player_url',
+            'thumbnail_url',
+            'title',
+            'description',
+            'duration',
+            'publication_date',
+        ], fn($field) => trim((string)($video[$field] ?? '')) === '');
     }
 
     /**
@@ -433,7 +505,6 @@ final readonly class SitemapService
                 $this->rows('page'),
                 $this->routeRows()
             ),
-            false,
             false,
             false
         );
@@ -699,15 +770,48 @@ XSL;
 
         try {
             if ($kind === 'content') {
-                $content = get_all_content_with_filters(contentTypeSlug: $contentType, status: 'published');
-                $items = sort_list($content, 'published', 'DESC');
+                $content = get_all_content_with_filters(
+                    contentTypeSlug: $contentType,
+                    status: 'published'
+                );
+
+                if (!is_array($content)) {
+                    return [];
+                }
+
+                $items = sort_list(
+                    $content,
+                    'published',
+                    'DESC'
+                );
             }
 
             if ($kind === 'product') {
-                $product = get_all_products_with_filters(status: 'published');
-                $items = sort_list($product, 'published', 'DESC');
+                $products = get_all_products_with_filters(
+                    status: 'published'
+                );
+
+                if (!is_array($products)) {
+                    return [];
+                }
+
+                $items = sort_list(
+                    $products,
+                    'published',
+                    'DESC'
+                );
             }
-        } catch (\Throwable) {
+        } catch (\Throwable $exception) {
+            logger(
+                'error',
+                esc_html__('Simple SEO failed to load sitemap rows.', 'simple-seo'),
+                [
+                    'kind' => $kind,
+                    'content_type' => $contentType,
+                    'message' => $exception->getMessage(),
+                ]
+            );
+
             return [];
         }
         $out = [];
@@ -730,6 +834,10 @@ XSL;
         return $out;
     }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
     private function routeRows(): array
     {
         $table = $this->dfdb->prefix . 'seo_route';
@@ -878,10 +986,34 @@ XSL;
         $settings = SimpleSeoSettings::all();
 
         return
-            !empty($settings['enable_sitemap_content'])
-            || !empty($settings['enable_sitemap_product'])
-            || !empty($settings['enable_sitemap_page'])
-            || !empty($settings['enable_sitemap_content_types']);
+            $this->settingEnabled(
+                $settings,
+                'enable_sitemap_content'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_products'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_pages'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_news'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_images'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_videos'
+            )
+            || $this->settingEnabled(
+                $settings,
+                'enable_sitemap_content_types'
+            );
     }
 
     /**
@@ -944,7 +1076,7 @@ XSL;
     }
 
     /**
-     * @return array
+     * @return list<array<string, mixed>>
      * @throws ContainerExceptionInterface
      * @throws Exception
      * @throws NotFoundExceptionInterface
@@ -961,10 +1093,12 @@ XSL;
         return array_values(
             array_filter(
                 $rows,
-                static function (array $row): bool {
-                    $seo = $row['seo'] ?? [];
+                function (array $row): bool {
+                    if (!$this->rowIsIndexable($row)) {
+                        return false;
+                    }
 
-                    return !empty($seo['video_urls']);
+                    return $this->validVideoEntries($row) !== [];
                 }
             )
         );
@@ -991,6 +1125,228 @@ XSL;
         $xml->writePi(
             'xml-stylesheet',
             'type="text/xsl" href="' . rtrim(site_url(), '/') . '/sitemap.xsl"'
+        );
+    }
+
+    /**
+     * @param list<array<string, mixed>> $rows
+     * @return string
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
+    private function videoUrlset(array $rows): string
+    {
+        $written = 0;
+
+        $xml = new XMLWriter();
+        $xml->openMemory();
+        $xml->startDocument('1.0', 'UTF-8');
+        $this->stylesheetPi($xml);
+
+        $xml->startElement('urlset');
+        $xml->writeAttribute(
+            'xmlns',
+            'http://www.sitemaps.org/schemas/sitemap/0.9'
+        );
+        $xml->writeAttribute(
+            'xmlns:video',
+            'http://www.google.com/schemas/sitemap-video/1.1'
+        );
+
+        foreach ($rows as $row) {
+            if (!$this->rowIsIndexable($row)) {
+                continue;
+            }
+
+            $videos = $this->validVideoEntries($row);
+
+            if ($videos === []) {
+                continue;
+            }
+
+            $pageUrl = trim(
+                (string) ($row['url'] ?? '')
+            );
+
+            if (
+                filter_var(
+                    $pageUrl,
+                    FILTER_VALIDATE_URL
+                ) === false
+            ) {
+                continue;
+            }
+
+            $xml->startElement('url');
+            $xml->writeElement(
+                'loc',
+                $pageUrl
+            );
+
+            if (!empty($row['updated_at'])) {
+                $timestamp = strtotime(
+                    (string) $row['updated_at']
+                );
+
+                if ($timestamp !== false) {
+                    $xml->writeElement(
+                        'lastmod',
+                        date('c', $timestamp)
+                    );
+                }
+            }
+
+            foreach ($videos as $video) {
+                $this->writeVideoEntry(
+                    $xml,
+                    $video
+                );
+            }
+
+            $xml->endElement();
+            $written++;
+        }
+
+        $xml->endElement();
+
+        if ($written === 0) {
+            return '';
+        }
+
+        return $xml->outputMemory();
+    }
+
+    private function writeVideoEntry(XMLWriter $xml, VideoSitemapEntry $video): void
+    {
+        $xml->startElement('video:video');
+
+        $xml->writeElement(
+            'video:thumbnail_loc',
+            $video->thumbnailUrl
+        );
+
+        $xml->writeElement(
+            'video:title',
+            $video->title
+        );
+
+        $xml->writeElement(
+            'video:description',
+            $video->description
+        );
+
+        if ($video->sourceType === 'player') {
+            $xml->startElement('video:player_loc');
+            $xml->writeAttribute(
+                'allow_embed',
+                'yes'
+            );
+            $xml->text($video->playerUrl);
+            $xml->endElement();
+        } else {
+            $xml->writeElement(
+                'video:content_loc',
+                $video->contentUrl
+            );
+        }
+
+        if ($video->duration !== null) {
+            $xml->writeElement(
+                'video:duration',
+                (string) $video->duration
+            );
+        }
+
+        if ($video->publicationDate !== null) {
+            $xml->writeElement(
+                'video:publication_date',
+                $video->publicationDate
+            );
+        }
+
+        $xml->endElement();
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     * @return list<VideoSitemapEntry>
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
+     */
+    private function validVideoEntries(array $row): array
+    {
+        $seo = $row['seo'] ?? [];
+
+        if (!is_array($seo)) {
+            return [];
+        }
+
+        $storedVideos = $seo['videos'] ?? [];
+
+        if (!is_array($storedVideos)) {
+            return [];
+        }
+
+        $videos = [];
+
+        foreach ($storedVideos as $storedVideo) {
+            if (!is_array($storedVideo)) {
+                continue;
+            }
+
+            $video = VideoSitemapEntry::fromArray(
+                $storedVideo
+            );
+
+            if (!$video->isValid()) {
+                continue;
+            }
+
+            $videos[] = $video;
+        }
+
+        return $videos;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    private function rowIsIndexable(array $row): bool
+    {
+        $seo = $row['seo'] ?? [];
+
+        if (!is_array($seo)) {
+            return false;
+        }
+
+        $sitemapInclude = $seo['sitemap_include'] ?? '1';
+        $robotsIndex = $seo['robots_index'] ?? '1';
+
+        return !in_array(
+            $sitemapInclude,
+            ['0', 0, false],
+            true
+        ) && !in_array(
+            $robotsIndex,
+            ['0', 0, false],
+            true
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $settings
+     */
+    private function settingEnabled(
+        array $settings,
+        string $key
+    ): bool {
+        return in_array(
+            $settings[$key] ?? false,
+            [true, 1, '1', 'true', 'on', 'yes'],
+            true
         );
     }
 }

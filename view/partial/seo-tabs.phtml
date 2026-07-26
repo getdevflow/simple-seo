@@ -2,12 +2,15 @@
 
 use Plugin\SimpleSeo\Support\SimpleSeoHelper;
 
+use Qubus\Support\DateTime\QubusDateTimeImmutable;
+
 use function App\Shared\Helpers\admin_url;
 use function App\Shared\Helpers\help_block;
 use function App\Shared\Helpers\site_url;
 use function Qubus\Security\Helpers\esc_attr;
 use function Qubus\Security\Helpers\esc_html;
 use function Qubus\Security\Helpers\esc_html__;
+use function Qubus\Security\Helpers\esc_url;
 use function Qubus\Security\Helpers\t__;
 
 $uid = uniqid('seo_', false);
@@ -62,65 +65,14 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
 ?>
 
 <script>
-    window.DEVFLOW_SITE_URL = <?= json_encode(rtrim(site_url(), '/') . '/'); ?>;
+    window.DEVFLOW_SITE_URL = <?= json_encode(
+            rtrim(site_url(), '/') . '/'
+    ); ?>;
+
+    window.DEVFLOW_SEO_MEDIA_CONNECTOR = <?= json_encode(
+            admin_url('connector')
+    ); ?>;
 </script>
-
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<link href="vendor/studio-42/elfinder/css/elfinder.full.css" type="text/css" rel="stylesheet" />
-<link href="vendor/studio-42/elfinder/css/theme.css" type="text/css" rel="stylesheet" />
-<script src="vendor/studio-42/elfinder/js/elfinder.full.js" type="text/javascript"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" type="text/javascript"></script>
-
-<script>
-    (function ($) {
-        $(document).on('click', '.js-seo-elfinder', function (e) {
-            e.preventDefault();
-
-            var target = $($(this).data('target'));
-            var finder = $('<div class="seo-elfinder-dialog"></div>');
-
-            finder.dialog({
-                title: 'Select Image',
-                modal: true,
-                width: 920,
-                height: 550,
-                closeOnEscape: true,
-                destroyOnClose: true,
-                close: function () {
-                    $(this).dialog('destroy').remove();
-                },
-                open: function () {
-                    finder.elfinder({
-                        url: '<?=admin_url('connector');?>',
-                        lang: 'en',
-                        commandsOptions: {
-                            getfile: {
-                                onlyURL: false,
-                                multiple: false,
-                                folders: false,
-                                oncomplete: "destroy"
-                            }
-                        },
-                        getFileCallback: function (file, fm) {
-                            if ($.isArray(file)) {
-                                file = file[0];
-                            }
-
-                            var url = file && file.url ? file.url : '';
-
-                            if (url !== '') {
-                                target.val(url).trigger('change');
-                            }
-
-                            finder.dialog('close');
-                        }
-                    });
-                }
-            });
-        });
-    })(jQuery);
-</script>
-
 
 <div class="box box-primary devflow-seo-box" data-devflow-seo-editor="1">
     <div class="box-header with-border">
@@ -205,7 +157,7 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="<?= $idFacebook; ?>"
+                                        id="<?= esc_attr($idFacebook); ?>"
                                         name="<?=$seoFieldPrefix;?>[facebook_image]"
                                         placeholder="https://example.com/facebook-image.png"
                                         value="<?= esc_attr($seo['facebook_image'] ?? ''); ?>"
@@ -215,7 +167,7 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
                                         <button
                                             type="button"
                                             class="btn btn-default js-seo-elfinder"
-                                            data-target="#<?= $idFacebook; ?>"
+                                            data-target="#<?= esc_attr($idFacebook); ?>"
                                         >
                                             <?=esc_html__('Browse', 'simple-seo');?>
                                         </button>
@@ -261,7 +213,7 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="<?= $idTwitter; ?>"
+                                        id="<?= esc_attr($idTwitter); ?>"
                                         name="<?=$seoFieldPrefix;?>[twitter_image]"
                                         placeholder="https://example.com/x-image.png"
                                         value="<?= esc_attr($seo['twitter_image'] ?? ''); ?>"
@@ -271,7 +223,7 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
                                         <button
                                             type="button"
                                             class="btn btn-default js-seo-elfinder"
-                                            data-target="#<?= $idTwitter; ?>"
+                                            data-target="#<?= esc_attr($idTwitter); ?>"
                                         >
                                             <?=esc_html__('Browse', 'simple-seo');?>
                                         </button>
@@ -323,7 +275,621 @@ $seoFieldPrefix = $fieldPrefix === 'seo'
                     <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[news_enabled]" value="1" <?= !empty($seo['news_enabled']) ? 'checked' : '' ?>> <?=esc_html__('Include in news sitemap', 'simple-seo');?></label></div>
                     <div class="form-group"><label><?=esc_html__('News keywords', 'simple-seo');?></label><input class="form-control" name="<?=$seoFieldPrefix;?>[news_keywords]" value="<?= SimpleSeoHelper::text($seo['news_keywords'] ?? '') ?>"></div>
                     <div class="form-group"><label><?=esc_html__('Image URLs, one per line', 'simple-seo');?></label><textarea class="form-control" name="<?=$seoFieldPrefix;?>[image_urls]" rows="3"><?= SimpleSeoHelper::text($seo['image_urls'] ?? '') ?></textarea></div>
-                    <div class="form-group"><label><?=esc_html__('Video URLs, one per line', 'simple-seo');?></label><textarea class="form-control" name="<?=$seoFieldPrefix;?>[video_urls]" rows="3"><?= SimpleSeoHelper::text($seo['video_urls'] ?? '') ?></textarea></div>
+                    <?php
+                    /** @var array<string, mixed> $seo */
+
+                    $videos = $seo['videos'] ?? [];
+
+                    if (!is_array($videos)) {
+                        $videos = [];
+                    }
+                    ?>
+
+                    <div class="form-group">
+                        <div class="clearfix">
+                            <label class="pull-left">
+                                <?= esc_html__(
+                                    'Video Sitemap Entries',
+                                    'simple-seo'
+                                ); ?>
+                            </label>
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-primary pull-right"
+                                data-seo-add-video
+                            >
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <?= esc_html__(
+                                    'Add Video',
+                                    'simple-seo'
+                                ); ?>
+                            </button>
+                        </div>
+
+                        <p class="help-block">
+                            <?= esc_html__(
+                                'Add one entry for each video. Every video requires its own thumbnail, title, description, and content or player URL.',
+                                'simple-seo'
+                            ); ?>
+                        </p>
+
+                        <div
+                            class="seo-video-list"
+                            data-seo-video-list
+                            data-next-index="<?= esc_attr((string) count($videos)); ?>"
+                        >
+                            <?php foreach ($videos as $index => $video) : ?>
+                                <?php
+                                $video = is_array($video) ? $video : [];
+
+                                $sourceType = (string) (
+                                    $video['source_type'] ?? 'content'
+                                );
+
+                                $publicationDate = trim(
+                                    (string) ($video['publication_date'] ?? '')
+                                );
+
+                                if ($publicationDate !== '') {
+                                    try {
+                                        $publicationDate = new QubusDateTimeImmutable(
+                                                $publicationDate
+                                        )->format('Y-m-d\TH:i');
+                                    } catch (Throwable) {
+                                        $publicationDate = '';
+                                    }
+                                }
+
+                                $videoPrefix = sprintf(
+                                    '%s[videos][%s]',
+                                    $seoFieldPrefix,
+                                    (string) $index
+                                );
+
+                                $thumbnailFieldId = sprintf(
+                                    '%s_video_%s_thumbnail',
+                                    $uid,
+                                    (string) $index
+                                );
+                                ?>
+
+                                <div
+                                    class="panel panel-default seo-video-entry"
+                                    data-seo-video-entry
+                                >
+                                    <div class="panel-heading clearfix">
+                                        <strong
+                                            class="pull-left"
+                                            data-seo-video-label
+                                        >
+                                            <?= esc_html(
+                                                sprintf(
+                                                    'Video %d',
+                                                    $index + 1
+                                                )
+                                            ); ?>
+                                        </strong>
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-xs btn-danger pull-right"
+                                            data-seo-remove-video
+                                        >
+                                            <i
+                                                class="fa fa-trash"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <?= esc_html__(
+                                                'Remove',
+                                                'simple-seo'
+                                            ); ?>
+                                        </button>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label>
+                                                <?= esc_html__(
+                                                    'Video Source Type',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </label>
+
+                                            <select
+                                                class="form-control"
+                                                name="<?= esc_attr($videoPrefix); ?>[source_type]"
+                                                data-seo-video-source-type
+                                            >
+                                                <option
+                                                    value="content"
+                                                    <?= $sourceType === 'content'
+                                                        ? 'selected'
+                                                        : ''; ?>
+                                                >
+                                                    <?= esc_html__(
+                                                        'Direct video file',
+                                                        'simple-seo'
+                                                    ); ?>
+                                                </option>
+
+                                                <option
+                                                    value="player"
+                                                    <?= $sourceType === 'player'
+                                                        ? 'selected'
+                                                        : ''; ?>
+                                                >
+                                                    <?= esc_html__(
+                                                        'Embedded video player',
+                                                        'simple-seo'
+                                                    ); ?>
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div
+                                            class="form-group"
+                                            data-seo-content-url-field
+                                            <?= $sourceType === 'player'
+                                                ? 'hidden'
+                                                : ''; ?>
+                                        >
+                                            <label>
+                                                <?= esc_html__(
+                                                    'Video File URL',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </label>
+
+                                            <input
+                                                type="url"
+                                                class="form-control"
+                                                name="<?= esc_attr($videoPrefix); ?>[content_url]"
+                                                value="<?= esc_attr(
+                                                    (string) (
+                                                        $video['content_url'] ?? ''
+                                                    )
+                                                ); ?>"
+                                                placeholder="https://example.com/videos/video.mp4"
+                                            >
+
+                                            <p class="help-block">
+                                                <?= esc_html__(
+                                                    'Use this for a directly accessible video file such as MP4 or WebM.',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            class="form-group"
+                                            data-seo-player-url-field
+                                            <?= $sourceType !== 'player'
+                                                ? 'hidden'
+                                                : ''; ?>
+                                        >
+                                            <label>
+                                                <?= esc_html__(
+                                                    'Player URL',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </label>
+
+                                            <input
+                                                type="url"
+                                                class="form-control"
+                                                name="<?= esc_attr($videoPrefix); ?>[player_url]"
+                                                value="<?= esc_attr(
+                                                    (string) (
+                                                        $video['player_url'] ?? ''
+                                                    )
+                                                ); ?>"
+                                                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                                            >
+
+                                            <p class="help-block">
+                                                <?= esc_html__(
+                                                    'Use the embeddable player URL rather than the normal watch-page URL.',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </p>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="<?= esc_attr($thumbnailFieldId); ?>">
+                                                <?= esc_html__(
+                                                    'Thumbnail URL',
+                                                    'simple-seo'
+                                                ); ?>
+                                                <span class="text-danger">*</span>
+                                            </label>
+
+                                            <div class="input-group">
+                                                <input
+                                                    type="url"
+                                                    class="form-control"
+                                                    id="<?= esc_attr($thumbnailFieldId); ?>"
+                                                    name="<?= esc_attr($videoPrefix); ?>[thumbnail_url]"
+                                                    value="<?= esc_attr(
+                                                        (string) (
+                                                            $video['thumbnail_url'] ?? ''
+                                                        )
+                                                    ); ?>"
+                                                    placeholder="https://example.com/images/video-thumbnail.jpg"
+                                                    required
+                                                >
+
+                                                <span class="input-group-btn">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-default js-seo-elfinder"
+                                                        data-target="#<?= esc_attr($thumbnailFieldId); ?>"
+                                                    >
+                                                        <i
+                                                            class="fa fa-folder-open"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                        <?= esc_html__(
+                                                            'Browse',
+                                                            'simple-seo'
+                                                        ); ?>
+                                                    </button>
+                                                </span>
+                                            </div>
+
+                                            <div
+                                                class="seo-video-thumbnail-preview"
+                                                data-seo-video-thumbnail-preview
+                                            >
+                                                <?php if (
+                                                        !empty($video['thumbnail_url'])
+                                                ) : ?>
+                                                    <img
+                                                        src="<?= esc_url(
+                                                            (string) $video['thumbnail_url']
+                                                        ); ?>"
+                                                        alt=""
+                                                        style="
+                                                            display:block;
+                                                            max-width:220px;
+                                                            height:auto;
+                                                            margin-top:10px;
+                                                        "
+                                                    >
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <p class="help-block">
+                                                <?= esc_html__(
+                                                    'Select an image from the media library or enter its URL manually.',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </p>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>
+                                                <?= esc_html__(
+                                                    'Video Title',
+                                                    'simple-seo'
+                                                ); ?>
+                                                <span class="text-danger">*</span>
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="<?= esc_attr($videoPrefix); ?>[title]"
+                                                value="<?= esc_attr(
+                                                    (string) (
+                                                        $video['title'] ?? ''
+                                                    )
+                                                ); ?>"
+                                                maxlength="100"
+                                                required
+                                            >
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>
+                                                <?= esc_html__(
+                                                    'Video Description',
+                                                    'simple-seo'
+                                                ); ?>
+                                                <span class="text-danger">*</span>
+                                            </label>
+
+                                            <textarea
+                                                class="form-control"
+                                                name="<?= esc_attr($videoPrefix); ?>[description]"
+                                                rows="3"
+                                                maxlength="2048"
+                                                required
+                                            ><?= esc_html(
+                                                (string) (
+                                                    $video['description'] ?? ''
+                                                )
+                                            ); ?></textarea>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <?= esc_html__(
+                                                            'Duration in Seconds',
+                                                            'simple-seo'
+                                                        ); ?>
+                                                    </label>
+
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        name="<?= esc_attr($videoPrefix); ?>[duration]"
+                                                        value="<?= esc_attr(
+                                                            (string) (
+                                                                $video['duration'] ?? ''
+                                                            )
+                                                        ); ?>"
+                                                        min="1"
+                                                        max="28800"
+                                                    >
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <?= esc_html__(
+                                                            'Publication Date',
+                                                            'simple-seo'
+                                                        ); ?>
+                                                    </label>
+
+                                                    <input
+                                                        type="datetime-local"
+                                                        class="form-control"
+                                                        name="<?= esc_attr($videoPrefix); ?>[publication_date]"
+                                                        value="<?= esc_attr($publicationDate); ?>"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <template data-seo-video-template>
+                            <div
+                                class="panel panel-default seo-video-entry"
+                                data-seo-video-entry
+                            >
+                                <div class="panel-heading clearfix">
+                                    <strong
+                                        class="pull-left"
+                                        data-seo-video-label
+                                    >
+                                        <?= esc_html__(
+                                            'Video',
+                                            'simple-seo'
+                                        ); ?>
+                                    </strong>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-xs btn-danger pull-right"
+                                        data-seo-remove-video
+                                    >
+                                        <i
+                                            class="fa fa-trash"
+                                            aria-hidden="true"
+                                        ></i>
+                                        <?= esc_html__(
+                                            'Remove',
+                                            'simple-seo'
+                                        ); ?>
+                                    </button>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>
+                                            <?= esc_html__(
+                                                'Video Source Type',
+                                                'simple-seo'
+                                            ); ?>
+                                        </label>
+
+                                        <select
+                                            class="form-control"
+                                            name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][source_type]"
+                                            data-seo-video-source-type
+                                        >
+                                            <option value="content">
+                                                <?= esc_html__(
+                                                    'Direct video file',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </option>
+
+                                            <option value="player">
+                                                <?= esc_html__(
+                                                    'Embedded video player',
+                                                    'simple-seo'
+                                                ); ?>
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div
+                                        class="form-group"
+                                        data-seo-content-url-field
+                                    >
+                                        <label>
+                                            <?= esc_html__(
+                                                'Video File URL',
+                                                'simple-seo'
+                                            ); ?>
+                                        </label>
+
+                                        <input
+                                            type="url"
+                                            class="form-control"
+                                            name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][content_url]"
+                                            placeholder="https://example.com/videos/video.mp4"
+                                        >
+                                    </div>
+
+                                    <div
+                                            class="form-group"
+                                            data-seo-player-url-field
+                                            hidden
+                                    >
+                                        <label>
+                                            <?= esc_html__(
+                                                'Player URL',
+                                                'simple-seo'
+                                            ); ?>
+                                        </label>
+
+                                        <input
+                                            type="url"
+                                            class="form-control"
+                                            name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][player_url]"
+                                            placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                                for="<?= esc_attr($uid); ?>_video___INDEX___thumbnail"
+                                        >
+                                            <?= esc_html__(
+                                                'Thumbnail URL',
+                                                'simple-seo'
+                                            ); ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <input
+                                                type="url"
+                                                class="form-control"
+                                                id="<?= esc_attr($uid); ?>_video___INDEX___thumbnail"
+                                                name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][thumbnail_url]"
+                                                placeholder="https://example.com/images/video-thumbnail.jpg"
+                                                required
+                                            >
+
+                                            <span class="input-group-btn">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-default js-seo-elfinder"
+                                                    data-target="#<?= esc_attr($uid); ?>_video___INDEX___thumbnail"
+                                                >
+                                                    <i
+                                                        class="fa fa-folder-open"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    <?= esc_html__(
+                                                        'Browse',
+                                                        'simple-seo'
+                                                    ); ?>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            class="seo-video-thumbnail-preview"
+                                            data-seo-video-thumbnail-preview
+                                        ></div>
+
+                                        <p class="help-block">
+                                            <?= esc_html__(
+                                                    'Select an image from the media library or enter its URL manually.',
+                                                    'simple-seo'
+                                            ); ?>
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            <?= esc_html__(
+                                                'Video Title',
+                                                'simple-seo'
+                                            ); ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][title]"
+                                            maxlength="100"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>
+                                            <?= esc_html__(
+                                                'Video Description',
+                                                'simple-seo'
+                                            ); ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <textarea
+                                            class="form-control"
+                                            name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][description]"
+                                            rows="3"
+                                            maxlength="2048"
+                                            required
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <?= esc_html__(
+                                                        'Duration in Seconds',
+                                                        'simple-seo'
+                                                    ); ?>
+                                                </label>
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][duration]"
+                                                    min="1"
+                                                    max="28800"
+                                                >
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <?= esc_html__(
+                                                        'Publication Date',
+                                                        'simple-seo'
+                                                    ); ?>
+                                                </label>
+
+                                                <input
+                                                    type="datetime-local"
+                                                    class="form-control"
+                                                    name="<?= esc_attr($seoFieldPrefix); ?>[videos][__INDEX__][publication_date]"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
                 <div class="tab-pane" id="seo-redirects">
                     <div class="checkbox"><label><input type="checkbox" name="<?=$seoFieldPrefix;?>[redirect_enabled]" value="1" <?= !empty($seo['redirect_enabled']) ? 'checked' : '' ?>> <?=esc_html__('Enable redirect', 'simple-seo');?></label></div>

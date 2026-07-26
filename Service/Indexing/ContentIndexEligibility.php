@@ -137,9 +137,12 @@ final readonly class ContentIndexEligibility
     }
 
     /**
+     * @param string $contentId
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws Exception
      * @throws NotFoundExceptionInterface
      * @throws ReflectionException
-     * @throws ContainerExceptionInterface
      * @throws TypeException
      */
     private function isAllowedToIndex(string $contentId): bool

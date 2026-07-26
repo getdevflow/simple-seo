@@ -44,14 +44,6 @@
 
     $(document).on('click', '#devflow-seo-run-analysis,#devflow-seo-side-analysis', analyze);
 
-    $(document).on('click', '.seo-elfinder', function () {
-        var target = $(this).data('target');
-        if (window.cms_upload_image) {
-            window.cms_upload_image(target); return; }
-        var url = prompt('Image URL'); if (url) {
-            $(target).val(url); }
-    });
-
     $(document).on('submit', '#devflow-seo-indexing-form', function (e) {
         e.preventDefault();
 
@@ -212,6 +204,211 @@
         }
     );
 
+    $(document)
+        .off('click.simpleSeoMedia', '.js-seo-elfinder')
+        .on(
+            'click.simpleSeoMedia',
+            '.js-seo-elfinder',
+            function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+
+                var targetSelector = String(
+                    $(this).attr('data-target') || ''
+                );
+
+                if (targetSelector === '') {
+                    return;
+                }
+
+                var target = document.querySelector(
+                    targetSelector
+                );
+
+                if (!target) {
+                    return;
+                }
+
+                if (
+                    !window.DevflowMediaPicker
+                    || typeof window.DevflowMediaPicker.open
+                    !== 'function'
+                ) {
+                    return;
+                }
+
+                window.DevflowMediaPicker.open(target);
+            }
+        );
+
     $(updatePreview);
     $(updateCanonicalPreview);
 })(jQuery);
+
+(() => {
+    'use strict';
+
+    const list = document.querySelector('[data-seo-video-list]');
+    const template = document.querySelector(
+        '[data-seo-video-template]'
+    );
+    const addButton = document.querySelector(
+        '[data-seo-add-video]'
+    );
+
+    if (!list || !template || !addButton) {
+        return;
+    }
+
+    const updateSourceFields = (entry) => {
+        const sourceType = entry.querySelector(
+            '[data-seo-video-source-type]'
+        );
+        const contentField = entry.querySelector(
+            '[data-seo-content-url-field]'
+        );
+        const playerField = entry.querySelector(
+            '[data-seo-player-url-field]'
+        );
+        const contentInput = contentField?.querySelector('input');
+        const playerInput = playerField?.querySelector('input');
+
+        if (!sourceType || !contentField || !playerField) {
+            return;
+        }
+
+        const usesPlayer = sourceType.value === 'player';
+
+        contentField.hidden = usesPlayer;
+        playerField.hidden = !usesPlayer;
+
+        if (contentInput) {
+            contentInput.required = !usesPlayer;
+            contentInput.disabled = usesPlayer;
+        }
+
+        if (playerInput) {
+            playerInput.required = usesPlayer;
+            playerInput.disabled = !usesPlayer;
+        }
+    };
+
+    const updateLabels = () => {
+        list.querySelectorAll(
+            '[data-seo-video-entry]'
+        ).forEach((entry, index) => {
+            const label = entry.querySelector(
+                '[data-seo-video-label]'
+            );
+
+            if (label) {
+                label.textContent = `Video ${index + 1}`;
+            }
+        });
+    };
+
+    const initializeEntry = (entry) => {
+        updateSourceFields(entry);
+
+        entry
+            .querySelector('[data-seo-video-source-type]')
+            ?.addEventListener('change', () => {
+                updateSourceFields(entry);
+            });
+
+        entry
+            .querySelector('[data-seo-remove-video]')
+            ?.addEventListener('click', () => {
+                entry.remove();
+                updateLabels();
+            });
+
+        const thumbnailInput = entry.querySelector(
+            'input[name$="[thumbnail_url]"]'
+        );
+
+        if (thumbnailInput) {
+            thumbnailInput.addEventListener(
+                'input',
+                () => updateThumbnailPreview(
+                    thumbnailInput
+                )
+            );
+
+            thumbnailInput.addEventListener(
+                'change',
+                () => updateThumbnailPreview(
+                    thumbnailInput
+                )
+            );
+
+            updateThumbnailPreview(thumbnailInput);
+        }
+    };
+
+    const updateThumbnailPreview = (input) => {
+        const entry = input.closest(
+            '[data-seo-video-entry]'
+        );
+
+        const preview = entry?.querySelector(
+            '[data-seo-video-thumbnail-preview]'
+        );
+
+        if (!preview) {
+            return;
+        }
+
+        const url = input.value.trim();
+
+        preview.replaceChildren();
+
+        if (url === '') {
+            return;
+        }
+
+        const image = document.createElement('img');
+
+        image.src = url;
+        image.alt = '';
+        image.style.display = 'block';
+        image.style.maxWidth = '220px';
+        image.style.height = 'auto';
+        image.style.marginTop = '10px';
+
+        preview.append(image);
+    };
+
+    list.querySelectorAll(
+        '[data-seo-video-entry]'
+    ).forEach(initializeEntry);
+
+    addButton.addEventListener('click', () => {
+        const index = Number.parseInt(
+            list.dataset.nextIndex ?? '0',
+            10
+        );
+
+        const wrapper = document.createElement('div');
+
+        wrapper.innerHTML = template.innerHTML.replaceAll(
+            '__INDEX__',
+            String(index)
+        );
+
+        const entry = wrapper.firstElementChild;
+
+        if (!entry) {
+            return;
+        }
+
+        list.append(entry);
+        list.dataset.nextIndex = String(index + 1);
+
+        initializeEntry(entry);
+        updateLabels();
+    });
+
+    updateLabels();
+})();

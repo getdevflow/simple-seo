@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Plugin\SimpleSeo\Service;
 
+use JsonException;
 use Plugin\SimpleSeo\Repository\SubmissionQueueRepository;
 use Plugin\SimpleSeo\Service\Indexing\ContentIndexEligibility;
 use Plugin\SimpleSeo\Service\Indexing\ContentIndexEligibilityResult;
@@ -184,9 +185,10 @@ final readonly class SubmissionQueueProcessor
      * @param string $url
      * @param string $engine
      * @return void
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Qubus\Exception\Exception
-     * @throws \ReflectionException
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws JsonException
      */
     private function submit(string $url, string $engine): void
     {
@@ -202,9 +204,11 @@ final readonly class SubmissionQueueProcessor
     }
 
     /**
-     * @throws ReflectionException
-     * @throws InvalidArgumentException
+     * @param string $url
      * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws JsonException
+     * @throws ReflectionException
      */
     private function submitToBoth(string $url): void
     {
