@@ -108,7 +108,7 @@ final class SimpleSeoSettings
     public static function get(string $key, mixed $default = null): mixed
     {
         $settings = self::all();
-        return $settings[$key] ?? $default;
+        return $settings[$key] ?: $default;
     }
 
     /**

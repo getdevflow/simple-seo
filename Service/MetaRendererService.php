@@ -19,6 +19,7 @@ use Qubus\Exception\Exception;
 use ReflectionException;
 
 use function App\Shared\Helpers\get_content_by;
+use function App\Shared\Helpers\get_option;
 use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_product_by;
 use function App\Shared\Helpers\home_url;
@@ -101,7 +102,7 @@ final class MetaRendererService
             'kind' => 'home',
             'title' => SimpleSeoSettings::get(
                 'homepage_title',
-                SimpleSeoSettings::get('site_name', '')
+                SimpleSeoSettings::get('site_name', get_option('sitename'))
             ),
             'description' => SimpleSeoSettings::get(
                 'homepage_description',
@@ -254,6 +255,13 @@ final class MetaRendererService
                 'home', 'page', 'route' => 'website',
                 default => 'article',
             })
+            ->og(
+                'site_name',
+                SimpleSeoSettings::get(
+                    'site_name',
+                    get_option('sitename')
+                )
+            )
             ->og('url', esc_url($canonical))
             ->twitter('url', esc_url($canonical));
 
@@ -411,7 +419,7 @@ final class MetaRendererService
         return trim(strtr($template, [
             '{title}' => $title,
             '{separator}' => $settings['separator'] ?? '-',
-            '{site_name}' => $settings['site_name'] ?? '',
+            '{site_name}' => $settings['site_name'] ?: get_option('sitename'),
         ]));
     }
 
