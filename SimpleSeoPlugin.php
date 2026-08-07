@@ -41,6 +41,7 @@ use Qubus\EventDispatcher\ActionFilter\Action;
 use Qubus\EventDispatcher\ActionFilter\Filter;
 use Qubus\Exception\Data\TypeException;
 use Qubus\Exception\Exception;
+use Qubus\Expressive\Schema\AlterTable;
 use Qubus\Expressive\Schema\CreateTable;
 use Qubus\Http\Factories\JsonResponseFactory;
 use Qubus\Http\ServerRequest;
@@ -85,7 +86,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.2.6',
+            'version' => '1.3.0',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -911,8 +912,22 @@ final class SimpleSeoPlugin extends Plugin
                     callback: function (CreateTable $table) {
                         $table->string(name: 'id', length: 36)
                             ->primary();
-                        $table->string(name: 'source_url', length: 191)->notNull()->unique();
+                        $table->string(name: 'source_host', length: 191)
+                            ->index();
+                        $table->string(name: 'source_url', length: 191)
+                            ->notNull()
+                            ->index();
                         $table->string(name: 'target_url', length: 191)->notNull();
+                        $table->string(name: 'match_type', length: 20)
+                            ->notNull()
+                            ->defaultValue('exact')
+                            ->index();
+                        $table->text(name: 'excluded_paths')
+                            ->size('big');
+                        $table->integer(name: 'preserve_query')
+                            ->size('small')
+                            ->notNull()
+                            ->defaultValue(1);
                         $table->integer(name: 'status_code')
                             ->size('small')
                             ->notNull()
@@ -926,9 +941,18 @@ final class SimpleSeoPlugin extends Plugin
                         $table->integer(name: 'enabled')
                             ->size('small')
                             ->notNull()
-                            ->defaultValue(1);
+                            ->defaultValue(1)
+                            ->index();
                         $table->dateTime(name: 'created_at')->notNull();
                         $table->dateTime(name: 'updated_at')->notNull();
+                        $table->unique(
+                            [
+                                'source_host',
+                                'source_url',
+                                'match_type',
+                            ],
+                            $this->dfdb->prefix . 'seoRedirectSourceRule'
+                        );
                     }
                 );
         };
@@ -1001,6 +1025,8 @@ final class SimpleSeoPlugin extends Plugin
                     }
                 );
         };
+
+        $this->migrateRedirectHostRules();
     }
 
     /**
@@ -1023,6 +1049,48 @@ final class SimpleSeoPlugin extends Plugin
 
         if ($this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_submission_queue')) {
             $this->dfdb->schema()->drop(table: $this->dfdb->prefix . 'seo_submission_queue');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function migrateRedirectHostRules(): void
+    {
+        $seoRedirectTable = $this->dfdb->prefix . 'seo_redirect';
+
+        if (!$this->dfdb->schema()->hasTable(table: $seoRedirectTable)) {
+            return;
+        }
+
+        $columns = $this->dfdb->schema()->getColumns(table: $seoRedirectTable);
+        if (!in_array('source_host', $columns)) {
+            $this->dfdb->schema()->alter(table: $seoRedirectTable, callback: function (AlterTable $table): void {
+                $table->string(name: 'source_host', length: 191);
+                $table->string(name: 'match_type', length: 20)
+                    ->notNull()
+                    ->defaultValue('exact');
+                $table->text(name: 'excluded_paths')
+                    ->size(value: 'big');
+                $table->integer(name: 'preserve_query')
+                    ->size(value: 'small')
+                    ->notNull()
+                    ->defaultValue(1);
+
+                $table->dropUnique('source_url');
+                $table->index(columns: 'source_host');
+                $table->index(columns: 'match_type');
+                $table->index(columns: 'source_url');
+
+                $table->unique(
+                    [
+                        'source_host',
+                        'source_url',
+                        'match_type',
+                    ],
+                    $this->dfdb->prefix . 'seoRedirectSourceRule'
+                );
+            });
         }
     }
 }
