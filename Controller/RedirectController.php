@@ -41,15 +41,21 @@ final readonly class RedirectController
 
         $filter = (string) ($query['filter'] ?? 'all');
 
-        $filter = in_array($filter, [
-            'all',
-            'enabled',
-            'disabled',
-            'manual',
-            'content',
-            'product',
-            'page',
-        ], true) ? $filter : 'all';
+        $filter = in_array(
+            $filter,
+            [
+                'all',
+                'enabled',
+                'disabled',
+                'manual',
+                'host',
+                'wildcard',
+                'content',
+                'product',
+                'page',
+            ],
+            true
+        ) ? $filter : 'all';
 
         $search = trim((string) ($query['s'] ?? ''));
 
@@ -86,6 +92,8 @@ final readonly class RedirectController
             'contentCount' => $this->redirects->countByFilter('content'),
             'productCount' => $this->redirects->countByFilter('product'),
             'pageCount' => $this->redirects->countByFilter('page'),
+            'hostCount' => $this->redirects->countByFilter('host'),
+            'wildcardCount' => $this->redirects->countByFilter('wildcard'),
         ]);
     }
 
@@ -94,72 +102,145 @@ final readonly class RedirectController
      * @return ResponseInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
      * @throws TypeException
      * @throws \Qubus\Exception\Exception
-     * @throws ReflectionException
      */
     public function save(ServerRequest $request): ResponseInterface
     {
-        $post = $request->getParsedBody();
+        $body = (array) $request->getParsedBody();
 
-        $id = trim((string) ($post['id'] ?? ''));
-        $source = trim((string) ($post['source_url'] ?? ''));
-        $target = trim((string) ($post['target_url'] ?? ''));
-        $status = (int) ($post['status_code'] ?? 301);
-        $enabled = !empty($post['enabled']);
+        $id = trim((string) ($body['id'] ?? ''));
 
-        if ($this->redirects->wouldCreateLoop($source, $target, $id !== '' ? $id : null)) {
-            Devflow::$PHP->flash->error(
-                t__(
-                    'Redirect loop detected. Source and target cannot redirect back to each other or to themselves.',
-                    'simple-seo'
+        $sourceHost = trim((string) ($body['source_host'] ?? ''));
+
+        $sourceUrl = trim((string) ($body['source_url'] ?? ''));
+
+        $targetUrl = trim((string) ($body['target_url'] ?? ''));
+
+        $excludedPaths = trim((string) ($body['excluded_paths'] ?? ''));
+
+        $statusCode = (int) ($body['status_code'] ?? 301);
+
+        $enabled = isset($body['enabled']) && (string) $body['enabled'] !== '0';
+
+        $preserveQuery = isset($body['preserve_query']) && (string) $body['preserve_query'] !== '0';
+
+        try {
+            $existing = $id !== ''
+                ? $this->redirects->findById($id)
+                : false;
+
+            if ($id !== '' && $existing === false) {
+                Devflow::$PHP->flash->error(
+                    t__(
+                        'The redirect could not be found.',
+                        'simple-seo'
+                    )
+                );
+
+                return redirect(
+                    admin_url('plugin/simple-seo/redirects/')
+                );
+            }
+
+            /*
+             * Entity-generated redirects remain exact, host-less rules.
+             *
+             * Their source/target/status are synchronized back to
+             * content/product/page SEO attributes.
+             */
+            if (
+                $existing !== false
+                && trim((string) ($existing->entity_type ?? '')) !== ''
+            ) {
+                $sourceHost = '';
+                $excludedPaths = '';
+                $preserveQuery = true;
+            }
+
+            if (
+                $this->redirects->sourceExistsForDifferentRedirect(
+                    sourceUrl: $sourceUrl,
+                    ignoreId: $id !== '' ? $id : null,
+                    sourceHost: $sourceHost
                 )
-            );
+            ) {
+                Devflow::$PHP->flash->error(
+                    t__(
+                        'A redirect with the same host and source path already exists.',
+                        'simple-seo'
+                    )
+                );
 
-            return redirect(admin_url('plugin/simple-seo/redirects/'));
-        }
+                return redirect(
+                    admin_url('plugin/simple-seo/redirects/')
+                );
+            }
 
-        if ($this->redirects->sourceExistsForDifferentRedirect($source, $id !== '' ? $id : null)) {
-            Devflow::$PHP->flash->error(
-                t__('A redirect already exists for this source URL.', 'simple-seo')
-            );
+            if (
+                    $this->redirects->wouldCreateLoop(
+                        sourceUrl: $sourceUrl,
+                        targetUrl: $targetUrl,
+                        ignoreId: $id !== '' ? $id : null,
+                        sourceHost: $sourceHost
+                    )
+            ) {
+                Devflow::$PHP->flash->error(
+                    t__(
+                        'This redirect would create a loop.',
+                        'simple-seo'
+                    )
+                );
 
-            return redirect(admin_url('plugin/simple-seo/redirects/'));
-        }
+                return redirect(
+                    admin_url('plugin/simple-seo/redirects/')
+                );
+            }
 
-        if (!in_array($status, [301, 302, 307, 308], true)) {
-            $status = 301;
-        }
-
-        if ($source !== '' && $target !== '') {
             if ($id !== '') {
                 $this->redirects->updateById(
                     id: $id,
-                    sourceUrl: $source,
-                    targetUrl: $target,
-                    statusCode: $status,
-                    enabled: $enabled
+                    sourceUrl: $sourceUrl,
+                    targetUrl: $targetUrl,
+                    statusCode: $statusCode,
+                    enabled: $enabled,
+                    sourceHost: $sourceHost,
+                    excludedPaths: $excludedPaths,
+                    preserveQuery: $preserveQuery
                 );
 
                 $redirect = $this->redirects->findById($id);
 
                 if ($redirect !== false) {
-                    $this->sync->syncEntityFromRedirect($redirect);
+                    $this->sync->syncEntityFromRedirect(
+                        $redirect
+                    );
                 }
             } else {
                 $this->redirects->createOrUpdate(
-                    sourceUrl: $source,
-                    targetUrl: $target,
-                    statusCode: $status,
-                    entityType: null,
-                    entityId: null,
-                    enabled: $enabled
+                    sourceUrl: $sourceUrl,
+                    targetUrl: $targetUrl,
+                    statusCode: $statusCode,
+                    enabled: $enabled,
+                    sourceHost: $sourceHost,
+                    excludedPaths: $excludedPaths,
+                    preserveQuery: $preserveQuery
                 );
             }
+
+            Devflow::$PHP->flash->success(
+                Devflow::$PHP->flash->notice(200)
+            );
+        } catch (\InvalidArgumentException $exception) {
+            Devflow::$PHP->flash->error(
+                $exception->getMessage()
+            );
         }
 
-        Devflow::$PHP->flash->success(Devflow::$PHP->flash->notice(200));
-        return redirect(admin_url('plugin/simple-seo/redirects/'));
+        return redirect(
+            admin_url('plugin/simple-seo/redirects/')
+        );
     }
 
     /**

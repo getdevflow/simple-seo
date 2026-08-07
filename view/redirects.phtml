@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Application\Devflow;
 use App\Shared\Services\Registry;
 
@@ -11,460 +13,336 @@ use function Qubus\Security\Helpers\esc_html__;
 use function Qubus\Security\Helpers\t__;
 
 $this->parent('framework::backend/layouts/admin-layout');
-$this->block('backend', function ($param) {
 
-Registry::getInstance()->{'set'}('screen_parent', 'simple-seo');
-Registry::getInstance()->{'set'}('screen_child', 'simple-seo');
-$r = Registry::getInstance()->get('simple-seo');
+$this->block('backend', function (array $param): void {
+    Registry::getInstance()->{'set'}('screen_parent', 'simple-seo');
+    Registry::getInstance()->{'set'}('screen_child', 'simple-seo');
 
-$baseUrl = admin_url('plugin/simple-seo/redirects/');
-$searchQuery = !empty($param['search']) ? '&s=' . urlencode((string) $param['search']) : '';
-$perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
-?>
+    $r = Registry::getInstance()->get('simple-seo');
+    $domain = (string) ($r['id'] ?? 'simple-seo');
+
+    $baseUrl = admin_url('plugin/simple-seo/redirects/');
+    $filter = (string) ($param['filter'] ?? 'all');
+    $search = (string) ($param['search'] ?? '');
+    $perPage = (int) ($param['perPage'] ?? 25);
+
+    $searchQuery = $search !== '' ? '&s=' . urlencode($search) : '';
+    $perPageQuery = '&per_page=' . urlencode((string) $perPage);
+
+    $filterUrl = static fn(string $filterName): string =>
+        $baseUrl . '?filter=' . urlencode($filterName) . $searchQuery . $perPageQuery;
+    ?>
 
     <div class="content-wrapper">
         <div class="box box-solid">
             <div class="box-header with-border">
                 <i class="fa fa-magnifying-glass"></i>
-                <h3 class="box-title"><?= esc_html__($title ?? 'Redirect Manager', $r['id']); ?></h3>
+                <h3 class="box-title"><?=esc_html__((string) ($param['title'] ?? 'Redirect Manager'), $domain);?></h3>
 
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary" onclick="window.location='<?= admin_url('plugin/simple-seo/search-console/');?>'"><i class="fa fa-chart-line"></i> <?=esc_html__('Search Console', $r['id']);?></button>
-                    <button type="button" class="btn btn-danger" onclick="window.location='<?= admin_url('plugin/simple-seo/');?>'"><i class="fa fa-magnifying-glass"></i> <?=esc_html__('Seo Settings', $r['id']);?></button>
-                    <button type="button" class="btn btn-success" onclick="window.location='<?= admin_url('plugin/simple-seo/indexing/');?>'"><i class="fa fa-indent"></i> <?=esc_html__('Indexing', $r['id']);?></button>
-                    <button type="button" class="btn btn-dark" onclick="window.location='<?= admin_url('plugin/simple-seo/404-monitor/');?>'"><i class="fa fa-binoculars"></i> <?=esc_html__('404 Monitor', $r['id']);?></button>
+                    <button type="button" class="btn btn-primary" onclick="window.location='<?=admin_url('plugin/simple-seo/search-console/');?>'"><i class="fa fa-chart-line"></i> <?=esc_html__('Search Console', $domain);?></button>
+                    <button type="button" class="btn btn-danger" onclick="window.location='<?=admin_url('plugin/simple-seo/');?>'"><i class="fa fa-magnifying-glass"></i> <?=esc_html__('Seo Settings', $domain);?></button>
+                    <button type="button" class="btn btn-success" onclick="window.location='<?=admin_url('plugin/simple-seo/indexing/');?>'"><i class="fa fa-indent"></i> <?=esc_html__('Indexing', $domain);?></button>
+                    <button type="button" class="btn btn-dark" onclick="window.location='<?=admin_url('plugin/simple-seo/404-monitor/');?>'"><i class="fa fa-binoculars"></i> <?=esc_html__('404 Monitor', $domain);?></button>
                 </div>
             </div>
         </div>
 
         <section class="content">
-            <?= Devflow::$PHP->flash->display(); ?>
+            <?=Devflow::$PHP->flash->display();?>
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?=esc_html__('Add Redirect', $r['id']);?></h3>
+                    <h3 class="box-title"><?=esc_html__('Add Redirect', $domain);?></h3>
                 </div>
 
-                <form method="post" action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/save/')); ?>">
+                <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/save/'));?>">
                     <div class="box-body">
+
                         <div class="form-group">
-                            <label><?=esc_html__('Source URL', $r['id']);?></label>
-                            <input
-                                type="text"
-                                name="source_url"
-                                class="form-control"
-                                placeholder="/old-url/"
-                                required
-                            >
+                            <label for="redirect-source-host"><?=esc_html__('Source Host', $domain);?></label>
+                            <input type="text" class="form-control" id="redirect-source-host" name="source_host" value="" placeholder="example.com" autocomplete="off">
+                            <p class="help-block"><?=esc_html__('Optional. Enter only the hostname, without https:// or a path. Leave empty to match every host for this site.', $domain);?></p>
                         </div>
 
                         <div class="form-group">
-                            <label><?=esc_html__('Target URL', $r['id']);?></label>
-                            <input
-                                type="text"
-                                name="target_url"
-                                class="form-control"
-                                placeholder="/new-url/ or https://example.com/new-url/"
-                                required
-                            >
+                            <label for="redirect-source-url"><?=esc_html__('Source Path', $domain);?></label>
+                            <input type="text" class="form-control" id="redirect-source-url" name="source_url" value="" placeholder="/*" required>
+                            <p class="help-block"><?=esc_html__('Use an exact path such as /old-page/ or a wildcard path such as /* or /articles/*.', $domain);?></p>
                         </div>
 
                         <div class="form-group">
-                            <label><?=esc_html__('Status Code', $r['id']);?></label>
+                            <label for="redirect-target-url"><?=esc_html__('Target URL', $domain);?></label>
+                            <input type="text" class="form-control" id="redirect-target-url" name="target_url" value="" placeholder="https://getdevflow.com/blog/{path}/" required>
+                            <p class="help-block"><?=esc_html__('For wildcard redirects, use {path} where the captured path should be inserted.', $domain);?></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="redirect-excluded-paths"><?=esc_html__('Excluded Paths', $domain);?></label>
+                            <textarea class="form-control" id="redirect-excluded-paths" name="excluded_paths" rows="5" placeholder="/admin/*"></textarea>
+                            <p class="help-block"><?=esc_html__('Optional. Enter one exact or wildcard path per line. Matching requests will continue normally without being redirected.', $domain);?></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label><?=esc_html__('Status Code', $domain);?></label>
                             <select name="status_code" class="form-control">
-                                <option value="301"><?=esc_html__('301 Permanent', $r['id']);?></option>
-                                <option value="302"><?=esc_html__('302 Temporary', $r['id']);?></option>
-                                <option value="307"><?=esc_html__('307 Temporary', $r['id']);?></option>
-                                <option value="308"><?=esc_html__('308 Permanent', $r['id']);?></option>
+                                <option value="301"><?=esc_html__('301 Permanent', $domain);?></option>
+                                <option value="302"><?=esc_html__('302 Temporary', $domain);?></option>
+                                <option value="307"><?=esc_html__('307 Temporary', $domain);?></option>
+                                <option value="308"><?=esc_html__('308 Permanent', $domain);?></option>
                             </select>
                         </div>
 
-                        <input type="hidden" name="enabled" value="0">
+                        <div class="checkbox">
+                            <label>
+                                <input type="hidden" name="preserve_query" value="0">
+                                <input type="checkbox" name="preserve_query" value="1" checked>
+                                <?=esc_html__('Preserve the original query string', $domain);?>
+                            </label>
+                        </div>
 
                         <div class="checkbox">
                             <label>
+                                <input type="hidden" name="enabled" value="0">
                                 <input type="checkbox" name="enabled" value="1" checked>
-                                <?=esc_html__('Enabled', $r['id']);?>
+                                <?=esc_html__('Enable this redirect', $domain);?>
                             </label>
                         </div>
                     </div>
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary"><?=esc_html__('Save Redirect', $r['id']);?></button>
+                        <button type="submit" class="btn btn-primary"><?=esc_html__('Save Redirect', $domain);?></button>
                     </div>
                 </form>
             </div>
 
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?=esc_html__('Redirects', $r['id']);?></h3>
+                    <h3 class="box-title"><?=esc_html__('Redirects', $domain);?></h3>
                 </div>
 
                 <div class="box-body table-responsive no-padding">
 
                     <ul class="nav nav-tabs">
-                        <li class="<?= ($param['filter'] ?? 'all') === 'all' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=all' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('All', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['allCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'all' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('all'));?>">
+                                <?=esc_html__('All', $domain);?> <span class="badge"><?=esc_html((string) ($param['allCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'enabled' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=enabled' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Enabled', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['enabledCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'enabled' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('enabled'));?>">
+                                <?=esc_html__('Enabled', $domain);?> <span class="badge"><?=esc_html((string) ($param['enabledCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'disabled' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=disabled' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Disabled', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['disabledCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'disabled' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('disabled'));?>">
+                                <?=esc_html__('Disabled', $domain);?> <span class="badge"><?=esc_html((string) ($param['disabledCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'manual' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=manual' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Manual', $r['id']);?> <span class="badge"><?= esc_html((string) ($manualCount ?? 0)); ?></span>
+                        <li class="<?=$filter === 'manual' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('manual'));?>">
+                                <?=esc_html__('Manual', $domain);?> <span class="badge"><?=esc_html((string) ($param['manualCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'content' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=content' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Content', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['contentCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'host' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('host'));?>">
+                                <?=esc_html__('Host Rules', $domain);?> <span class="badge"><?=esc_html((string) ($param['hostCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'product' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=product' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Products', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['productCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'wildcard' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('wildcard'));?>">
+                                <?=esc_html__('Wildcard', $domain);?> <span class="badge"><?=esc_html((string) ($param['wildcardCount'] ?? 0));?></span>
                             </a>
                         </li>
 
-                        <li class="<?= ($param['filter'] ?? '') === 'page' ? 'active' : ''; ?>">
-                            <a href="<?= esc_attr($baseUrl . '?filter=page' . $searchQuery . $perPageQuery); ?>">
-                                <?=esc_html__('Pages', $r['id']);?> <span class="badge"><?= esc_html((string) ($param['pageCount'] ?? 0)); ?></span>
+                        <li class="<?=$filter === 'content' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('content'));?>">
+                                <?=esc_html__('Content', $domain);?> <span class="badge"><?=esc_html((string) ($param['contentCount'] ?? 0));?></span>
+                            </a>
+                        </li>
+
+                        <li class="<?=$filter === 'product' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('product'));?>">
+                                <?=esc_html__('Products', $domain);?> <span class="badge"><?=esc_html((string) ($param['productCount'] ?? 0));?></span>
+                            </a>
+                        </li>
+
+                        <li class="<?=$filter === 'page' ? 'active' : '';?>">
+                            <a href="<?=esc_attr($filterUrl('page'));?>">
+                                <?=esc_html__('Pages', $domain);?> <span class="badge"><?=esc_html((string) ($param['pageCount'] ?? 0));?></span>
                             </a>
                         </li>
                     </ul>
 
                     <div class="pull-right" style="margin-right:20px">
-                        <form method="get"
-                              action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/')); ?>"
-                              class="form-inline"
-                              style="margin: 15px 0;">
-
-                            <input type="hidden" name="filter" value="<?= esc_attr((string) ($param['filter'] ?? 'all')); ?>">
+                        <form method="get" action="<?=esc_attr($baseUrl);?>" class="form-inline" style="margin:15px 0;">
+                            <input type="hidden" name="filter" value="<?=esc_attr($filter);?>">
 
                             <div class="form-group">
-                                <input type="text"
-                                       name="s"
-                                       class="form-control"
-                                       value="<?= esc_attr((string) ($param['search'] ?? '')); ?>"
-                                       placeholder="Search source, target, entity">
+                                <input type="text" name="s" class="form-control" value="<?=esc_attr($search);?>" placeholder="Search host, source, target, exclusion, or entity">
                             </div>
 
                             <div class="form-group">
                                 <select name="per_page" class="form-control">
                                     <?php foreach ([10, 25, 50, 100] as $limit): ?>
-                                        <option value="<?= esc_attr((string) $limit); ?>" <?= (int) ($param['perPage'] ?? 25) === $limit ? 'selected' : ''; ?>>
-                                            <?= esc_html((string) $limit); ?> <?=esc_html__('per page', $r['id']);?>
+                                        <option value="<?=esc_attr((string) $limit);?>" <?=$perPage === $limit ? 'selected' : '';?>>
+                                            <?=esc_html((string) $limit);?> <?=esc_html__('per page', $domain);?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
-                            <button type="submit" class="btn btn-default"><?=esc_html__('Filter', $r['id']);?></button>
+                            <button type="submit" class="btn btn-default"><?=esc_html__('Filter', $domain);?></button>
 
-                            <?php if (!empty($param['search'])): ?>
-                                <a href="<?= esc_attr(admin_url('plugin/simple-seo/redirects/?filter=' . ($param['filter'] ?? 'all'))); ?>"
-                                   class="btn btn-link">
-                                    <?=esc_html__('Clear', $r['id']);?>
+                            <?php if ($search !== ''): ?>
+                                <a href="<?=esc_attr($baseUrl . '?filter=' . urlencode($filter) . $perPageQuery);?>" class="btn btn-link">
+                                    <?=esc_html__('Clear', $domain);?>
                                 </a>
                             <?php endif; ?>
                         </form>
                     </div>
 
-                    <form id="seo-redirect-bulk-form"
-                          method="post"
-                          action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/bulk/')); ?>">
+                    <div class="clearfix"></div>
 
+                    <form id="seo-redirect-bulk-form" method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/bulk/'));?>">
                         <input type="hidden" name="bulk_action" id="seo-redirect-bulk-action">
                         <input type="hidden" name="ids" id="seo-redirect-bulk-ids">
 
-                        <div style="margin-bottom:15px;">
+                        <div class="row" style="margin:0 0 15px;">
                             <div class="col-sm-4">
                                 <select id="seo-redirect-bulk-selector" class="form-control">
-                                    <option value=""><?=esc_html__('Bulk Actions', $r['id']);?></option>
-                                    <option value="enable"><?=esc_html__('Enable', $r['id']);?></option>
-                                    <option value="disable"><?=esc_html__('Disable', $r['id']);?></option>
-                                    <option value="delete"><?=esc_html__('Delete', $r['id']);?></option>
+                                    <option value=""><?=esc_html__('Bulk Actions', $domain);?></option>
+                                    <option value="enable"><?=esc_html__('Enable', $domain);?></option>
+                                    <option value="disable"><?=esc_html__('Disable', $domain);?></option>
+                                    <option value="delete"><?=esc_html__('Delete', $domain);?></option>
                                 </select>
                             </div>
 
                             <div class="col-sm-2">
-                                <button type="button"
-                                        id="seo-redirect-bulk-apply"
-                                        class="btn btn-default">
-                                    <?=esc_html__('Apply', $r['id']);?>
+                                <button type="button" id="seo-redirect-bulk-apply" class="btn btn-default">
+                                    <?=esc_html__('Apply', $domain);?>
                                 </button>
                             </div>
                         </div>
                     </form>
-                    
+
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th style="width:30px;">
-                                <input type="checkbox" id="seo-redirect-select-all">
-                            </th>
-                            <th><?=esc_html__('Warnings', $r['id']);?></th>
-                            <th><?=esc_html__('Source', $r['id']);?></th>
-                            <th><?=esc_html__('Target', $r['id']);?></th>
-                            <th><?=esc_html__('Status', $r['id']);?></th>
-                            <th>Entity:ID</th>
-                            <th><?=esc_html__('Hits', $r['id']);?></th>
-                            <th><?=esc_html__('Enabled', $r['id']);?></th>
-                            <th><?=esc_html__('Updated', $r['id']);?></th>
-                            <th style="width:180px;"><?=esc_html__('Actions', $r['id']);?></th>
+                            <th style="width:30px;"><input type="checkbox" id="seo-redirect-select-all"></th>
+                            <th><?=esc_html__('Warnings', $domain);?></th>
+                            <th><?=esc_html__('Host', $domain);?></th>
+                            <th><?=esc_html__('Source', $domain);?></th>
+                            <th><?=esc_html__('Type', $domain);?></th>
+                            <th><?=esc_html__('Target', $domain);?></th>
+                            <th><?=esc_html__('Status', $domain);?></th>
+                            <th><?=esc_html__('Entity:ID', $domain);?></th>
+                            <th><?=esc_html__('Hits', $domain);?></th>
+                            <th><?=esc_html__('Enabled', $domain);?></th>
+                            <th><?=esc_html__('Updated', $domain);?></th>
+                            <th style="width:180px;"><?=esc_html__('Actions', $domain);?></th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <?php if (empty($param['redirects'])): ?>
                             <tr>
-                                <td colspan="10"><?=esc_html__('No redirects found.', $r['id']);?></td>
+                                <td colspan="12" class="text-center text-muted"><?=esc_html__('No redirects found.', $domain);?></td>
                             </tr>
                         <?php endif; ?>
 
-                        <?php foreach ($param['redirects'] as $redirect): ?>
+                        <?php foreach ($param['redirects'] ?? [] as $redirect): ?>
+                            <?php
+                            $redirectId = (string) ($redirect->id ?? '');
+                            $chainWarning = ($param['chainWarnings'] ?? [])[$redirectId] ?? null;
+                            $isEntityRedirect = trim((string) ($redirect->entity_type ?? '')) !== '';
+                            $enabled = (int) ($redirect->enabled ?? 0) === 1;
+                            ?>
+
                             <tr>
                                 <td>
-                                    <input type="checkbox"
-                                       class="seo-redirect-checkbox"
-                                       value="<?= esc_attr((string) $redirect->id); ?>">
+                                    <input type="checkbox" class="seo-redirect-checkbox" value="<?=esc_attr($redirectId);?>">
                                 </td>
-                                <?php
-                                $redirectId = (string) $redirect->id;
-                                $chainWarning = ($param['chainWarnings'] ?? [])[$redirectId] ?? null;
-                                ?>
 
                                 <td>
                                     <?php if ($chainWarning !== null): ?>
-                                        <span class="label label-danger"
-                                              title="<?= esc_attr((string) $chainWarning['message']); ?>">
-                                            <?=esc_html__('Chain', $r['id']);?>
+                                        <span class="label label-danger" title="<?=esc_attr((string) ($chainWarning['message'] ?? ''));?>">
+                                            <?=esc_html__('Chain', $domain);?>
                                         </span>
-
                                         <br>
-
-                                        <small class="text-danger">
-                                            <?= esc_html((string) $chainWarning['message']); ?>
-                                        </small>
+                                        <small class="text-danger"><?=esc_html((string) ($chainWarning['message'] ?? ''));?></small>
                                     <?php else: ?>
                                         <span class="text-muted">—</span>
                                     <?php endif; ?>
                                 </td>
+
                                 <td>
-                                    <code><?= esc_html((string) $redirect->source_url); ?></code>
-                                </td>
-                                <td>
-                                    <code><?= esc_html((string) $redirect->target_url); ?></code>
-                                </td>
-                                <td>
-                                    <?= esc_html((string) $redirect->status_code); ?>
-                                </td>
-                                <td>
-                                    <?php if (!empty($redirect->entity_type)): ?>
-                                        <?= esc_html((string) $redirect->entity_type); ?> : <?= esc_html((string) $redirect->entity_id); ?>
+                                    <?php if (trim((string) ($redirect->source_host ?? '')) !== ''): ?>
+                                        <code><?=esc_html((string) $redirect->source_host);?></code>
                                     <?php else: ?>
-                                        <span class="text-muted"><?=esc_html__('Manual', $r['id']);?></span>
+                                        <span class="text-muted"><?=esc_html__('Any host', $domain);?></span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= esc_html((string) $redirect->hits); ?></td>
+
                                 <td>
-                                    <?php if ((int) $redirect->enabled === 1): ?>
-                                        <span class="label label-success"><?=esc_html__('Enabled', $r['id']);?></span>
+                                    <code><?=esc_html((string) ($redirect->source_url ?? ''));?></code>
+                                </td>
+
+                                <td>
+                                    <?php if (($redirect->match_type ?? 'exact') === 'wildcard'): ?>
+                                        <span class="label label-info"><?=esc_html__('Wildcard', $domain);?></span>
                                     <?php else: ?>
-                                        <span class="label label-default"><?=esc_html__('Disabled', $r['id']);?></span>
+                                        <span class="label label-default"><?=esc_html__('Exact', $domain);?></span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= esc_html((string) $redirect->updated_at); ?></td>
+
                                 <td>
-                                    <button
-                                            type="button"
-                                            class="btn btn-xs btn-primary"
-                                            data-toggle="modal"
-                                            data-target="#editRedirectModal<?= esc_attr((string) $redirect->id); ?>"
-                                    >
-                                        <?=esc_html__('Edit', $r['id']);?>
+                                    <code><?=esc_html((string) ($redirect->target_url ?? ''));?></code>
+                                </td>
+
+                                <td><?=esc_html((string) ($redirect->status_code ?? 301));?></td>
+
+                                <td>
+                                    <?php if ($isEntityRedirect): ?>
+                                        <?=esc_html((string) $redirect->entity_type);?> : <?=esc_html((string) ($redirect->entity_id ?? ''));?>
+                                    <?php else: ?>
+                                        <span class="text-muted"><?=esc_html__('Manual', $domain);?></span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td><?=esc_html((string) ($redirect->hits ?? 0));?></td>
+
+                                <td>
+                                    <?php if ($enabled): ?>
+                                        <span class="label label-success"><?=esc_html__('Enabled', $domain);?></span>
+                                    <?php else: ?>
+                                        <span class="label label-default"><?=esc_html__('Disabled', $domain);?></span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td><?=esc_html((string) ($redirect->updated_at ?? ''));?></td>
+
+                                <td>
+                                    <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#editRedirectModal<?=esc_attr($redirectId);?>">
+                                        <?=esc_html__('Edit', $domain);?>
                                     </button>
 
-                                    <form method="post"
-                                          action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/' . ((int) $redirect->enabled === 1 ? 'disable' : 'enable') . '/')); ?>"
-                                          style="display:inline;">
-                                        <input type="hidden" name="id" value="<?= esc_attr((string) $redirect->id); ?>">
-                                        <button type="submit" class="btn btn-xs <?= (int) $redirect->enabled === 1 ? 'btn-warning' : 'btn-success'; ?>">
-                                            <?= (int) $redirect->enabled === 1 ? esc_html__('Disable', $r['id']) : esc_html__('Enable', $r['id']); ?>
+                                    <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/' . ($enabled ? 'disable' : 'enable') . '/'));?>" style="display:inline;">
+                                        <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
+                                        <button type="submit" class="btn btn-xs <?=$enabled ? 'btn-warning' : 'btn-success';?>">
+                                            <?=$enabled ? esc_html__('Disable', $domain) : esc_html__('Enable', $domain);?>
                                         </button>
                                     </form>
 
-                                    <button
-                                            type="button"
-                                            class="btn btn-xs btn-danger"
-                                            data-toggle="modal"
-                                            data-target="#deleteRedirectModal<?= esc_attr((string) $redirect->id); ?>"
-                                    >
-                                        <?=esc_html__('Delete', $r['id']);?>
+                                    <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteRedirectModal<?=esc_attr($redirectId);?>">
+                                        <?=esc_html__('Delete', $domain);?>
                                     </button>
                                 </td>
-
-                                <div class="modal fade" id="editRedirectModal<?= esc_attr((string) $redirect->id); ?>" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/save/')); ?>" class="modal-content">
-                                                <input type="hidden" name="id" value="<?= esc_attr((string) $redirect->id); ?>">
-                                                <input type="hidden" name="enabled" value="0">
-
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title"><?=esc_html__('Edit Redirect', $r['id']);?></h4>
-                                                </div>
-
-                                                <div class="modal-body">
-                                                    <?php if ($chainWarning !== null): ?>
-                                                        <?=help_block(
-                                                            t__('Redirect chain detected.', $r['id']),
-                                                            sprintf(
-                                                                t__(' Current target:
-                                                                    <code>%s</code><br>
-                                                                    That target redirects to:
-                                                                    <code>%s</code>
-                                                                    %s
-                                                                        Consider changing this redirect target directly to:
-                                                                        <code>%s</code>
-                                                                    %s',
-                                                                    $r['id']
-                                                                ),
-                                                                esc_html((string) $redirect->target_url),
-                                                                esc_html((string) $chainWarning['next_target']),
-                                                                '<p style="margin-top:10px;">',
-                                                                esc_html((string) $chainWarning['next_target']),
-                                                                '</p>'
-                                                            )
-                                                        );?>
-
-                                                    <?php endif; ?>
-
-                                                    <div class="form-group">
-                                                        <label><?=esc_html__('Source URL', $r['id']);?></label>
-                                                        <input
-                                                                type="text"
-                                                                name="source_url"
-                                                                class="form-control"
-                                                                value="<?= esc_attr((string) $redirect->source_url); ?>"
-                                                                required
-                                                        >
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label><?=esc_html__('Target URL', $r['id']);?></label>
-                                                        <input
-                                                                type="text"
-                                                                name="target_url"
-                                                                class="form-control"
-                                                                value="<?= esc_attr((string) $redirect->target_url); ?>"
-                                                                required
-                                                        >
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label><?=esc_html__('Status Code', $r['id']);?></label>
-                                                        <select name="status_code" class="form-control">
-                                                            <?php foreach ([301, 302, 307, 308] as $code): ?>
-                                                                <option value="<?= esc_attr((string) $code); ?>" <?= (int) $redirect->status_code === $code ? 'selected' : ''; ?>>
-                                                                    <?= esc_html((string) $code); ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input
-                                                                    type="checkbox"
-                                                                    name="enabled"
-                                                                    value="1"
-                                                                    <?= (int) $redirect->enabled === 1 ? 'checked' : ''; ?>
-                                                            >
-                                                            <?=esc_html__('Enabled', $r['id']);?>
-                                                        </label>
-                                                    </div>
-
-                                                    <?php if (!empty($redirect->entity_type)): ?>
-                                                        <div class="alert alert-info">
-                                                            <?=esc_html__('This redirect is linked to', $r['id']);?>
-                                                            <?= esc_html((string) $redirect->entity_type); ?>
-                                                            #<?= esc_html((string) $redirect->entity_id); ?>.
-                                                            <?=esc_html__("Saving changes will also update that entity's SEO Redirect tab.", $r['id']);?>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=esc_html__('Cancel', $r['id']);?></button>
-                                                    <button type="submit" class="btn btn-primary"><?=esc_html__('Save Redirect', $r['id']);?></button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="deleteRedirectModal<?= esc_attr((string) $redirect->id); ?>" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <form method="post" action="<?= esc_attr(admin_url('plugin/simple-seo/redirects/delete/')); ?>" class="modal-content">
-                                                <input type="hidden" name="id" value="<?= esc_attr((string) $redirect->id); ?>">
-
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title"><?=esc_html__('Delete Redirect', $r['id']);?></h4>
-                                                </div>
-
-                                                <div class="modal-body">
-                                                    <p><?=esc_html__('Are you sure you want to delete this redirect?', $r['id']);?></p>
-
-                                                    <p>
-                                                        <code><?= esc_html((string) $redirect->source_url); ?></code>
-                                                        →
-                                                        <code><?= esc_html((string) $redirect->target_url); ?></code>
-                                                    </p>
-
-                                                    <?php if (!empty($redirect->entity_type)): ?>
-                                                        <?=help_block(
-                                                            '',
-                                                                t__(
-                                                                    sprintf(
-                                                                        "This redirect is linked to %s #%s. 
-                                                                        Deleting it will clear that entity's SEO redirect fields.",
-                                                                        esc_html((string) $redirect->entity_type),
-                                                                        esc_html((string) $redirect->entity_id)
-                                                                    ),
-                                                                    $r['id']
-                                                                )
-                                                        );?>
-                                                    <?php endif; ?>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=esc_html__('Cancel', $r['id']);?></button>
-                                                    <button type="submit" class="btn btn-danger"><?=esc_html__('Delete Redirect', $r['id']);?></button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
@@ -472,44 +350,49 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
 
                     <?php if (($param['totalPages'] ?? 1) > 1): ?>
                         <?php
-                        $currentPage = (int) ($page ?? 1);
-                        $totalPages = (int) ($param['totalPages'] ?? 1);
+                        $currentPage = max(1, (int) ($param['page'] ?? 1));
+                        $totalPages = max(1, (int) ($param['totalPages'] ?? 1));
 
-                        $queryBase = admin_url('plugin/simple-seo/redirects/?filter=' . urlencode((string) ($param['filter'] ?? 'all')))
-                                . '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
+                        $queryBase = $baseUrl
+                                . '?filter=' . urlencode($filter)
+                                . '&per_page=' . urlencode((string) $perPage);
 
-                        if (!empty($param['search'])) {
-                            $queryBase .= '&s=' . urlencode((string) $param['search']);
+                        if ($search !== '') {
+                            $queryBase .= '&s=' . urlencode($search);
                         }
+
+                        $start = max(1, $currentPage - 2);
+                        $end = min($totalPages, $currentPage + 2);
                         ?>
 
                         <div class="box-footer clearfix">
                             <div class="pull-left">
-                                <?=esc_html__('Showing page', $r['id']);?> <?= esc_html((string) $currentPage); ?>
-                                of <?= esc_html((string) $totalPages); ?>,
-                                <?= esc_html((string) ($param['total'] ?? 0)); ?> total.
+                                <?=esc_html__('Showing page', $domain);?> <?=esc_html((string) $currentPage);?>
+                                <?=esc_html__('of', $domain);?> <?=esc_html((string) $totalPages);?>,
+                                <?=esc_html((string) ($param['total'] ?? 0));?> <?=esc_html__('total.', $domain);?>
                             </div>
 
                             <ul class="pagination pagination-sm no-margin pull-right">
-                                <li class="<?= $currentPage <= 1 ? 'disabled' : ''; ?>">
-                                    <a href="<?= esc_attr($queryBase . '&paged=' . max(1, $currentPage - 1)); ?>">&laquo;</a>
+                                <li class="<?=$currentPage <= 1 ? 'disabled' : '';?>">
+                                    <?php if ($currentPage <= 1): ?>
+                                        <span>&laquo;</span>
+                                    <?php else: ?>
+                                        <a href="<?=esc_attr($queryBase . '&paged=' . ($currentPage - 1));?>">&laquo;</a>
+                                    <?php endif; ?>
                                 </li>
 
-                                <?php
-                                $start = max(1, $currentPage - 2);
-                                $end = min($totalPages, $currentPage + 2);
-                                ?>
-
                                 <?php for ($i = $start; $i <= $end; $i++): ?>
-                                    <li class="<?= $i === $currentPage ? 'active' : ''; ?>">
-                                        <a href="<?= esc_attr($queryBase . '&paged=' . $i); ?>">
-                                            <?= esc_html((string) $i); ?>
-                                        </a>
+                                    <li class="<?=$i === $currentPage ? 'active' : '';?>">
+                                        <a href="<?=esc_attr($queryBase . '&paged=' . $i);?>"><?=esc_html((string) $i);?></a>
                                     </li>
                                 <?php endfor; ?>
 
-                                <li class="<?= $currentPage >= $totalPages ? 'disabled' : ''; ?>">
-                                    <a href="<?= esc_attr($queryBase . '&paged=' . min($totalPages, $currentPage + 1)); ?>">&raquo;</a>
+                                <li class="<?=$currentPage >= $totalPages ? 'disabled' : '';?>">
+                                    <?php if ($currentPage >= $totalPages): ?>
+                                        <span>&raquo;</span>
+                                    <?php else: ?>
+                                        <a href="<?=esc_attr($queryBase . '&paged=' . ($currentPage + 1));?>">&raquo;</a>
+                                    <?php endif; ?>
                                 </li>
                             </ul>
                         </div>
@@ -519,19 +402,185 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
         </section>
     </div>
 
-    <div class="modal fade" id="bulkRedirectModal" tabindex="-1" role="dialog">
+    <?php foreach ($param['redirects'] ?? [] as $redirect): ?>
+        <?php
+        $redirectId = (string) ($redirect->id ?? '');
+        $chainWarning = ($param['chainWarnings'] ?? [])[$redirectId] ?? null;
+        $isEntityRedirect = trim((string) ($redirect->entity_type ?? '')) !== '';
+        $enabled = (int) ($redirect->enabled ?? 0) === 1;
+        ?>
+
+        <div class="modal fade" id="editRedirectModal<?=esc_attr($redirectId);?>" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/save/'));?>">
+                        <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
+                        <input type="hidden" name="enabled" value="0">
+
+                        <?php if ($isEntityRedirect): ?>
+                            <input type="hidden" name="source_host" value="">
+                            <input type="hidden" name="excluded_paths" value="">
+                            <input type="hidden" name="preserve_query" value="1">
+                        <?php endif; ?>
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="<?=esc_attr(esc_html__('Close', $domain));?>">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title"><?=esc_html__('Edit Redirect', $domain);?></h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <?php if ($chainWarning !== null): ?>
+                                <?=help_block(
+                                        t__('Redirect chain detected.', $domain),
+                                        sprintf(
+                                                t__('Current target: <code>%s</code><br>That target redirects to: <code>%s</code><p style="margin-top:10px;">Consider changing this redirect target directly to: <code>%s</code></p>', $domain),
+                                                esc_html((string) ($redirect->target_url ?? '')),
+                                                esc_html((string) ($chainWarning['next_target'] ?? '')),
+                                                esc_html((string) ($chainWarning['next_target'] ?? ''))
+                                        )
+                                );?>
+                            <?php endif; ?>
+
+                            <?php if (!$isEntityRedirect): ?>
+                                <div class="form-group">
+                                    <label for="edit-source-host-<?=esc_attr($redirectId);?>"><?=esc_html__('Source Host', $domain);?></label>
+                                    <input type="text" id="edit-source-host-<?=esc_attr($redirectId);?>" name="source_host" class="form-control" value="<?=esc_attr((string) ($redirect->source_host ?? ''));?>" placeholder="example.com" autocomplete="off">
+                                    <p class="help-block"><?=esc_html__('Leave empty to match every host for this site.', $domain);?></p>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="form-group">
+                                <label for="edit-source-url-<?=esc_attr($redirectId);?>"><?=esc_html__('Source Path', $domain);?></label>
+                                <input type="text" id="edit-source-url-<?=esc_attr($redirectId);?>" name="source_url" class="form-control" value="<?=esc_attr((string) ($redirect->source_url ?? ''));?>" required>
+                            </div>
+
+                            <?php if (!$isEntityRedirect): ?>
+                                <div class="form-group">
+                                    <label for="edit-excluded-paths-<?=esc_attr($redirectId);?>"><?=esc_html__('Excluded Paths', $domain);?></label>
+                                    <textarea id="edit-excluded-paths-<?=esc_attr($redirectId);?>" name="excluded_paths" class="form-control" rows="4" placeholder="/admin/*"><?=esc_html((string) ($redirect->excluded_paths ?? ''));?></textarea>
+                                    <p class="help-block"><?=esc_html__('Enter one exact or wildcard exclusion per line.', $domain);?></p>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" name="preserve_query" value="0">
+                                        <input type="checkbox" name="preserve_query" value="1" <?=(int) ($redirect->preserve_query ?? 1) === 1 ? 'checked' : '';?>>
+                                        <?=esc_html__('Preserve original query string', $domain);?>
+                                    </label>
+                                </div>
+                            <?php else: ?>
+                                <?=help_block(
+                                        '',
+                                        t__('Host matching and excluded paths are available only for manual redirects. Entity redirects remain exact, host-independent redirects.', $domain)
+                                );?>
+                            <?php endif; ?>
+
+                            <div class="form-group">
+                                <label for="edit-target-url-<?=esc_attr($redirectId);?>"><?=esc_html__('Target URL', $domain);?></label>
+                                <input type="text" id="edit-target-url-<?=esc_attr($redirectId);?>" name="target_url" class="form-control" value="<?=esc_attr((string) ($redirect->target_url ?? ''));?>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-status-code-<?=esc_attr($redirectId);?>"><?=esc_html__('Status Code', $domain);?></label>
+                                <select id="edit-status-code-<?=esc_attr($redirectId);?>" name="status_code" class="form-control">
+                                    <?php foreach ([301, 302, 307, 308] as $code): ?>
+                                        <option value="<?=esc_attr((string) $code);?>" <?=(int) ($redirect->status_code ?? 301) === $code ? 'selected' : '';?>>
+                                            <?=esc_html((string) $code);?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="enabled" value="1" <?=$enabled ? 'checked' : '';?>>
+                                    <?=esc_html__('Enabled', $domain);?>
+                                </label>
+                            </div>
+
+                            <?php if ($isEntityRedirect): ?>
+                                <div class="alert alert-info">
+                                    <?=esc_html__('This redirect is linked to', $domain);?>
+                                    <?=esc_html((string) $redirect->entity_type);?>
+                                    #<?=esc_html((string) ($redirect->entity_id ?? ''));?>.
+                                    <?=esc_html__("Saving changes will also update that entity's SEO Redirect tab.", $domain);?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?=esc_html__('Cancel', $domain);?></button>
+                            <button type="submit" class="btn btn-primary"><?=esc_html__('Save Redirect', $domain);?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteRedirectModal<?=esc_attr($redirectId);?>" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/delete/'));?>">
+                        <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="<?=esc_attr(esc_html__('Close', $domain));?>">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title"><?=esc_html__('Delete Redirect', $domain);?></h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <p><?=esc_html__('Are you sure you want to delete this redirect?', $domain);?></p>
+
+                            <p>
+                                <?php if (trim((string) ($redirect->source_host ?? '')) !== ''): ?>
+                                    <code><?=esc_html((string) $redirect->source_host);?></code>
+                                <?php endif; ?>
+
+                                <code><?=esc_html((string) ($redirect->source_url ?? ''));?></code>
+                                &rarr;
+                                <code><?=esc_html((string) ($redirect->target_url ?? ''));?></code>
+                            </p>
+
+                            <?php if ($isEntityRedirect): ?>
+                                <?=help_block(
+                                        '',
+                                        sprintf(
+                                                t__("This redirect is linked to %s #%s. Deleting it will clear that entity's SEO redirect fields.", $domain),
+                                                esc_html((string) $redirect->entity_type),
+                                                esc_html((string) ($redirect->entity_id ?? ''))
+                                        )
+                                );?>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?=esc_html__('Cancel', $domain);?></button>
+                            <button type="submit" class="btn btn-danger"><?=esc_html__('Delete Redirect', $domain);?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="modal fade" id="bulkRedirectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form id="bulkRedirectModalForm" class="modal-content">
+            <div class="modal-content">
+
                 <div class="modal-header">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="<?=esc_attr(esc_html__('Close', $domain));?>">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
                     <h4 class="modal-title" id="bulkRedirectModalTitle">
-                        <?=esc_html__('Bulk Action', $r['id']);?>
+                        <?=esc_html__('Bulk Action', $domain);?>
                     </h4>
                 </div>
 
@@ -540,103 +589,122 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-default"
-                            data-dismiss="modal">
-                        <?=esc_html__('Cancel', $r['id']);?>
-                    </button>
-
-                    <button type="button"
-                            id="bulkRedirectModalConfirm"
-                            class="btn btn-primary">
-                        <?=esc_html__('Continue', $r['id']);?>
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=esc_html__('Cancel', $domain);?></button>
+                    <button type="button" id="bulkRedirectModalConfirm" class="btn btn-primary"><?=esc_html__('Continue', $domain);?></button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
     <script>
-        $(document).on('change', '#seo-redirect-select-all', function () {
-            $('.seo-redirect-checkbox').prop('checked', this.checked);
-        });
+        (function ($) {
+            'use strict';
 
-        $(document).on('click', '#seo-redirect-bulk-apply', function () {
-            var action = $('#seo-redirect-bulk-selector').val();
+            $(document)
+                .off('change.simpleSeoRedirects', '#seo-redirect-select-all')
+                .on('change.simpleSeoRedirects', '#seo-redirect-select-all', function () {
+                    $('.seo-redirect-checkbox').prop('checked', this.checked);
+                });
 
-            if (!action) {
-                $('#bulkRedirectModalTitle').text('Bulk Action Required');
-                $('#bulkRedirectModalMessage').text(
-                    'Please select a bulk action before continuing.'
-                );
+            $(document)
+                .off('change.simpleSeoRedirects', '.seo-redirect-checkbox')
+                .on('change.simpleSeoRedirects', '.seo-redirect-checkbox', function () {
+                    var total = $('.seo-redirect-checkbox').length;
+                    var checked = $('.seo-redirect-checkbox:checked').length;
 
-                $('#bulkRedirectModalConfirm').hide();
+                    $('#seo-redirect-select-all').prop(
+                        'checked',
+                        total > 0 && total === checked
+                    );
+                });
 
-                $('#bulkRedirectModal').modal('show');
+            $(document)
+                .off('click.simpleSeoRedirects', '#seo-redirect-bulk-apply')
+                .on('click.simpleSeoRedirects', '#seo-redirect-bulk-apply', function () {
+                    var action = String($('#seo-redirect-bulk-selector').val() || '');
+                    var $confirm = $('#bulkRedirectModalConfirm');
 
-                return;
-            }
+                    if (action === '') {
+                        $('#bulkRedirectModalTitle').text('Bulk Action Required');
+                        $('#bulkRedirectModalMessage').text('Please select a bulk action before continuing.');
+                        $confirm.hide();
+                        $('#bulkRedirectModal').modal('show');
 
-            var ids = [];
+                        return;
+                    }
 
-            $('.seo-redirect-checkbox:checked').each(function () {
-                ids.push($(this).val());
+                    var ids = [];
+
+                    $('.seo-redirect-checkbox:checked').each(function () {
+                        var id = String($(this).val() || '');
+
+                        if (id !== '') {
+                            ids.push(id);
+                        }
+                    });
+
+                    if (ids.length === 0) {
+                        $('#bulkRedirectModalTitle').text('No Redirects Selected');
+                        $('#bulkRedirectModalMessage').text('Please select at least one redirect.');
+                        $confirm.hide();
+                        $('#bulkRedirectModal').modal('show');
+
+                        return;
+                    }
+
+                    $('#seo-redirect-bulk-action').val(action);
+                    $('#seo-redirect-bulk-ids').val(ids.join(','));
+
+                    var actionLabel = action.charAt(0).toUpperCase() + action.slice(1);
+
+                    $('#bulkRedirectModalTitle').text(actionLabel + ' Redirects');
+
+                    $('#bulkRedirectModalMessage').text(
+                        'Apply "' + actionLabel + '" to '
+                        + ids.length
+                        + ' selected redirect'
+                        + (ids.length === 1 ? '?' : 's?')
+                    );
+
+                    $confirm
+                        .show()
+                        .removeClass('btn-danger btn-warning btn-success btn-primary');
+
+                    switch (action) {
+                        case 'delete':
+                            $confirm.addClass('btn-danger');
+                            break;
+
+                        case 'disable':
+                            $confirm.addClass('btn-warning');
+                            break;
+
+                        case 'enable':
+                            $confirm.addClass('btn-success');
+                            break;
+
+                        default:
+                            $confirm.addClass('btn-primary');
+                    }
+
+                    $('#bulkRedirectModal').modal('show');
+                });
+
+            $(document)
+                .off('click.simpleSeoRedirects', '#bulkRedirectModalConfirm')
+                .on('click.simpleSeoRedirects', '#bulkRedirectModalConfirm', function () {
+                    $('#bulkRedirectModal').modal('hide');
+                    $('#seo-redirect-bulk-form').trigger('submit');
+                });
+
+            $('#bulkRedirectModal').on('hidden.bs.modal', function () {
+                $('#bulkRedirectModalConfirm')
+                    .show()
+                    .removeClass('btn-danger btn-warning btn-success')
+                    .addClass('btn-primary');
             });
-
-            if (!ids.length) {
-                $('#bulkRedirectModalTitle').text('No Redirects Selected');
-                $('#bulkRedirectModalMessage').text(
-                    'Please select at least one redirect.'
-                );
-
-                $('#bulkRedirectModalConfirm').hide();
-
-                $('#bulkRedirectModal').modal('show');
-
-                return;
-            }
-
-            $('#seo-redirect-bulk-action').val(action);
-            $('#seo-redirect-bulk-ids').val(ids.join(','));
-
-            var actionLabel = action.charAt(0).toUpperCase() + action.slice(1);
-
-            $('#bulkRedirectModalTitle').text(actionLabel + ' Redirects');
-
-            $('#bulkRedirectModalMessage').text(
-                'Apply "' + actionLabel + '" to '
-                + ids.length
-                + ' selected redirect'
-                + (ids.length === 1 ? '?' : 's?')
-            );
-
-            $('#bulkRedirectModalConfirm')
-                .show()
-                .removeClass('btn-danger btn-warning btn-success btn-primary');
-
-            switch (action) {
-                case 'delete':
-                    $('#bulkRedirectModalConfirm').addClass('btn-danger');
-                    break;
-
-                case 'disable':
-                    $('#bulkRedirectModalConfirm').addClass('btn-warning');
-                    break;
-
-                case 'enable':
-                    $('#bulkRedirectModalConfirm').addClass('btn-success');
-                    break;
-
-                default:
-                    $('#bulkRedirectModalConfirm').addClass('btn-primary');
-            }
-
-            $('#bulkRedirectModal').modal('show');
-        });
-
-        $(document).on('click', '#bulkRedirectModalConfirm', function () {
-            $('#bulkRedirectModal').modal('hide');
-            $('#seo-redirect-bulk-form').submit();
-        });
+        })(jQuery);
     </script>
-<?php }); ?>
+
+    <?php
+});
