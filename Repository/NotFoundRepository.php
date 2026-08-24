@@ -9,6 +9,7 @@ use Qubus\ValueObjects\Identity\Ulid;
 
 use function date;
 use function parse_url;
+use function strtolower;
 use function trim;
 
 use const PHP_URL_PATH;
@@ -20,17 +21,19 @@ final readonly class NotFoundRepository
     }
 
     public function record(
+        string $requestHost,
         string $requestPath,
         ?string $referrer = null,
         ?string $userAgent = null
     ): void {
+        $requestHost = $this->normalizeHost($requestHost);
         $requestPath = $this->normalizePath($requestPath);
 
-        if ($requestPath === '/') {
+        if ($requestHost === '' || $requestPath === '/') {
             return;
         }
 
-        $existing = $this->findByPath($requestPath);
+        $existing = $this->findByRequest($requestHost, $requestPath);
         $now = date('Y-m-d H:i:s');
 
         if ($existing !== false) {
@@ -57,10 +60,11 @@ final readonly class NotFoundRepository
         $this->dfdb->query(
             $this->dfdb->prepare(
                 "INSERT INTO {$this->table()}
-                 (id, request_path, referrer, user_agent, hits, ignored, first_seen, last_seen)
-                 VALUES (?, ?, ?, ?, 1, 0, ?, ?)",
+                 (id, request_host, request_path, referrer, user_agent, hits, ignored, first_seen, last_seen)
+                 VALUES (?, ?, ?, ?, ?, 1, 0, ?, ?)",
                 [
                     Ulid::generateAsString(),
+                    $requestHost,
                     $requestPath,
                     $referrer,
                     $userAgent,
@@ -71,15 +75,19 @@ final readonly class NotFoundRepository
         );
     }
 
-    public function findByPath(string $requestPath): object|false
+    public function findByRequest(string $requestHost, string $requestPath): object|false
     {
         return $this->dfdb->getRow(
             $this->dfdb->prepare(
                 "SELECT *
                  FROM {$this->table()}
-                 WHERE request_path = ?
+                 WHERE request_host = ?
+                 AND request_path = ?
                  LIMIT 1",
-                [$this->normalizePath($requestPath)]
+                [
+                    $this->normalizeHost($requestHost),
+                    $this->normalizePath($requestPath),
+                ]
             )
         ) ?: false;
     }
@@ -146,16 +154,6 @@ final readonly class NotFoundRepository
         );
     }
 
-    public function deleteByPath(string $requestPath): void
-    {
-        $this->dfdb->query(
-            $this->dfdb->prepare(
-                "DELETE FROM {$this->table()} WHERE request_path = ?",
-                [$this->normalizePath($requestPath)]
-            )
-        );
-    }
-
     public function count(bool $includeIgnored = false): int
     {
         $sql = "SELECT COUNT(*) FROM {$this->table()}";
@@ -172,6 +170,11 @@ final readonly class NotFoundRepository
         return (int) $this->dfdb->getVar(
             "SELECT COALESCE(SUM(hits), 0) FROM {$this->table()}"
         );
+    }
+
+    public function normalizeHost(string $host): string
+    {
+        return strtolower(trim($host));
     }
 
     public function normalizePath(string $path): string
@@ -196,9 +199,9 @@ final readonly class NotFoundRepository
     {
         $rows = $this->dfdb->getResults(
             "SELECT *
-         FROM {$this->table()}
-         WHERE ignored = 1
-         ORDER BY last_seen DESC"
+             FROM {$this->table()}
+             WHERE ignored = 1
+             ORDER BY last_seen DESC"
         );
 
         return is_array($rows) ? $rows : [];
@@ -240,8 +243,9 @@ final readonly class NotFoundRepository
         }
 
         if ($search !== '') {
-            $where[] = '(request_path LIKE ? OR referrer LIKE ? OR user_agent LIKE ?)';
+            $where[] = '(request_host LIKE ? OR request_path LIKE ? OR referrer LIKE ? OR user_agent LIKE ?)';
             $like = '%' . $search . '%';
+            $params[] = $like;
             $params[] = $like;
             $params[] = $like;
             $params[] = $like;
@@ -255,8 +259,8 @@ final readonly class NotFoundRepository
 
         $total = (int) (
         $params !== []
-            ? $this->dfdb->getVar($this->dfdb->prepare($countSql, $params))
-            : $this->dfdb->getVar($countSql)
+                ? $this->dfdb->getVar($this->dfdb->prepare($countSql, $params))
+                : $this->dfdb->getVar($countSql)
         );
 
         $listSql = "SELECT *

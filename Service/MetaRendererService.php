@@ -22,8 +22,8 @@ use function App\Shared\Helpers\get_content_by;
 use function App\Shared\Helpers\get_option;
 use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_product_by;
-use function App\Shared\Helpers\home_url;
 use function App\Shared\Helpers\site_url;
+use function App\Shared\Helpers\the_permalink;
 use function implode;
 use function json_encode;
 use function mb_substr;
@@ -324,12 +324,16 @@ final class MetaRendererService
     /**
      * @param Content $content
      * @return array
+     * @throws ContainerExceptionInterface
      * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
      */
     private function normalizeContent(Content $content): array
     {
         $url = $content->relativeUrl
-            ? home_url($content->relativeUrl)
+            ? the_permalink($content->id)
             : rtrim(site_url(), '/') . '/' . trim((string) $content->slug, '/') . '/';
 
         return [

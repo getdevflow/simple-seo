@@ -10,6 +10,7 @@ use function App\Shared\Helpers\get_content_by;
 use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_product_by;
 use function App\Shared\Helpers\home_url;
+use function App\Shared\Helpers\the_permalink;
 use function trim;
 
 final readonly class EntityUrlResolver
@@ -36,9 +37,7 @@ final readonly class EntityUrlResolver
         }
 
         if (!empty($content->relativeUrl)) {
-            return $this->normalizePublicUrl(
-                (string) $content->relativeUrl
-            );
+            return the_permalink($content->id);
         }
 
         return $this->normalizePublicUrl(
