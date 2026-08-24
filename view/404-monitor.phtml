@@ -135,6 +135,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                             <th>
                                 <input type="checkbox" id="seo-404-select-all">
                             </th>
+                            <th><?=esc_html__('Host', $r['id']);?></th>
                             <th><?=esc_html__('URL', $r['id']);?></th>
                             <th><?=esc_html__('Hits', $r['id']);?></th>
                             <th><?=esc_html__('Referrer', $r['id']);?></th>
@@ -146,7 +147,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                         <tbody>
                         <?php if (empty($param['items'])): ?>
                             <tr>
-                                <td colspan="7"><?=esc_html__('No 404s recorded.', $r['id']);?></td>
+                                <td colspan="8"><?=esc_html__('No 404s recorded.', $r['id']);?></td>
                             </tr>
                         <?php endif; ?>
 
@@ -157,7 +158,8 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                            class="seo-404-checkbox"
                                            value="<?= esc_attr((string) $item->id); ?>">
                                 </td>
-                                <td><code><?= esc_html((string) $item->request_path); ?></code></td>
+                                <td><code><?=esc_html((string) $item->request_host);?></code></td>
+                                <td><code><?=esc_html((string) $item->request_path);?></code></td>
                                 <td><?= esc_html((string) $item->hits); ?></td>
                                 <td><?= esc_html((string) ($item->referrer ?? '')); ?></td>
                                 <td><?= esc_html((string) $item->first_seen); ?></td>
@@ -218,25 +220,27 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
 
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label><?=esc_html__('Source URL', $r['id']);?></label>
-                                                    <input
-                                                        type="text"
-                                                        name="source_url"
-                                                        class="form-control"
-                                                        value="<?= esc_attr((string) $item->request_path); ?>"
-                                                        required
-                                                    >
+                                                    <label><?=esc_html__('Source Host', $r['id']);?></label>
+                                                    <input type="text" name="source_host" class="form-control" value="<?=esc_attr((string) $item->request_host);?>" placeholder="blog.example.com" autocomplete="off">
+                                                    <p class="help-block"><?=esc_html__('Enter only the hostname, without https:// or a path. Leave empty to match every host for this site.', $r['id']);?></p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label><?=esc_html__('Source Path', $r['id']);?></label>
+                                                    <input type="text" name="source_url" class="form-control" value="<?=esc_attr((string) $item->request_path);?>" required>
+                                                    <p class="help-block"><?=esc_html__('Use an exact path such as /old-page/ or a wildcard path such as /* or /articles/*.', $r['id']);?></p>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label><?=esc_html__('Target URL', $r['id']);?></label>
-                                                    <input
-                                                        type="text"
-                                                        name="target_url"
-                                                        class="form-control"
-                                                        placeholder="/new-url/"
-                                                        required
-                                                    >
+                                                    <input type="text" name="target_url" class="form-control" placeholder="https://example.com/new-url/" required>
+                                                    <p class="help-block"><?=esc_html__('For wildcard redirects, use {path} where the captured path should be inserted.', $r['id']);?></p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label><?=esc_html__('Excluded Paths', $r['id']);?></label>
+                                                    <textarea name="excluded_paths" class="form-control" rows="5" placeholder="/admin/*"></textarea>
+                                                    <p class="help-block"><?=esc_html__('Optional. Enter one exact or wildcard path per line. Matching requests will continue normally without being redirected.', $r['id']);?></p>
                                                 </div>
 
                                                 <div class="form-group">
@@ -247,6 +251,22 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                                         <option value="307"><?=esc_html__('307 Temporary', $r['id']);?></option>
                                                         <option value="308"><?=esc_html__('308 Permanent', $r['id']);?></option>
                                                     </select>
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="hidden" name="preserve_query" value="0">
+                                                        <input type="checkbox" name="preserve_query" value="1" checked>
+                                                        <?=esc_html__('Preserve the original query string', $r['id']);?>
+                                                    </label>
+                                                </div>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="hidden" name="enabled" value="0">
+                                                        <input type="checkbox" name="enabled" value="1" checked>
+                                                        <?=esc_html__('Enable this redirect', $r['id']);?>
+                                                    </label>
                                                 </div>
                                             </div>
 

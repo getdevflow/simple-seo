@@ -112,8 +112,12 @@ final readonly class NotFoundController
         $post = $request->getParsedBody();
 
         $id = (string) ($post['id'] ?? '');
+        $sourceHost = trim((string) ($post['source_host'] ?? ''));
         $source = trim((string) ($post['source_url'] ?? ''));
         $target = trim((string) ($post['target_url'] ?? ''));
+        $excludedPaths = trim((string) ($post['excluded_paths'] ?? ''));
+        $preserveQuery = (int) ($post['preserve_query'] ?? 0) === 1;
+        $enabled = (int) ($post['enabled'] ?? 0) === 1;
         $status = (int) ($post['status_code'] ?? 301);
 
         if (!in_array($status, [301, 302, 307, 308], true)) {
@@ -127,13 +131,14 @@ final readonly class NotFoundController
                 statusCode: $status,
                 entityType: null,
                 entityId: null,
-                enabled: true
+                enabled: $enabled,
+                sourceHost: $sourceHost !== '' ? $sourceHost : null,
+                excludedPaths: $excludedPaths !== '' ? $excludedPaths : null,
+                preserveQuery: $preserveQuery
             );
 
             if ($id !== '') {
                 $this->notFound->delete($id);
-            } else {
-                $this->notFound->deleteByPath($source);
             }
         }
 

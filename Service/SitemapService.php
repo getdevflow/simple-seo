@@ -21,6 +21,7 @@ use function App\Shared\Helpers\get_all_content_with_filters;
 use function App\Shared\Helpers\get_all_products_with_filters;
 use function App\Shared\Helpers\site_url;
 use function App\Shared\Helpers\sort_list;
+use function App\Shared\Helpers\the_permalink;
 use function array_filter;
 use function array_map;
 use function array_merge;
@@ -824,7 +825,9 @@ XSL;
                 'id' => esc_html($get($id)),
                 'title' => purify_html($get($title)),
                 'description' => mb_substr(strip_tags(esc_html($get($body))), 0, 160),
-                'url' => esc_url($url),
+                'url' => $kind === 'content'
+                    ? the_permalink(esc_html($get($id)))
+                    : esc_url($url),
                 'image' => esc_html($get($image)),
                 'created_at' => esc_html($get($created)),
                 'updated_at' => esc_html($get($updated)),
