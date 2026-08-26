@@ -64,9 +64,11 @@ use function App\Shared\Helpers\get_page_by;
 use function App\Shared\Helpers\get_pages;
 use function App\Shared\Helpers\get_product_by;
 use function App\Shared\Helpers\get_products;
+use function App\Shared\Helpers\get_option;
 use function App\Shared\Helpers\plugin_basename;
 use function App\Shared\Helpers\plugin_dir_path;
 use function App\Shared\Helpers\plugin_url;
+use function App\Shared\Helpers\update_option;
 use function dirname;
 use function get_class;
 use function is_array;
@@ -75,6 +77,9 @@ use function Qubus\Security\Helpers\esc_html__;
 final class SimpleSeoPlugin extends Plugin
 {
     use SimpleSeoMigrationAware;
+
+    private const string SCHEMA_VERSION = '1.4.1';
+    private const string SCHEMA_VERSION_OPTION = 'simple_seo_schema_version';
 
     /**
      * @return array
@@ -88,7 +93,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '1.4.0',
+            'version' => '1.4.1',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),
@@ -116,6 +121,8 @@ final class SimpleSeoPlugin extends Plugin
             $this->registerAdminNotice();
             return;
         }
+
+        $this->ensureSchema();
 
         $action = Action::getInstance();
 
@@ -844,7 +851,7 @@ final class SimpleSeoPlugin extends Plugin
     {
         SimpleSeoSettings::installDefaults();
 
-        $this->migrateUp();
+        $this->ensureSchema();
     }
 
     /**
@@ -866,6 +873,7 @@ final class SimpleSeoPlugin extends Plugin
         }
 
         delete_option(key: $settings::OPTION_KEY);
+        delete_option(key: self::SCHEMA_VERSION_OPTION);
         GoogleTokenStore::clear();
 
         $this->migrateDown();
@@ -904,86 +912,23 @@ final class SimpleSeoPlugin extends Plugin
     /**
      * @return void
      * @throws Exception
+     * @throws \Exception
      */
     private function migrateUp(): void
     {
-        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_redirect')) {
-            $this->dfdb->schema()
-                ->create(
-                    table: $this->dfdb->prefix . 'seo_redirect',
-                    callback: function (CreateTable $table) {
-                        $table->string(name: 'id', length: 36)
-                            ->primary();
-                        $table->string(name: 'source_host', length: 191)
-                            ->index();
-                        $table->string(name: 'source_url', length: 191)
-                            ->notNull()
-                            ->index();
-                        $table->string(name: 'target_url', length: 191)->notNull();
-                        $table->string(name: 'match_type', length: 20)
-                            ->notNull()
-                            ->defaultValue('exact')
-                            ->index();
-                        $table->text(name: 'excluded_paths')
-                            ->size('big');
-                        $table->integer(name: 'preserve_query')
-                            ->size('small')
-                            ->notNull()
-                            ->defaultValue(1);
-                        $table->integer(name: 'status_code')
-                            ->size('small')
-                            ->notNull()
-                            ->defaultValue(301);
-                        $table->string(name: 'entity_type', length: 50);
-                        $table->string(name: 'entity_id', length: 191);
-                        $table->integer(name: 'hits')
-                            ->size('small')
-                            ->notNull()
-                            ->defaultValue(0);
-                        $table->integer(name: 'enabled')
-                            ->size('small')
-                            ->notNull()
-                            ->defaultValue(1)
-                            ->index();
-                        $table->dateTime(name: 'created_at')->notNull();
-                        $table->dateTime(name: 'updated_at')->notNull();
-                        $table->unique(
-                            [
-                                'source_host',
-                                'source_url',
-                                'match_type',
-                            ],
-                            $this->dfdb->prefix . 'seoRedirectSourceRule'
-                        );
-                    }
-                );
-        };
+        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_redirect', clear: true)) {
+            $this->createRedirectTable($this->dfdb->prefix . 'seo_redirect');
+        } elseif (!$this->redirectSchemaIsCurrent()) {
+            $this->migrateRedirectHostRules();
+        }
 
-        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_404_log')) {
-            $this->dfdb->schema()
-                ->create(
-                    table: $this->dfdb->prefix . 'seo_404_log',
-                    callback: function (CreateTable $table) {
-                        $table->string(name: 'id', length: 36)
-                            ->primary();
-                        $table->string(name: 'request_path', length: 191)->notNull()->unique();
-                        $table->string(name: 'referrer', length: 500);
-                        $table->string(name: 'user_agent', length: 500);
-                        $table->integer(name: 'hits')
-                                ->size('small')
-                                ->notNull()
-                                ->defaultValue(1);
-                        $table->integer(name: 'ignored')
-                                ->size('small')
-                                ->notNull()
-                                ->defaultValue(0);
-                        $table->dateTime(name: 'first_seen')->notNull();
-                        $table->dateTime(name: 'last_seen')->notNull();
-                    }
-                );
-        };
+        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_404_log', clear: true)) {
+            $this->createNotFoundTable($this->dfdb->prefix . 'seo_404_log');
+        } elseif (!$this->notFoundSchemaIsCurrent()) {
+            $this->migrationUpdates();
+        }
 
-        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_route')) {
+        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_route', clear: true)) {
             $this->dfdb->schema()
                 ->create(
                     table: $this->dfdb->prefix . 'seo_route',
@@ -1003,7 +948,12 @@ final class SimpleSeoPlugin extends Plugin
                 );
         };
 
-        if (!$this->dfdb->schema()->hasTable(table: $this->dfdb->prefix . 'seo_submission_queue')) {
+        if (
+            !$this->dfdb->schema()->hasTable(
+                table: $this->dfdb->prefix . 'seo_submission_queue',
+                clear: true
+            )
+        ) {
             $this->dfdb->schema()
                 ->create(
                     table: $this->dfdb->prefix . 'seo_submission_queue',
@@ -1027,9 +977,39 @@ final class SimpleSeoPlugin extends Plugin
                     }
                 );
         };
+    }
 
-        $this->migrateRedirectHostRules();
-        $this->migrationUpdates();
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     * @throws TypeException
+     */
+    private function ensureSchema(): void
+    {
+        if (
+            get_option(self::SCHEMA_VERSION_OPTION, '') === self::SCHEMA_VERSION
+            && $this->schemaIsCurrent()
+        ) {
+            return;
+        }
+
+        $this->migrateUp();
+        update_option(self::SCHEMA_VERSION_OPTION, self::SCHEMA_VERSION);
+    }
+
+    private function schemaIsCurrent(): bool
+    {
+        return $this->redirectSchemaIsCurrent()
+            && $this->notFoundSchemaIsCurrent()
+            && $this->dfdb->schema()->hasTable(
+                table: $this->dfdb->prefix . 'seo_route',
+                clear: true
+            )
+            && $this->dfdb->schema()->hasTable(
+                table: $this->dfdb->prefix . 'seo_submission_queue',
+                clear: true
+            );
     }
 
     /**
