@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Plugin\SimpleSeo\Service;
 
+use Codefy\Framework\Http\RequestContext;
 use Plugin\SimpleSeo\Repository\NotFoundRepository;
-use Psr\Http\Message\ServerRequestInterface;
 
 use function strtolower;
 use function trim;
 
 final readonly class NotFoundMonitor
 {
-    public function __construct(private NotFoundRepository $notFound, private ServerRequestInterface $request)
+    public function __construct(private NotFoundRepository $notFound)
     {
     }
 
     public function recordCurrentRequest(): void
     {
-        $host = strtolower(trim($this->request->getUri()->getHost()));
-        $path = $this->request->getUri()->getPath() ?: '/';
+        $request = RequestContext::get();
+        $host = strtolower(trim($request->getUri()->getHost()));
+        $path = $request->getUri()->getPath() ?: '/';
 
         if ($this->shouldSkip($path)) {
             return;
@@ -28,8 +29,8 @@ final readonly class NotFoundMonitor
         $this->notFound->record(
             requestHost: $host,
             requestPath: $path,
-            referrer: $this->request->getHeaderLine('Referer') ?: null,
-            userAgent: $this->request->getHeaderLine('User-Agent') ?: null
+            referrer: $request->getHeaderLine('Referer') ?: null,
+            userAgent: $request->getHeaderLine('User-Agent') ?: null
         );
     }
 
