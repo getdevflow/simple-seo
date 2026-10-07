@@ -105,6 +105,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                     <form id="seo-404-bulk-form"
                           method="post"
                           action="<?= esc_attr(admin_url('plugin/simple-seo/404-monitor/bulk/')); ?>">
+                        <?= csrf_field(); ?>
 
                         <input type="hidden" name="bulk_action" id="seo-404-bulk-action">
                         <input type="hidden" name="ids" id="seo-404-bulk-ids">
@@ -180,6 +181,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                         <form method="post"
                                               action="<?= esc_attr(admin_url('plugin/simple-seo/404-monitor/restore/')); ?>"
                                               style="display:inline;">
+                                            <?= csrf_field(); ?>
                                             <input type="hidden" name="id" value="<?= esc_attr((string) $item->id); ?>">
                                             <button type="submit" class="btn btn-xs btn-success"><?=esc_html__('Restore', $r['id']);?></button>
                                         </form>
@@ -187,6 +189,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                         <form method="post"
                                               action="<?= esc_attr(admin_url('plugin/simple-seo/404-monitor/ignore/')); ?>"
                                               style="display:inline;">
+                                            <?= csrf_field(); ?>
                                             <input type="hidden" name="id" value="<?= esc_attr((string) $item->id); ?>">
                                             <button type="submit" class="btn btn-xs btn-warning"><?=esc_html__('Ignore', $r['id']);?></button>
                                         </form>
@@ -209,6 +212,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                         <form method="post"
                                               action="<?= esc_attr(admin_url('plugin/simple-seo/404-monitor/create-redirect/')); ?>"
                                               class="modal-content">
+                                            <?= csrf_field(); ?>
                                             <input type="hidden" name="id" value="<?= esc_attr((string) $item->id); ?>">
 
                                             <div class="modal-header">
@@ -285,6 +289,7 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                                         <form method="post"
                                               action="<?= esc_attr(admin_url('plugin/simple-seo/404-monitor/delete/')); ?>"
                                               class="modal-content">
+                                            <?= csrf_field(); ?>
                                             <input type="hidden" name="id" value="<?= esc_attr((string) $item->id); ?>">
 
                                             <div class="modal-header">

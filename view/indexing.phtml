@@ -40,6 +40,7 @@ $r = Registry::getInstance()->get('simple-seo');
                             <form id="devflow-seo-submit-url-form"
                                   method="post"
                                   action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/url/')); ?>">
+                                <?= csrf_field(); ?>
 
 
                                 <h4><?= esc_html__('Submit Single URL', $r['id']); ?></h4>
@@ -71,6 +72,7 @@ $r = Registry::getInstance()->get('simple-seo');
                             <form id="devflow-seo-submit-urls-form"
                                   method="post"
                                   action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/urls/')); ?>">
+                                <?= csrf_field(); ?>
 
                                 <h4><?= esc_html__('Submit Multiple URLs', $r['id']); ?></h4>
 
@@ -110,6 +112,7 @@ $r = Registry::getInstance()->get('simple-seo');
                             <form id="devflow-seo-submit-sitemap-form"
                                   method="post"
                                   action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/manual/sitemap/')); ?>">
+                                <?= csrf_field(); ?>
 
                                 <h4><?= esc_html__('Submit Sitemap', $r['id']); ?></h4>
 

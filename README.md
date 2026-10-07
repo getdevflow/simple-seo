@@ -4,13 +4,13 @@ Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, tech
 404 monitoring, and so much more. Simple SEO currently uses version 2.1.1 of the 
 [melbahja/seo](https://github.com/melbahja/seo/tree/v2.1.1) library.
 
-> __Requires__ Devflow Version: 2.3.2
+> __Requires__ Devflow Version: 3.x
 
-> __Tested Up To:__ 2.6.0
+> __Tested Up To:__ 3.0.0
 
 > __Requires PHP:__ 8.4+
 
-> __Stable Tag:__ 1.4.1
+> __Stable Tag:__ 2.0.0
 
 > __License:__ GPLv2-only
 

@@ -27,6 +27,7 @@ $enabled = $param['route'] === null || (int) ($param['route']->enabled ?? 1) ===
 ?>
 
 <form method="post" data-toggle="validator" action="<?= esc_attr($action); ?>" autocomplete="off">
+    <?= csrf_field(); ?>
     <div class="content-wrapper">
         <div class="box box-solid">
             <div class="box-header with-border">
@@ -125,6 +126,7 @@ $enabled = $param['route'] === null || (int) ($param['route']->enabled ?? 1) ===
                 <form method="post"
                       action="<?= esc_attr(admin_url('plugin/simple-seo/routes/delete/')); ?>"
                       class="modal-content">
+                    <?= csrf_field(); ?>
                     <input type="hidden" name="id" value="<?= esc_attr((string) $id); ?>">
 
                     <div class="modal-header">

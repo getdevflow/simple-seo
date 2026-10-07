@@ -57,6 +57,7 @@ $this->block('backend', function (array $param): void {
                 </div>
 
                 <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/save/'));?>">
+                    <?= csrf_field(); ?>
                     <div class="box-body">
 
                         <div class="form-group">
@@ -210,6 +211,7 @@ $this->block('backend', function (array $param): void {
                     <div class="clearfix"></div>
 
                     <form id="seo-redirect-bulk-form" method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/bulk/'));?>">
+                        <?= csrf_field(); ?>
                         <input type="hidden" name="bulk_action" id="seo-redirect-bulk-action">
                         <input type="hidden" name="ids" id="seo-redirect-bulk-ids">
 
@@ -333,6 +335,7 @@ $this->block('backend', function (array $param): void {
                                     </button>
 
                                     <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/' . ($enabled ? 'disable' : 'enable') . '/'));?>" style="display:inline;">
+                                        <?= csrf_field(); ?>
                                         <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
                                         <button type="submit" class="btn btn-xs <?=$enabled ? 'btn-warning' : 'btn-success';?>">
                                             <?=$enabled ? esc_html__('Disable', $domain) : esc_html__('Enable', $domain);?>
@@ -415,6 +418,7 @@ $this->block('backend', function (array $param): void {
                 <div class="modal-content">
 
                     <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/save/'));?>">
+                        <?= csrf_field(); ?>
                         <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
                         <input type="hidden" name="enabled" value="0">
 
@@ -526,6 +530,7 @@ $this->block('backend', function (array $param): void {
                 <div class="modal-content">
 
                     <form method="post" action="<?=esc_attr(admin_url('plugin/simple-seo/redirects/delete/'));?>">
+                        <?= csrf_field(); ?>
                         <input type="hidden" name="id" value="<?=esc_attr($redirectId);?>">
 
                         <div class="modal-header">

@@ -48,31 +48,31 @@ final class SchemaFactoryService
                 $type = (string) $decoded['@type'];
                 unset($decoded['@context'], $decoded['@type']);
 
-                return new Schema(new Thing($type, $decoded));
+                return new Schema(new Thing(props: $decoded, type: $type));
             }
         }
 
         $nodes = [];
 
         if ($kind === 'home') {
-            $nodes[] = new Thing('WebSite', $this->withoutEmpty($this->website($item, $seo)));
-            $nodes[] = new Thing('WebPage', $this->withoutEmpty($this->webpage($item, $seo)));
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->website($item, $seo)), type: 'WebSite');
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
             $this->addOrganization($nodes);
 
             return new Schema(...$nodes);
         }
 
         if ($schemaType === 'Product' || $kind === 'product') {
-            $nodes[] = new Thing('Product', $this->withoutEmpty($this->product($item, $seo)));
-            $nodes[] = new Thing('WebPage', $this->withoutEmpty($this->webpage($item, $seo)));
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->product($item, $seo)), type: 'Product');
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
             $this->addOrganization($nodes);
 
             return new Schema(...$nodes);
         }
 
         if ($schemaType === 'WebSite') {
-            $nodes[] = new Thing('WebSite', $this->withoutEmpty($this->website($item, $seo)));
-            $nodes[] = new Thing('WebPage', $this->withoutEmpty($this->webpage($item, $seo)));
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->website($item, $seo)), type: 'WebSite');
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
             $this->addOrganization($nodes);
 
             return new Schema(...$nodes);
@@ -80,20 +80,23 @@ final class SchemaFactoryService
 
         if ($schemaType === 'WebPage') {
             if ($this->isHomepage($item)) {
-                $nodes[] = new Thing('WebSite', $this->withoutEmpty($this->website($item, $seo)));
+                $nodes[] = new Thing(props: $this->withoutEmpty($this->website($item, $seo)), type: 'WebSite');
             }
 
-            $nodes[] = new Thing('WebPage', $this->withoutEmpty($this->webpage($item, $seo)));
+            $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
             $this->addOrganization($nodes);
 
             return new Schema(...$nodes);
         }
 
-        $nodes[] = new Thing($schemaType ?: 'Article', $this->withoutEmpty(
-            $this->articleLike($item, $seo, $schemaType ?: 'Article')
-        ));
+        $nodes[] = new Thing(
+            props: $this->withoutEmpty(
+                $this->articleLike($item, $seo, $schemaType ?: 'Article')
+            ),
+            type: $schemaType ?: 'Article'
+        );
 
-        $nodes[] = new Thing('WebPage', $this->withoutEmpty($this->webpage($item, $seo)));
+        $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
 
         $this->addOrganization($nodes);
 
@@ -202,12 +205,15 @@ final class SchemaFactoryService
             'description' => $this->description($item, $seo),
             'sku' => $item['sku'] ?? null,
             'image' => $image ?: null,
-            'offers' => new Thing('Offer', $this->withoutEmpty([
-                'availability' => 'https://schema.org/InStock',
-                'priceCurrency' => $item['currency'] ?? 'USD',
-                'price' => $item['price'] ?? '0',
-                'url' => $url,
-            ])),
+            'offers' => new Thing(
+                props: $this->withoutEmpty([
+                    'availability' => 'https://schema.org/InStock',
+                    'priceCurrency' => $item['currency'] ?? 'USD',
+                    'price' => $item['price'] ?? '0',
+                    'url' => $url,
+                ]),
+                type: 'Offer'
+            ),
         ];
     }
 
@@ -279,7 +285,7 @@ final class SchemaFactoryService
             }
         }
 
-        $nodes[] = new Thing($type, $data);
+        $nodes[] = new Thing(props: $data, type: $type);
     }
 
     private function title(array $item, array $seo): string

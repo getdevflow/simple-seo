@@ -110,6 +110,7 @@ $schemaTypes = [
         <div class="row">
             <div class="col-md-9">
                 <form method="post" action="<?= admin_url('plugin/simple-seo/') ?>">
+                    <?= csrf_field(); ?>
                     <div class="box box-primary">
                         <div class="box-body">
                             <div class="nav-tabs-custom">
@@ -522,12 +523,9 @@ $schemaTypes = [
                                                 <?=esc_html__('Google Search Console is connected.', $r['id']);?>
                                             </div>
 
-                                            <form method="post"
-                                                  action="<?= admin_url('plugin/simple-seo/google/disconnect/'); ?>">
-                                                <button type="submit" class="btn btn-danger">
-                                                    <?=esc_html__('Disconnect Google', $r['id']);?>
-                                                </button>
-                                            </form>
+                                            <button type="submit" class="btn btn-danger" formnovalidate formaction="<?= admin_url('plugin/simple-seo/google/disconnect/'); ?>">
+                                                <?=esc_html__('Disconnect Google', $r['id']);?>
+                                            </button>
 
                                         <?php else: ?>
 
@@ -849,6 +847,7 @@ $schemaTypes = [
                         <form method="post"
                               action="<?= esc_attr(admin_url('plugin/simple-seo/import/')); ?>"
                               enctype="multipart/form-data">
+                            <?= csrf_field(); ?>
 
                             <div class="form-group">
                                 <label><?=esc_html__('Import Settings JSON', $r['id']);?></label>
@@ -877,6 +876,7 @@ $schemaTypes = [
                                 method="post"
                                 action="<?= esc_attr(admin_url('plugin/simple-seo/indexing/submit/')); ?>"
                         >
+                            <?= csrf_field(); ?>
                             <div class="form-group">
                                 <label for="devflow-seo-indexing-url">URL</label>
                                 <input

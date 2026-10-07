@@ -84,6 +84,7 @@ $r = Registry::getInstance()->get('simple-seo');
                                     <form method="post"
                                           action="<?= esc_attr(admin_url('plugin/simple-seo/routes/delete/')); ?>"
                                           class="modal-content">
+                                        <?= csrf_field(); ?>
                                         <input type="hidden" name="id" value="<?= esc_attr((string) $route->id); ?>">
 
                                         <div class="modal-header">
