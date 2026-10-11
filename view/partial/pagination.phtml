@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+use function Qubus\Security\Helpers\esc_attr;
+use function Qubus\Security\Helpers\esc_html;
+use function Qubus\Security\Helpers\esc_html__;
+
+$currentPage = max(1, (int) ($currentPage ?? 1));
+$totalPages = max(1, (int) ($totalPages ?? 1));
+$domain = (string) ($domain ?? 'simple-seo');
+
+if ($totalPages <= 1) {
+    return;
+}
+
+$queryBase = $baseUrl . '?' . http_build_query([
+    'filter' => $filter,
+    'per_page' => $perPage,
+    's' => $search !== '' ? $search : null,
+], '', '&');
+
+// Keep five neighboring pages visible, including at either end of the list.
+$start = max(1, min($currentPage - 2, $totalPages - 4));
+$end = min($totalPages, $start + 4);
+$pages = array_unique([1, ...range($start, $end), $totalPages]);
+$previousPage = 0;
+?>
+
+<div class="box-footer clearfix">
+    <div class="pull-left">
+        <?=esc_html__('Showing page', $domain);?> <?=esc_html((string) $currentPage);?>
+        <?=esc_html__('of', $domain);?> <?=esc_html((string) $totalPages);?>,
+        <?=esc_html((string) $total);?> <?=esc_html__('total.', $domain);?>
+    </div>
+
+    <ul class="pagination pagination-sm no-margin pull-right">
+        <li class="<?=$currentPage <= 1 ? 'disabled' : '';?>">
+            <?php if ($currentPage <= 1): ?>
+                <span>&laquo;</span>
+            <?php else: ?>
+                <a href="<?=esc_attr($queryBase . '&paged=' . ($currentPage - 1));?>">&laquo;</a>
+            <?php endif; ?>
+        </li>
+
+        <?php foreach ($pages as $pageNumber): ?>
+            <?php if ($previousPage > 0 && $pageNumber > $previousPage + 1): ?>
+                <li class="disabled"><span>&hellip;</span></li>
+            <?php endif; ?>
+            <li class="<?=$pageNumber === $currentPage ? 'active' : '';?>">
+                <a href="<?=esc_attr($queryBase . '&paged=' . $pageNumber);?>"<?=$pageNumber === $currentPage ? ' aria-current="page"' : '';?>><?=esc_html((string) $pageNumber);?></a>
+            </li>
+            <?php $previousPage = $pageNumber; ?>
+        <?php endforeach; ?>
+
+        <li class="<?=$currentPage >= $totalPages ? 'disabled' : '';?>">
+            <?php if ($currentPage >= $totalPages): ?>
+                <span>&raquo;</span>
+            <?php else: ?>
+                <a href="<?=esc_attr($queryBase . '&paged=' . ($currentPage + 1));?>">&raquo;</a>
+            <?php endif; ?>
+        </li>
+    </ul>
+</div>

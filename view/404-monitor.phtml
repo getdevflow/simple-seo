@@ -315,49 +315,16 @@ $perPageQuery = '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <?php if (($param['totalPages'] ?? 1) > 1): ?>
-                        <?php
-                        $currentPage = (int) ($page ?? 1);
-                        $totalPages = (int) ($param['totalPages'] ?? 1);
-                        $queryBase = admin_url('plugin/simple-seo/404-monitor/?filter=' . urlencode((string) ($param['filter'] ?? 'active')))
-                                . '&per_page=' . urlencode((string) ($param['perPage'] ?? 25));
-
-                        if (!empty($param['search'])) {
-                            $queryBase .= '&s=' . urlencode((string) $param['search']);
-                        }
-                        ?>
-
-                        <div class="box-footer clearfix">
-                            <div class="pull-left">
-                                <?=esc_html__('Showing page', $r['id']);?> <?= esc_html((string) $currentPage); ?>
-                                of <?= esc_html((string) $totalPages); ?>,
-                                <?= esc_html((string) ($param['total'] ?? 0)); ?> total.
-                            </div>
-
-                            <ul class="pagination pagination-sm no-margin pull-right">
-                                <li class="<?= $currentPage <= 1 ? 'disabled' : ''; ?>">
-                                    <a href="<?= esc_attr($queryBase . '&paged=' . max(1, $currentPage - 1)); ?>">&laquo;</a>
-                                </li>
-
-                                <?php
-                                $start = max(1, $currentPage - 2);
-                                $end = min($totalPages, $currentPage + 2);
-                                ?>
-
-                                <?php for ($i = $start; $i <= $end; $i++): ?>
-                                    <li class="<?= $i === $currentPage ? 'active' : ''; ?>">
-                                        <a href="<?= esc_attr($queryBase . '&paged=' . $i); ?>">
-                                            <?= esc_html((string) $i); ?>
-                                        </a>
-                                    </li>
-                                <?php endfor; ?>
-
-                                <li class="<?= $currentPage >= $totalPages ? 'disabled' : ''; ?>">
-                                    <a href="<?= esc_attr($queryBase . '&paged=' . min($totalPages, $currentPage + 1)); ?>">&raquo;</a>
-                                </li>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
+                    <?php $this->insert('plugin::SimpleSeo/view/partial/pagination', [
+                        'currentPage' => (int) ($param['page'] ?? 1),
+                        'totalPages' => (int) ($param['totalPages'] ?? 1),
+                        'total' => (int) ($param['total'] ?? 0),
+                        'baseUrl' => $baseUrl,
+                        'filter' => (string) ($param['filter'] ?? 'active'),
+                        'search' => (string) ($param['search'] ?? ''),
+                        'perPage' => (int) ($param['perPage'] ?? 25),
+                        'domain' => (string) ($r['id'] ?? 'simple-seo'),
+                    ]); ?>
                 </div>
             </div>
         </section>
