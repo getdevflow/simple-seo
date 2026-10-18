@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Plugin\SimpleSeo\Controller;
 
+use JsonException;
 use Plugin\SimpleSeo\Service\GoogleIndexingService;
 use Plugin\SimpleSeo\Service\IndexNowService;
 use Plugin\SimpleSeo\Support\SimpleSeoSettings;
@@ -11,31 +12,12 @@ use Psr\Http\Message\ResponseInterface;
 use Qubus\Http\Factories\JsonResponseFactory;
 use Qubus\Http\ServerRequest;
 
-use function array_merge;
-use function Codefy\Framework\Helpers\env;
 use function Codefy\Framework\Helpers\view;
-use function curl_close;
-use function curl_error;
-use function curl_exec;
-use function curl_getinfo;
-use function curl_init;
-use function curl_setopt_array;
-use function is_string;
-use function json_encode;
 use function min;
 use function Qubus\Security\Helpers\t__;
-use function rawurlencode;
 use function str_word_count;
 use function strip_tags;
 use function trim;
-
-use const CURLINFO_RESPONSE_CODE;
-use const CURLOPT_HTTPHEADER;
-use const CURLOPT_POST;
-use const CURLOPT_POSTFIELDS;
-use const CURLOPT_RETURNTRANSFER;
-use const CURLOPT_TIMEOUT;
-use const JSON_UNESCAPED_SLASHES;
 
 final readonly class IndexingController
 {
@@ -166,6 +148,7 @@ final readonly class IndexingController
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Qubus\Exception\Exception
      * @throws \ReflectionException
+     * @throws JsonException
      */
     private function submitIndexNow(string $url): void
     {
