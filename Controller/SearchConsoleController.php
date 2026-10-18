@@ -12,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 use Qubus\Http\Factories\JsonResponseFactory;
 
 use function Codefy\Framework\Helpers\view;
-use function getenv;
 use function Qubus\Security\Helpers\t__;
 
 final readonly class SearchConsoleController
