@@ -62,7 +62,7 @@ final class SchemaFactoryService
             return new Schema(...$nodes);
         }
 
-        if ($schemaType === 'Product' || $kind === 'product') {
+        if ($schemaType === 'Product') {
             $nodes[] = new Thing(props: $this->withoutEmpty($this->product($item, $seo)), type: 'Product');
             $nodes[] = new Thing(props: $this->withoutEmpty($this->webpage($item, $seo)), type: 'WebPage');
             $this->addOrganization($nodes);

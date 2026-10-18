@@ -93,7 +93,7 @@ final class SimpleSeoPlugin extends Plugin
             'id' => 'simple-seo',
             'slug' => 'SimpleSeo',
             'author' => 'Joshua Parker',
-            'version' => '2.0.1',
+            'version' => '2.0.2',
             'description' => esc_html__('Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, technical SEO, indexing, crawl management, 404 monitoring, and so much more.', 'simple-seo'),
             'basename' => plugin_basename(dirname(__FILE__)),
             'path' => plugin_dir_path(dirname(__FILE__)),

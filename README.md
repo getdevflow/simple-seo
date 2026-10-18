@@ -10,7 +10,7 @@ Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, tech
 
 > __Requires PHP:__ 8.4+
 
-> __Stable Tag:__ 2.0.1
+> __Stable Tag:__ 2.0.2
 
 > __License:__ GPLv2-only
 
@@ -196,5 +196,4 @@ When a visitor requests a matching route, the defined metadata and schema automa
 ![screenshot.png](public/images/seo-route-list.png)
 
 ![screenshot.png](public/images/seo-route-form.png)
-
 
