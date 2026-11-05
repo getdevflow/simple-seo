@@ -6,11 +6,11 @@ Simple SEO is an SEO management suite for Devflow CMS covering on-page SEO, tech
 
 > __Requires__ Devflow Version: 3.x
 
-> __Tested Up To:__ 3.0.0
+> __Tested Up To:__ 3.0.2
 
 > __Requires PHP:__ 8.4+
 
-> __Stable Tag:__ 2.0.2
+> __Stable Tag:__ 2.0.3
 
 > __License:__ GPLv2-only
 

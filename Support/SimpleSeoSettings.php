@@ -38,6 +38,7 @@ final class SimpleSeoSettings
             'google_service_account_json' => '',
             'google_client_id' => '',
             'google_client_secret' => '',
+            'google_oauth_state' => '',
             'google_search_console_site_url' => '',
             'enable_google_analytics' => false,
             'google_analytics_id' => '',
